@@ -11,8 +11,8 @@ module.exports = {
       host: 'localhost',
       password: 'docker',
       user: 'postgres',
-      port: '5432',
-      database: 'OUR_DB', //need to add db name
+      port: '8082',
+      database: 'capstone',
     }
   },
 
