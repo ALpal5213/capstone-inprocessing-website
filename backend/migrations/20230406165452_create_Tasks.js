@@ -16,7 +16,7 @@ exports.up = function(knex) {
         table.string('mil_or_civ');
         table.string('due_date');
         table.string('status'); 
-        table.string('url');
+        table.string('task_url');
     })
 };
 

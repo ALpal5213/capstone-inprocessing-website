@@ -46,7 +46,7 @@ for (let i = 0; i <= 1000; i++){
     task_type:taskTypes[randomize4()], 
     due_date:faker.date.future(1), 
     status:statusList[randomize3()], 
-    url:faker.internet.url(),
+    task_url:faker.internet.url(),
     mil_or_civ:milOrCivList[randomize3()]
   })
 }
