@@ -1,6 +1,6 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
+// import Row from 'react-bootstrap/Row';
 // import Col from 'react-bootstrap/Col';
 import { Accordion } from "react-bootstrap";
 import Button from 'react-bootstrap/Button';
@@ -37,8 +37,8 @@ const Details = () => {
     }, []);
 
     // Test Data
-    const selectedTask =[{task_name: "complete details page", task_description: "this is a task.", user_id: "12345", priority: "high", location_id: "7", task_type: "Personal", due_date: "23 March 1970", status: "assigned"}];
-    const selectedLocation =[{location_id: "7", building: "7000", room: "27A", phone_number: "3675309", address: "27 W Palm Street", hours: "1300-1500 M-F", url: "https:www.finishmyinprocessing.com", notes: "these are notes."}]
+    // const selectedTask =[{task_name: "complete details page", task_description: "this is a task.", user_id: "12345", priority: "high", location_id: "7", task_type: "Personal", due_date: "23 March 1970", status: "assigned"}];
+    // const selectedLocation =[{location_id: "7", building: "7000", room: "27A", phone_number: "3675309", address: "27 W Palm Street", hours: "1300-1500 M-F", url: "https:www.finishmyinprocessing.com", notes: "these are notes."}]
     // {console.log(selectedTask)};
 
     return (

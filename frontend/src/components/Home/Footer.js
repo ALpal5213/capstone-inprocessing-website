@@ -1,0 +1,1 @@
+//Seperate component for footer

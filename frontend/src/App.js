@@ -1,17 +1,12 @@
 //Functional Imports
-import Details from './Details.js';
-import React, { useState } from 'react';
-import { AllRoutes } from './AllRoutes.js';
+import Details from './components/Details/Details.js';
+import React, { useState, createContext } from 'react';
+import { AllRoutes } from './components/Routes/AllRoutes.js';
 //Styling Imports
 import './App.css';
 
 //Create Application Context
 export const GlobalContext = createContext();
-
-
-
-
-
 
 function App() {
   //Create states to pass to components
