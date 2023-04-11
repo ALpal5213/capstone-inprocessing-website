@@ -1,13 +1,8 @@
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
-import { Login } from './Login'
-import { Home } from './Home'
 import { ProtectedRoutes } from './ProtectedRoutes'
-import { Nav } from 'react-bootstrap'
-import { NotAuth } from './NotAuth'
-import { Account } from './Account'
-import { VisitorUsers } from './VisitorUsers'
-import { VisitorHome } from './VisitorHome'
-import { Users } from './Users'
+import { Login } from '../Login/Login'
+import { HomePage } from '../Home/HomePage'
+
 
 
 
@@ -18,8 +13,8 @@ export const AllRoutes = () => {
         <Router>
             <Routes>
                 <Route path="/" element={<Navigate to="/login" replace={true} />} />
-                
-                {/* <Route path='/login' element={< Login />}></Route> */}
+                <Route path='/login' element={< Login />}></Route>
+                <Route path='/Home' element={<HomePage/>}></Route>
                 {/* <Route element={<ProtectedRoutes />}> */}
                     {/* <Route path='/home' element={< Home />}></Route>
                     <Route path='/account' element={< Account />}></Route>

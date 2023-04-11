@@ -1,6 +1,7 @@
 import React from 'react';
+// import ProgressBar from 'react-bootstrap/ProgressBar';
 
-const Progress = () => {
+const ProgressBar = () => {
 
     const instProg = 40;
     const unitProg = 20;
@@ -20,4 +21,4 @@ const Progress = () => {
 
 }
 
-export default Progress;
+export default ProgressBar;
