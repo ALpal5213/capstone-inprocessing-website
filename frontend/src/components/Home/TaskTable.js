@@ -73,21 +73,21 @@ export const TaskTabs = () => {
                 <TabPanel>
                     <div className="panel-content">
                     <div style={{ maxWidth: '100%' }}>
-                                <BootstrapTable columns={columns} data={unitTasks.slice} keyField='id' />
+                                <BootstrapTable columns={columns} data={unitTasks} keyField='id' />
                             </div>
                     </div>
                 </TabPanel>
                 <TabPanel>
                     <div className="panel-content">
                     <div style={{ maxWidth: '100%' }}>
-                                <BootstrapTable columns={columns} data={jobTasks.slice} keyField='id' />
+                                <BootstrapTable columns={columns} data={jobTasks} keyField='id' />
                             </div>
                     </div>
                 </TabPanel>
                 <TabPanel>
                     <div className="panel-content">
                     <div style={{ maxWidth: '100%' }}>
-                                <BootstrapTable columns={columns} data={personalTasks.slice} keyField='id' />
+                                <BootstrapTable columns={columns} data={personalTasks} keyField='id' />
                             </div>
                     </div>
                 </TabPanel>
