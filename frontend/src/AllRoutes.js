@@ -18,15 +18,15 @@ export const AllRoutes = () => {
         <Router>
             <Routes>
                 <Route path="/" element={<Navigate to="/login" replace={true} />} />
-                <Route path='/login' element={< Login />}></Route>
+                
+                {/* <Route path='/login' element={< Login />}></Route> */}
                 {/* <Route element={<ProtectedRoutes />}> */}
-                    <Route path='/home' element={< Home />}></Route>
+                    {/* <Route path='/home' element={< Home />}></Route>
                     <Route path='/account' element={< Account />}></Route>
-                    <Route path='/users' element={< Users />}></Route>
+                    <Route path='/users' element={< Users />}></Route> */}
                 {/* </Route> */}
-                <Route path='visitorhome' element={<VisitorHome/>}></Route>
-                <Route path='visitorusers' element={<VisitorUsers/>}></Route>
-                <Route path='*' element={<NotAuth/>}></Route>
+               
+                {/* <Route path='*' element={<NotAuth/>}></Route> */}
             </Routes>
         </Router>
 

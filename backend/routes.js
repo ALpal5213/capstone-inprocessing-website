@@ -117,7 +117,8 @@ routePath.post("/login", async function (req, res) {
                             req.session.password = data[0].password
                             req.session.first_name = data[0].first_name
                             req.session.last_name = data[0].last_name
-                            return res.json(req.session)
+                            //Only sends hashed password
+                            return res.json(password)
                         })
                 })
         }
@@ -125,6 +126,19 @@ routePath.post("/login", async function (req, res) {
         return res.status(404).send('Wrong Credentials')
     }
 });
+
+
+
+routePath.post("/session", async function (req, res ){
+    if (req.body.authenticated === 'true'){
+        res.status(202).json(req.session)
+    }
+    else{
+        req.session.destroy();
+        res.status(404).json({"message":"Authentication Failed!"})
+    }
+
+})
 
 /* PATCH ********************************************************************/
 
