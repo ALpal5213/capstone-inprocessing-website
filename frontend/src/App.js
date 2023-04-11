@@ -1,5 +1,6 @@
 //Functional Imports
 import Details from './Details.js';
+import AppNavBar from './AppNavBar';
 import React, { useState } from 'react';
 import { AllRoutes } from './AllRoutes.js';
 //Styling Imports
