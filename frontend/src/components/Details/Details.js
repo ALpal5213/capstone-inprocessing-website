@@ -12,7 +12,7 @@ const Details = () => {
 
     const selected = 0;
 
-    const [ taskList, setTaskList ] = useState([]);
+    const [ taskList, setTaskList ] = useState([{task_name:'x', task_description:'x', address:'x', hours:'x', building:'x', room:'x', phone_number:'x', notes:'x', url:'x'}]);
     // const { currentUser, setCurrentUser } = useContext({Global Task List XXXX});
 
     //Fetch users and locations
