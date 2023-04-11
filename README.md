@@ -50,6 +50,26 @@ GET:
 
 POST:
 
++ '/tasks'
+	+ post to the Tasks table. Must have a task_name, due_date, priority, and task_description
++ '/locations' 
+	+ post to the Locations table
++ '/login' 
+	+ send authentication data to the server
+
+PATCH:
+
++ '/tasks/:id'
+	+ update the task with the ID given
+
+DELETE:
+
++ '/tasks/:id'
+	+ removes the task with the ID given
++ '/users/:id'
+	+ removes the user with the ID given
+
+
 ##### Containerization
 + Docker Desktop  <sub>20.10.24</sub>
 
