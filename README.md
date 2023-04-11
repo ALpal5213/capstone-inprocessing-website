@@ -41,9 +41,12 @@
 ##### Endpoints
 GET:
 
-+ '/table/:name-of-table' gets a specific table by name
-+ '/table/:name-of-table/:id' gets a specific id of item in a table
-+ '/tasks-locations' gets a join table of tasks and locations
++ '/table/:name-of-table' 
+	+ gets a specific table by name
++ '/table/:name-of-table/:id' 
+	+ gets a specific id of item in a table
++ '/tasks-locations' 
+	+ gets a join table of tasks and locations
 
 POST:
 
