@@ -32,7 +32,7 @@ export const TaskTabs = () => {
     const [personalTasks, setPersonalTasks] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:3001/table/Tasks')
+        fetch('http://localhost:3001/tasks-locations/20')
             .then(res => res.json())
             .then(data => {
                 setInstallationTasks(data.filter((task) => task.task_type === 'installation'))
@@ -65,7 +65,7 @@ export const TaskTabs = () => {
                     <TabPanel>
                         <div className="panel-content">
                             <div style={{ maxWidth: '100%' }}>
-                                <BootstrapTable columns={columns} data={installationTasks.slice(0, 9)} keyField='id' />
+                                <BootstrapTable columns={columns} data={installationTasks} keyField='id' />
                             </div>
                         </div>
                     </TabPanel>
