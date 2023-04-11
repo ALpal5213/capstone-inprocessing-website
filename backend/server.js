@@ -1,7 +1,7 @@
 const routePath = require("./routes.js");
 const express = require('express');
 const app = express();
-const port = 8081;
+const port = 3001;
 
 app.use(express.json())
 app.use(routePath)

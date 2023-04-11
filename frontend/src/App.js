@@ -1,10 +1,12 @@
+import React from 'react';
 import './App.css';
+import AppNavBar from './AppNavBar';
 
 function App() {
   return (
-    <div>
-
-    </div>
+    <>
+      <AppNavBar />
+    </>
   );
 }
 
