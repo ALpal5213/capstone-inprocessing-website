@@ -2,13 +2,14 @@
   font-family: sans-serif;
   height: 100vh;
   box-sizing: border-box;
+  margin-top:10%
 }
 
 .react-tabs {
   display: flex;
   margin: auto;
-  width: 90vw;
-  height: 400px;
+  width: max-content;
+  height: max-content;
   border: 1px solid #3c3e43;
   
 }
