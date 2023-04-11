@@ -194,7 +194,7 @@ const getUsername = async (username) => {
         .then(data => {
             console.log(data)
             console.log("INPUTED USERNAME: " + username)
-            console.log("MATCHED USERNAME to database Username: " + data[0])
+            console.log("MATCHED USERNAME to database Username: " + data[0].username)
             if (typeof (data[0].username) === undefined) {
                 usernameMatcher = undefined;
                 return usernameMatcher;
