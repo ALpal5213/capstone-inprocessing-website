@@ -4,7 +4,7 @@
  */
 exports.up = function(knex) {
     return knex.schema.createTable('Jobs', table => {
-        table.increments('job_id');
+        table.increments('id');
         table.string('job_name');
     })
 };
