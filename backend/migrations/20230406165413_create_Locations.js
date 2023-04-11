@@ -4,7 +4,7 @@
  */
 exports.up = function (knex) {
     return knex.schema.createTable('Locations', table => {
-        table.increments('location_id');
+        table.increments('id');
         table.string('building');
         table.string('room');
         table.string('address');
