@@ -12,9 +12,10 @@ exports.up = function (knex) {
         table.boolean('is_supervisor');
         table.boolean('is_military');
         table.integer('job_id');
-        table.foreign('job_id').references('Jobs.id');
+        table.foreign('job_id').references('Jobs.id').onDelete('CASCADE');
         table.integer('unit_id');
-        table.foreign('unit_id').references('Units.id');
+        table.foreign('unit_id').references('Units.id').onDelete('CASCADE');
+        table.string('session_id')
     })
 };
 
@@ -23,5 +24,11 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-    return knex.schema.dropTableIfExists('Users');
+    return knex.schema.alterTable('Users', table => {
+        table.dropForeign('job_id');
+        table.dropForeign('unit_id');
+    })
+    .then(() => {
+        return knex.schema.dropTableIfExists('Users');
+    })
 };

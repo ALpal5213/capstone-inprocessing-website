@@ -17,7 +17,7 @@ const randomizeUnit = () => {
 }
 
 const randomizeUsers = () => {
-  return Math.floor(Math.random() * 100) + 1
+  return Math.floor(Math.random() * 101) + 1
 }
 
 const randomizeLocation = () => {
