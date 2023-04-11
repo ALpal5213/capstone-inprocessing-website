@@ -18,9 +18,6 @@ routePath.get("/", (request, response) => {
 
 //Get by table
 routePath.get("/table/:table", (request, response) => {
-
-   getuserTable(request,response)
-
    return knex(request.params.table)
    .select('*')
    .then(data => response.status(200).json(data))
