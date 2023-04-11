@@ -8,17 +8,18 @@ import './App.css';
 //Create Application Context
 export const GlobalContext = createContext();
 
-//Create states to pass to components
-const { selectedTask, setSelectedTask } = useState({ task_name: "complete details page", task_description: "this is a task.", user_id: "12345", priority: "high", location_id: "7", task_type: "Personal", due_date: "23 March 1970", status: "assigned" });
-const { selectedLocation, setSelectedLocation } = useState({ location_id: "7", building: "7000", room: "27A", phone_number: "3675309", address: "27 W Palm Street", hours: "1300-1500 M-F", url: "https:www.finishmyinprocessing.com", notes: "these are notes." });
-const { currentUser, setCurrentUserk } = useState({ user_id: "12345", user_name: "Ricky" });
-const { userLogin, setUserLogin } = useState(true);
 
 
 
 
 
 function App() {
+  //Create states to pass to components
+  const { selectedTask, setSelectedTask } = useState({ task_name: "complete details page", task_description: "this is a task.", user_id: "12345", priority: "high", location_id: "7", task_type: "Personal", due_date: "23 March 1970", status: "assigned" });
+  const { selectedLocation, setSelectedLocation } = useState({ location_id: "7", building: "7000", room: "27A", phone_number: "3675309", address: "27 W Palm Street", hours: "1300-1500 M-F", url: "https:www.finishmyinprocessing.com", notes: "these are notes." });
+  const { currentUser, setCurrentUserk } = useState({ user_id: "12345", user_name: "Ricky" });
+  const { userLogin, setUserLogin } = useState(true);
+  
   return (
     <GlobalContext.Provider value={{ selectedTask, setSelectedTask, selectedLocation, setSelectedLocation, currentUser, setCurrentUserk, userLogin, setUserLogin }}>
       <AllRoutes />
