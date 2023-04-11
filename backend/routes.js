@@ -188,14 +188,13 @@ module.exports = routePath;
 
 //Helper Functions
 const getUsername = async (username) => {
-
     let usernameMatcher;
     return knex('Users')
         .where({ username: username })
         .then(data => {
             console.log(data)
             console.log("INPUTED USERNAME: " + username)
-            console.log("MATCHED USERNAME to database Username: " + data[0].username)
+            console.log("MATCHED USERNAME to database Username: " + data[0])
             if (typeof (data[0].username) === undefined) {
                 usernameMatcher = undefined;
                 return usernameMatcher;
