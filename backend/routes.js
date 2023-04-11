@@ -44,10 +44,13 @@ routePath.get("/table/:table/:id", (request, response) => {
 });
 
 //Get join table and allow order by and limit (optional)
-routePath.get("/tasks-locations", (request, response) => {
+routePath.get("/tasks-locations/:id", (request, response) => {
+    let id = request.params.id;
+
     return knex('Locations')
         .join('Tasks', 'Locations.id', '=', 'Tasks.location_id')
         .select('*')
+        .where({ id: id })
         .then(data => response.status(200).json(data))
         .catch(error => response.status(405).send("Could not get"))
 });
