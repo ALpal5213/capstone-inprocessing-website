@@ -5,12 +5,12 @@ import { NotAuthorized } from "./NotAuthorized"
 import { GlobalContext } from "./App"
 
 
-export const ProtectedRoutes = () => {
-    let {loggedIn} = useContext(GlobalContext)
+// export const ProtectedRoutes = () => {
+ 
 
 
-    return loggedIn ? <Outlet /> : <NotAuthorized/>
+//     return loggedIn ? <Outlet /> : <NotAuthorized/>
 
 
 
-}
+// }

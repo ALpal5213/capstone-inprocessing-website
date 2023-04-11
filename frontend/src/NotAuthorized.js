@@ -3,7 +3,7 @@
 import { Navigate } from "react-router-dom";
 import {Col, Row, Container} from 'react-bootstrap'
 
-export const NotAuth = () => {
+export const NotAuthorized = () => {
 
 return(
 <Col style={{textAlign:'center'}}>
