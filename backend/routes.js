@@ -2,6 +2,7 @@ const express = require("express");
 const knex = require('knex')(require('./knexfile.js')[process.env.NODE_ENV || 'development']);
 const cors = require("cors");
 const session = require('express-session')
+const fileUpload = require('express-fileupload');
 // const routePath = express.Router();
 const routePath = express();
 const bcrypt = require('bcryptjs');
@@ -9,6 +10,7 @@ const bcrypt = require('bcryptjs');
 //Middleware
 routePath.use(express.json())
 routePath.use(cors());
+routePath.use(fileUpload());
 
 //Session 
 routePath.use(session({
@@ -16,6 +18,30 @@ routePath.use(session({
     cookie: { maxAge: 300000 },
     saveUninitialized: false
 }))
+
+
+// Upload Endpoint 
+// Sends file to a cloud storage service (Google Drive or something else)
+// Sends URL of service location to update the file location
+routePath.patch('/tasks/upload/:id', (req, res) => {
+    // upload to task ID
+  let id = req.params.id;
+
+  if (req.files === null) {
+    return res.status(400).json({ msg: 'No file uploaded' });
+  }
+
+  const file = req.files.file;
+  console.log(file)
+
+  return knex('Tasks')
+    .where({ id: id })
+    .update({
+        my_file: file
+    })
+    .then(data => response.status(200).send("Patched"))
+    .catch(error => response.status(405).send("Not patched"))
+});
 
 /* GET *******************************************************************/
 
@@ -72,12 +98,10 @@ routePath.post("/tasks", (request, response) => {
 });
 
 routePath.post("/username", async (request, response) => {
-  console.log(request.body.username)
   knex('Users')
     .select('username')
     .where({username: request.body.username})
     .then(data => {
-      console.log(data.length)
       if (data.length > 0) {
         response.send({found: true})
       } else {
@@ -101,7 +125,6 @@ routePath.post("/login", async function (req, res) {
     if (req.body.username) {
         let { username } = req.body
         let password;
-        console.log(username)
 
         //Authenticate username
         let usernameMatcher = await getUsername(username);
@@ -123,14 +146,12 @@ routePath.post("/login", async function (req, res) {
             return knex("Users")
                 .where({ username: usernameMatcher.username, password: passwordMatcher })
                 .modify((queryBuilder) => queryBuilder.update({ session_id: sid })).then(() => {
-                    console.log(sid)
-                    console.log(req.session)
+                  
                 }).then(data => {
                     return knex
                         .select('*')
                         .from('Users')
                         .where({ username: usernameMatcher.username, password: passwordMatcher }).then(data => {
-                            console.log(data)
                             req.session.user_id = data[0].id
                             req.session.username = data[0].username
                             req.session.password = data[0].password
@@ -211,16 +232,16 @@ const getUsername = async (username) => {
     return knex('Users')
         .where({ username: username })
         .then(data => {
-            console.log(data)
-            console.log("INPUTED USERNAME: " + username)
-            console.log("MATCHED USERNAME to database Username: " + data[0].username)
+            // console.log(data)
+            // console.log("INPUTED USERNAME: " + username)
+            // console.log("MATCHED USERNAME to database Username: " + data[0].username)
             if (typeof (data[0].username) === undefined) {
-                console.log(usernameMatcher)
+                // console.log(usernameMatcher)
                 usernameMatcher = undefined;
                 return usernameMatcher;
             } else if (data[0].username === username)
                 usernameMatcher = {id: data[0].id ,username: data[0].username}
-            console.log('Username Match Success:' + usernameMatcher.username)
+            // console.log('Username Match Success:' + usernameMatcher.username)
             return usernameMatcher;
         })
         .catch((err) => {
@@ -234,9 +255,9 @@ const getPassword = async (usernameMatcher, password) => {
         .from('Users')
         .where("username", usernameMatcher)
         .then(data => {
-            console.log(data)
+            // console.log(data)
             password = data[0].password
-            console.log('Password Match Success:' + password)
+            // console.log('Password Match Success:' + password)
             return password;
         })
         .catch((err) => {

@@ -49,7 +49,9 @@ for (let i = 0; i <= 1000; i++){
     task_url:faker.internet.url(),
     mil_or_civ:milOrCivList[randomize3()],
     has_upload:faker.datatype.boolean(),
+    upload_file: null,
     has_download:faker.datatype.boolean(),
+    download_file: null,
   })
 }
 
