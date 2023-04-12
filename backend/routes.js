@@ -2,7 +2,8 @@ const express = require("express");
 const knex = require('knex')(require('./knexfile.js')[process.env.NODE_ENV || 'development']);
 const cors = require("cors");
 const session = require('express-session')
-const routePath = express.Router();
+// const routePath = express.Router();
+const routePath = express();
 const bcrypt = require('bcryptjs');
 
 //Middleware
@@ -70,6 +71,21 @@ routePath.post("/tasks", (request, response) => {
     }
 });
 
+routePath.post("/username", async (request, response) => {
+  console.log(request.body.username)
+  knex('Users')
+    .select('username')
+    .where({username: request.body.username})
+    .then(data => {
+      console.log(data.length)
+      if (data.length > 0) {
+        response.send({found: true})
+      } else {
+        response.send({found: false})
+      }
+    })
+})
+
 // Post items below are a work-in-progress
 routePath.post("/locations", (request, response) => {
     let newLocation = request.body
@@ -90,8 +106,8 @@ routePath.post("/login", async function (req, res) {
         //Authenticate username
         let usernameMatcher = await getUsername(username);
         //Authenticate Password  
-        let passwordMatcher = await getPassword(usernameMatcher, password);
-        if (usernameMatcher === undefined)
+        let passwordMatcher = await getPassword(usernameMatcher.username, password);
+        if (usernameMatcher.username === undefined)
         //User Auth Failed
         {
             console.log("Returning 404"); return res.status(404).send('Wrong Credentials')
@@ -105,7 +121,7 @@ routePath.post("/login", async function (req, res) {
             req.session.session_id = sid
 
             return knex("Users")
-                .where({ username: usernameMatcher, password: passwordMatcher })
+                .where({ username: usernameMatcher.username, password: passwordMatcher })
                 .modify((queryBuilder) => queryBuilder.update({ session_id: sid })).then(() => {
                     console.log(sid)
                     console.log(req.session)
@@ -113,7 +129,7 @@ routePath.post("/login", async function (req, res) {
                     return knex
                         .select('*')
                         .from('Users')
-                        .where({ username: usernameMatcher, password: passwordMatcher }).then(data => {
+                        .where({ username: usernameMatcher.username, password: passwordMatcher }).then(data => {
                             console.log(data)
                             req.session.user_id = data[0].id
                             req.session.username = data[0].username
@@ -121,7 +137,7 @@ routePath.post("/login", async function (req, res) {
                             req.session.first_name = data[0].first_name
                             req.session.last_name = data[0].last_name
                             //Only sends hashed password
-                            return res.json(password)
+                            return res.type("json").send({id: usernameMatcher.id ,password: passwordMatcher})
                         })
                 })
         }
@@ -133,7 +149,7 @@ routePath.post("/login", async function (req, res) {
 
 
 routePath.post("/session", async function (req, res ){
-    if (req.body.authenticated === 'true'){
+    if (req.body.authenticated){
         res.status(202).json(req.session)
     }
     else{
@@ -199,11 +215,12 @@ const getUsername = async (username) => {
             console.log("INPUTED USERNAME: " + username)
             console.log("MATCHED USERNAME to database Username: " + data[0].username)
             if (typeof (data[0].username) === undefined) {
+                console.log(usernameMatcher)
                 usernameMatcher = undefined;
                 return usernameMatcher;
             } else if (data[0].username === username)
-                usernameMatcher = username
-            console.log('Username Match Success:' + usernameMatcher)
+                usernameMatcher = {id: data[0].id ,username: data[0].username}
+            console.log('Username Match Success:' + usernameMatcher.username)
             return usernameMatcher;
         })
         .catch((err) => {
@@ -212,8 +229,6 @@ const getUsername = async (username) => {
 }
 
 const getPassword = async (usernameMatcher, password) => {
-
-
     return knex
         .select("password")
         .from('Users')

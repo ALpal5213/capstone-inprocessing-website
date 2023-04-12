@@ -1,13 +1,20 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { useState, useEffect } from 'react'
+import { useContext, useState, useEffect } from 'react'
+import { useNavigate } from "react-router-dom"
 import './Login.css';
 import bcrypt from 'bcryptjs';
+import { GlobalContext } from '../../App';
 const saltRounds = 10;
 
+
+
 export const Login = () => {
+  const navigate = useNavigate();
+  const { setUserLogin } = useContext(GlobalContext);
+
   const [username, setUsername] = useState('');
-  const [users, setUsers] = useState([])
+  const [userId, setUserId] = useState(-1);
   const [passMatch, setPassMatch] = useState({id: Date.now(), match: undefined})
   const [failMessage, setFailMessage] = useState('')
 
@@ -16,29 +23,43 @@ export const Login = () => {
   )
 
   useEffect(() => {
-
-      setUsers([
-        {id: 1, username: 'user1', isAdmin: false, isSupervisor: false, isMilitary: true, jobId: 1, unitId: 1, password: '$2a$10$6T3/1KsQyejJNu/YIawiV.caLYGT2YZgS1CijJR6Ux1mDqhif/Xwq'},
-        {id: 2, username: 'user2', isAdmin: false, isSupervisor: false, isMilitary: true, jobId: 1, unitId: 1, password: '$2a$10$aAl7OQLJeY.jTIUb/eHxr.NYgLBvo8y.d4bKl2/DaVXly3A4nYBta'},
-        {id: 3, username: 'user3', isAdmin: false, isSupervisor: false, isMilitary: true, jobId: 1, unitId: 1, password: '$2a$10$mgXkzWKMaau8XNBnk2u7g.A4HsztuNsCWyq4kpZBmvUo/KdX0q5Yu'}
-      ])
-  },[])
-
-  useEffect(() => {
     if (passMatch.match === false && username.length > 0) {
       setFailMessage(failContent)
     } else if (passMatch.match === true && username.length > 0) {
-      console.log('login success')
+      fetch("http://localhost:3001/session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({"authenticated": true})
+      }).then(res => res.json())
+      .then(data => console.log(data))
+
+      fetch(`http://localhost:3001/Table/Users/${userId}`)
+      .then(res => res.json())
+      .then(data => {
+        setUserLogin(data[0])
+      })
       setFailMessage('')
+      navigate('/Home')
     }
   },[passMatch])
 
   const findUser = () => {
-    return users.find(user => user.username === username)
+    return fetch("http://localhost:3001/username", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({"username": username})
+      }).then(res => res.json())
+      .then(data => {
+        return data.found ? true : false
+      })
   }
 
-  const passHashCk = () => {
-    const validUser = findUser()
+  const passHashCk = async () => {
+    const validUser = await findUser()
     if (!username) {
       setFailMessage(failContent)
     }
@@ -51,6 +72,8 @@ export const Login = () => {
         body: JSON.stringify({"username": username})
       }).then(res => res.json())
       .then(data => {
+        setUserId(data.id)
+        setUserLogin('')
         bcrypt.compare(document.getElementById('pass').value, data.password, function(err, result) {
           setPassMatch({id: Date.now(), match: result})
         })
