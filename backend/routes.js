@@ -98,6 +98,26 @@ routePath.post("/tasks", (request, response) => {
     }
 });
 
+routePath.post("/Users", (request, response) => {
+    var missingKeyCount = 0;
+    const userKeys = ['fullname', 'username', 'password', 'is_admin', 'is_supervisor', 'is_military', 'job_id', 'unit_id']
+    userKeys.forEach(key => {if (!Object.keys(request.body).includes(key)) missingKeyCount++});
+
+    if (missingKeyCount === 0) {
+      return knex('Users')
+      .insert(request.body)
+      .then(() => {
+        response.status(201).send({response: `added new user`});
+      })
+      .catch((err) => {
+        console.log(err);
+        response.send({response: `error adding new user`})
+      })
+    } else {
+      response.send({response: `error adding new user, missing object properties in request body`})
+    }
+});
+
 routePath.post("/username", async (request, response) => {
   knex('Users')
     .select('username')

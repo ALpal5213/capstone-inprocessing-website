@@ -2,7 +2,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useContext, useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom"
-import './Login.css';
+import './Login-create.css';
 import bcrypt from 'bcryptjs';
 import { GlobalContext } from '../../App';
 const saltRounds = 10;
@@ -93,17 +93,18 @@ export const Login = () => {
   return (
     <>
       <div className='backDiv' />
-      <div className='loginDiv'>
+      <div className='menuDiv loginDiv'>
+        <h1 className='divItem' >Login</h1>
         {<Form>
-          <Form.Group className="mb-3 formGroupStyle" controlId="userBox">
+          <Form.Group className="mb-3 divItem" controlId="userBox">
             <Form.Label>Username</Form.Label>
-            <Form.Control type="email" placeholder="Username" onChange={(event) => setUserCtl(event.target.value)}/>
+            <Form.Control type="text" placeholder="Username" onChange={(event) => setUserCtl(event.target.value)}/>
           </Form.Group>
-          <Form.Group className="mb-3 formGroupStyle" controlId="pass">
+          <Form.Group className="mb-3 divItem" controlId="pass">
             <Form.Label>Password</Form.Label>
             <Form.Control type="password" placeholder="Password" onChange={() => setFailMessage('')}/>
           </Form.Group>
-          <Button variant="primary formButtonStyle" onClick={() => passHashCk()}>Login</Button>{failMessage}
+          <Button variant="dark divItem" onClick={() => passHashCk()}>Login</Button>{failMessage}
         </Form>}
       </div>
     </>
