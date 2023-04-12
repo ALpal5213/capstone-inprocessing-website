@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import './TaskTable.css';
 import * as Icon from 'react-bootstrap-icons';
-// import BootstrapTable from 'react-bootstrap-table2';
+import BootstrapTable from 'react-bootstrap-table-next';
 
-import BootstrapTable from 'react-bootstrap/Table';
+
 
 
 
@@ -13,9 +13,9 @@ export const TaskTabs = () => {
 
     const columns = [
         { text: 'Name', dataField: 'task_name' },
-        { text: 'Priority', dataField: 'priority' },
-        { text: 'Due Date', dataField: 'due_date' },
-        { text: 'Status', dataField: 'status' }
+        { text: 'Priority', dataField: 'priority' , sort:true},
+        { text: 'Due Date', dataField: 'due_date' ,sort:true},
+        { text: 'Status', dataField: 'status', sort:true }
     ];
 
     const taskIcons = {
@@ -32,7 +32,7 @@ export const TaskTabs = () => {
     const [personalTasks, setPersonalTasks] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:3001/table/Tasks')
+        fetch('http://localhost:3001/tasks-locations/20')
             .then(res => res.json())
             .then(data => {
                 setInstallationTasks(data.filter((task) => task.task_type === 'installation'))
@@ -45,7 +45,6 @@ export const TaskTabs = () => {
 
     return (
         <div className="Task-Tabs-Div">
-            <h1>Sample</h1>
             <Tabs>
                 <TabList>
                     <Tab>
@@ -65,25 +64,7 @@ export const TaskTabs = () => {
                     <TabPanel>
                         <div className="panel-content">
                             <div style={{ maxWidth: '100%' }}>
-                                {/* <BootstrapTable columns={columns} data={installationTasks.slice(0, 9)} keyField='id' /> */}
-                                <BootstrapTable striped bordered hover variant="dark" className="itemTable">
-                                    <thead>
-                                    <tr>
-                                        <th className="nameCol">
-                                        test1
-                                        </th>
-                                        <th className="managerCol">
-                                        test2
-                                        </th>
-                                        <th className="descCol">
-                                        test3
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                        
-                                    </tbody>
-                                </BootstrapTable>
+                                <BootstrapTable columns={columns} data={installationTasks} keyField='id' />
                             </div>
                         </div>
                     </TabPanel>
@@ -92,76 +73,21 @@ export const TaskTabs = () => {
                 <TabPanel>
                     <div className="panel-content">
                     <div style={{ maxWidth: '100%' }}>
-                                <BootstrapTable columns={columns} data={unitTasks.slice(0, 9)} keyField='id' />
-                                {/* <BootstrapTable striped bordered hover variant="dark" className="itemTable">
-                                    <thead>
-                                    <tr>
-                                        <th className="nameCol">
-                                        test1
-                                        </th>
-                                        <th className="managerCol">
-                                        test2
-                                        </th>
-                                        <th className="descCol">
-                                        test3
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    
-                                    </tbody>
-                                </BootstrapTable> */}
-                            </div>
-                        <input type="checkbox"></input>
-                    </div>
-                </TabPanel>
-                <TabPanel>
-                    <div className="panel-content">
-                    <div style={{ maxWidth: '100%' }}>
-                                <BootstrapTable columns={columns} data={jobTasks.slice(0, 9)} keyField='id' />
-                                {/* <BootstrapTable striped bordered hover variant="dark" className="itemTable">
-                                    <thead>
-                                    <tr>
-                                        <th className="nameCol">
-                                        test1
-                                        </th>
-                                        <th className="managerCol">
-                                        test2
-                                        </th>
-                                        <th className="descCol">
-                                        test3
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    
-                                    </tbody>
-                                </BootstrapTable> */}
+                                <BootstrapTable columns={columns} data={unitTasks} keyField='id' />
                             </div>
                     </div>
                 </TabPanel>
                 <TabPanel>
                     <div className="panel-content">
                     <div style={{ maxWidth: '100%' }}>
-                                <BootstrapTable columns={columns} data={personalTasks.slice(0, 9)} keyField='id' />
-                                {/* <BootstrapTable striped bordered hover variant="dark" className="itemTable">
-                                    <thead>
-                                    <tr>
-                                        <th className="nameCol">
-                                        test1
-                                        </th>
-                                        <th className="managerCol">
-                                        test2
-                                        </th>
-                                        <th className="descCol">
-                                        test3
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    
-                                    </tbody>
-                                </BootstrapTable> */}
+                                <BootstrapTable columns={columns} data={jobTasks} keyField='id' />
+                            </div>
+                    </div>
+                </TabPanel>
+                <TabPanel>
+                    <div className="panel-content">
+                    <div style={{ maxWidth: '100%' }}>
+                                <BootstrapTable columns={columns} data={personalTasks} keyField='id' />
                             </div>
                     </div>
                 </TabPanel>

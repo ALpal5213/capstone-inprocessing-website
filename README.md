@@ -56,6 +56,8 @@ POST:
 	+ post to the Locations table
 + '/login' 
 	+ send authentication data to the server
++ '/session' 
+	+ send authentication success to server
 
 PATCH:
 
