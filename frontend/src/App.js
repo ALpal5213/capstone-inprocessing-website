@@ -1,14 +1,8 @@
 //Functional Imports
-<<<<<<< HEAD
 import Details from './components/Details/Details.js';
-import React, { useState, createContext } from 'react';
-import { AllRoutes } from './components/Routes/AllRoutes.js';
-=======
-import Details from './Details.js';
-import AppNavBar from './AppNavBar';
+import AppNavBar from './components/NavBar/AppNavBar.js';
 import React, { useState } from 'react';
 import { AllRoutes } from './AllRoutes.js';
->>>>>>> d06c02a712a0266b293235ebaefc4695ba251de7
 //Styling Imports
 import './App.css';
 

@@ -12,6 +12,7 @@ export const AllRoutes = () => {
     return (
 
         <Router>
+            <AppNavBar />
             <Routes>
                 <Route path="/" element={<Navigate to="/login" replace={true} />} />
                 <Route path='/login' element={< Login />}></Route>
