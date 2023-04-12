@@ -11,6 +11,7 @@ const bcrypt = require('bcryptjs');
 routePath.use(express.json())
 routePath.use(cors());
 routePath.use(fileUpload());
+routePath.use(express.static('uploads'))
 
 //Session 
 routePath.use(session({
@@ -179,6 +180,28 @@ routePath.post("/session", async function (req, res ){
     }
 
 })
+
+
+// Upload Endpoint
+routePath.post('/upload', (req, res) => {
+    if (req.files === null) {
+      return res.status(400).json({ msg: 'No file uploaded' });
+    }
+  
+    const file = req.files.file;
+  
+    file.mv(`${__dirname}/uploads/${file.name}`, err => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send(err);
+      }
+  
+      res.json({ fileName: file.name, filePath: `http://localhost:3001/${file.name}` });
+
+    });
+  });
+  
+
 
 /* PATCH ********************************************************************/
 
