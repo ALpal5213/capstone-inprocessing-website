@@ -18,9 +18,7 @@ exports.up = function(knex) {
         table.string('status'); 
         table.string('task_url');
         table.boolean('has_upload');
-        table.string('upload_file');
         table.boolean('has_download');
-        table.string('download_file');
     })
 };
 
