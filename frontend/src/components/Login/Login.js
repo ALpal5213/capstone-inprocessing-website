@@ -1,7 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useContext, useState, useEffect } from 'react'
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import './Login-create.css';
 import bcrypt from 'bcryptjs';
 import { GlobalContext } from '../../App';
@@ -19,10 +19,14 @@ export const Login = () => {
   const [username, setUsername] = useState('');
   const [userId, setUserId] = useState(-1);
   const [passMatch, setPassMatch] = useState({ id: Date.now(), match: undefined })
-  const [failMessage, setFailMessage] = useState('')
+  const [failMessage, setFailMessage] = useState(
+    <Form.Text className='newHereText'>
+      New Here? <Link to='/create-account' className="formLink">Click Here to create an account.</Link>
+    </Form.Text>
+  )
 
   const failContent = (
-    <span className='failMessage'>Login Failed!</span>
+    <span className='errMsg'>Login Failed!</span>
   )
 
   useEffect(() => {
@@ -48,7 +52,11 @@ export const Login = () => {
         .then(data => {
           setUserLogin(data[0])
         })
-      setFailMessage('')
+      setFailMessage(
+        <Form.Text className='newHereText'>
+          New Here? <Link to='/create-account' className="formLink">Click Here to create an account.</Link>
+        </Form.Text>
+      )
       navigate('/home')
     }
   }, [passMatch])
@@ -94,8 +102,12 @@ export const Login = () => {
   }
 
   const setUserCtl = (inputUser) => {
-    setFailMessage('')
-    setPassMatch({ id: Date.now(), match: undefined })
+    setFailMessage(
+      <Form.Text className='newHereText'>
+        New Here? <Link to='/create-account' className="formLink">Click Here to create an account.</Link>
+      </Form.Text>
+    )
+    setPassMatch({id: Date.now(), match: undefined})
     setUsername(inputUser)
   }
 
@@ -112,9 +124,13 @@ export const Login = () => {
           </Form.Group>
           <Form.Group className="mb-3 divItem" controlId="pass">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" onChange={() => setFailMessage('')} />
+            <Form.Control type="password" placeholder="Password" onChange={() => setFailMessage(
+              <Form.Text className='newHereText'>
+                New Here? <Link to='/create-account' className="formLink">Click Here to create an account.</Link>
+              </Form.Text>
+            )}/>
           </Form.Group>
-          <Button variant="dark divItem" onClick={() => passHashCk()}>Login</Button>{failMessage}
+            <Button variant="dark divItem" onClick={() => passHashCk()}>Login</Button>{failMessage}
         </Form>}
       </div>
     </>
