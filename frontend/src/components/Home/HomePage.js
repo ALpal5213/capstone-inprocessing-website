@@ -6,6 +6,7 @@ export const HomePage = () => {
 
     return (
         <>
+            <AppNavBar />
             {/* <ProgressBar /> */}
             <TaskTabs />
         </>
