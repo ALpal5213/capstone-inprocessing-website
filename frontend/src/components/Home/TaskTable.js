@@ -55,7 +55,7 @@ export const TaskTabs = () => {
         { text: 'Priority', dataField: 'priority', sort: true },
         { text: 'Due Date', dataField: 'due_date', sort: true},
         { text: 'status', dataField: 'status', 
-        //formatter: statusFormatter,
+        formatter: statusFormatter,
            sort: true }
     ];
 
@@ -98,21 +98,21 @@ export const TaskTabs = () => {
                 <TabPanel>
                     <div className="panel-content">
                         <div style={{ maxWidth: '100%' }}>
-                            <BootstrapTable columns={columns} data={unitTasks} keyField='id' />
+                            <BootstrapTable columns={columns} data={unitTasks} rowEvents={rowEvents} keyField='id' />
                         </div>
                     </div>
                 </TabPanel>
                 <TabPanel>
                     <div className="panel-content">
                         <div style={{ maxWidth: '100%' }}>
-                            <BootstrapTable columns={columns} data={jobTasks} keyField='id' />
+                            <BootstrapTable columns={columns} data={jobTasks} rowEvents={rowEvents} keyField='id' />
                         </div>
                     </div>
                 </TabPanel>
                 <TabPanel>
                     <div className="panel-content">
                         <div style={{ maxWidth: '100%' }}>
-                            <BootstrapTable columns={columns} data={personalTasks} keyField='id' />
+                            <BootstrapTable columns={columns} data={personalTasks} rowEvents={rowEvents} keyField='id' />
                         </div>
                     </div>
                 </TabPanel>
