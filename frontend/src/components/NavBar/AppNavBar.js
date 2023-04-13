@@ -19,7 +19,9 @@ const AppNavBar = () => {
     return (
       <Navbar bg="dark" variant='dark' export="lg" textcolor="white">
         <Container>
-          <Navbar.Brand onClick={() => navigate('/home')} className='brandLink'>Welcome to Wright-Patterson AFB</Navbar.Brand>
+          <Navbar.Brand onClick={() => {
+            if(userLogin) navigate('/home')
+          }} className='brandLink'>Welcome to Wright-Patterson AFB</Navbar.Brand>
           <Nav>
 
             <Nav.Item >
