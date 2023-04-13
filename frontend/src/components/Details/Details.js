@@ -9,17 +9,19 @@ import Map from './Map'
 
 import Form from 'react-bootstrap/Form';
 
-const editRef = useRef({description: 'x', address: 'x', hours: 'x', building: 'x', room: 'x', phone_number: 'x', notes: 'x', url: 'x'});
 
-const handlePatch = (e) => {
-    e.preventDefault();
-    //Patch state
-}
 
 const Details = () => {
     const location = useLocation();
     const task = location.state;
     const [ editable, setEdits ] = useState(false);
+
+    const editRef = useRef({description: 'x', address: 'x', hours: 'x', building: 'x', room: 'x', phone_number: 'x', notes: 'x', url: 'x'});
+
+    const handlePatch = (e) => {
+        e.preventDefault();
+        //Patch state
+    }
 
     const submitEdits = () => {
         setEdits(false);
@@ -31,8 +33,7 @@ const Details = () => {
                 <Button variant="warning" onClick={() => setEdits(true)} className='detailH1Button'>Edit</Button>{' '}
                 <Button variant="danger" className='detailH1Button'>Delete</Button>{' '}
             </div>
-            {(!editable) ?
-            <Accordion>
+            {!editable && <Accordion>
                 <Accordion.Item eventKey="0">
                     <Accordion.Header>Task Description</Accordion.Header>
                     <Accordion.Body>
@@ -52,9 +53,9 @@ const Details = () => {
                         {task.latitude && task.longitude && <Map selectedLocation={task}/>}
                     </Accordion.Body>
                 </Accordion.Item>
-            </Accordion>
-            <Button variant="warning" className='detailH1Button'>Edit</Button>{' '}
-            <Button variant="danger" className='detailH1Button'>Delete</Button>{' '}
+            </Accordion>}
+            {/* <Button variant="warning" className='detailH1Button'>Edit</Button>{' '} */}
+            {/* <Button variant="danger" className='detailH1Button'>Delete</Button>{' '} */}
         </Container>
     );
 }
