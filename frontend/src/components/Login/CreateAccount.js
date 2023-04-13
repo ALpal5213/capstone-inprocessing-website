@@ -240,8 +240,8 @@ export const CreateAccount = () => {
               <Form.Label>Password Confirmation</Form.Label><span id='passConfirmErr' className='errMsg'></span>
               <Form.Control type="password" placeholder="Password Confirmation" />
             </Form.Group>
-            <Button variant="dark formButtonStyle" onClick={() => createUser()}>Create</Button>
             <Button variant="dark formButtonStyle" onClick={() => navigate('/login')}>Cancel</Button>
+            <Button variant="dark formButtonStyle" onClick={() => createUser()}>Create</Button>
           </Form> : ''
         }
       </div>

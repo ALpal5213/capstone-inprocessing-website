@@ -81,3 +81,15 @@
   height: 30px;
   text-align: center;
 }
+
+.newHereText {
+  color: white;
+}
+
+.formLink {
+  color: blue;
+}
+
+.newAccountLinkDiv {
+  display: inline-block;
+}
