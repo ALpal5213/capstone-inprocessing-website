@@ -15,9 +15,10 @@ function App() {
   const [ selectedLocation, setSelectedLocation ] = useState({ location_id: "7", building: "7000", room: "27A", phone_number: "3675309", address: "27 W Palm Street", hours: "1300-1500 M-F", url: "https:www.finishmyinprocessing.com", notes: "these are notes." });
   const [ currentUser, setCurrentUser ] = useState({ user_id: "12345", user_name: "Ricky" });
   const [ userLogin, setUserLogin ] = useState(true);
+  const [userAuth, setUserAuth] = useState(false)
   
   return (
-    <GlobalContext.Provider value={{ selectedTask, setSelectedTask, selectedLocation, setSelectedLocation, currentUser, setCurrentUser, userLogin, setUserLogin }}>
+    <GlobalContext.Provider value={{ selectedTask, setSelectedTask, selectedLocation, setSelectedLocation, currentUser, setCurrentUser, userLogin, setUserLogin, userAuth, setUserAuth }}>
       <AllRoutes />
     </GlobalContext.Provider>
   );

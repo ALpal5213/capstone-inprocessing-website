@@ -16,7 +16,7 @@ routePath.use(express.static('uploads'))
 //Session 
 routePath.use(session({
     secret: 'sessionsecret',
-    cookie: { maxAge: 300000 },
+    cookie: { maxAge: 3000000 },
     saveUninitialized: false
 }))
 
@@ -192,7 +192,14 @@ routePath.post("/login", async function (req, res) {
 
 routePath.post("/session", async function (req, res ){
     if (req.body.authenticated){
-        res.status(202).json(req.session)
+        req.session.session_id = req.sessionID
+        let sid = req.sessionID
+        knex('Users')
+        .where({id: req.body.id})
+        .modify((queryBuilder) => queryBuilder.update({session_id:sid})).then(data => {
+console.log(`Session_id for user of id ${req.body.id} has been changed to:  ${sid}`)
+            return res.status(202).json({"message":"Session Id Modified at database!", ...req.session})
+        })
     }
     else{
         req.session.destroy();
