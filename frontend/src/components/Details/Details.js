@@ -86,16 +86,16 @@ const Details = () => {
             });
 
             // Clear percentage
-            setTimeout(() => setUploadPercentage(0), 5000);
+            setTimeout(() => setUploadPercentage(0), 10000);
 
             const { fileName, filePath } = res.data;
 
             setUploadedFile({ fileName, filePath });
 
             setMessage('File Uploaded: ');
-            setTimeout(() => setMessage(), 5000);
+            setTimeout(() => setMessage(), 10000);
             setimagesrc({ filePath, fileName })
-            setTimeout(() => setimagesrc(), 5000);
+            setTimeout(() => setimagesrc(), 10000);
 
         } catch (err) {
             if (err.response.status === 500) {

@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import './TaskTable.css';
 import * as Icon from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 import BootstrapTable from 'react-bootstrap-table-next'
+import { GlobalContext } from '../../App';
 
 
 
 export const TaskTabs = () => {
-    const [allTasks, setAllTasks] = useState([]);
     const navigate = useNavigate();
+    const { userLogin } = useContext(GlobalContext);
+    console.log(userLogin);
 
     const taskIcons = {
         pending: <Icon.HourglassSplit />,
@@ -26,7 +28,7 @@ export const TaskTabs = () => {
     const [task, setTask]=useState({});
 
     useEffect(() => {
-        fetch('http://localhost:3001/tasks-locations/20')
+        fetch(`http://localhost:3001/tasks-locations/${userLogin.id}`)
             .then(res => res.json())
             .then(data => {
                 setInstallationTasks(data.filter((task) => task.task_type === 'installation'))
@@ -47,7 +49,7 @@ export const TaskTabs = () => {
     const rowEvents = {
         onClick: (e,cell) => {
             setTask(cell);
-            navigate('/details', {state:cell})
+            navigate('/details/', {state:cell})
 
         }
     }
