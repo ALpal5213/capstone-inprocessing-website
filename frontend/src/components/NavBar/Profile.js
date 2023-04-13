@@ -1,87 +1,117 @@
 import Container from 'react-bootstrap/Container';
-import React from 'react';
+import { useContext, useState, useEffect } from 'react'
 import { Bootstrap } from 'react-bootstrap-icons';
 import { StyleHTMLAttributes } from 'react';
+import './Profile.css'
 import Nav from 'react-bootstrap/Nav';
+import { GlobalContext } from '../../App';
+
+
+
 const Profile = () => {
+    const { userLogin, currentUser } = useContext(GlobalContext);
+    const [unit, setUnit] = useState({unit_name:""});
+    const [job, setJob] = useState({job_name:""});
+    useEffect(() => {
+        fetch(`http://localhost:3001/table/Units/${userLogin.unit_id}`)
+            .then(res => res.json())
+            .then(data => 
+                { setUnit(data[0])
+                })
+
+    }, [])
+    useEffect(() => {
+        fetch(`http://localhost:3001/table/Jobs/${userLogin.job_id}`)
+            .then(res => res.json())
+            .then(data => 
+                { setJob(data[0])
+                    console.log(data)
+                })
+
+    }, [])
+
     return (
-        <div class="container bootstrap snippets bootdey">
-            <div class="panel-body inf-content">
-                <div class="row">
-                    <div class="col-md-4">
-                        <img alt="" class="img-circle img-thumbnail isTooltip" src="https://bootdey.com/img/Content/avatar/avatar7.png" data-original-title="Usuario"></img>
+        <div className="container">
+            <div className="panel-body inf-content">
+                <div className="row">
+                    <div className="col-md-4">
+                        <img alt="" className="img-circle img-thumbnail isTooltip" src="https://bootdey.com/img/Content/avatar/avatar7.png" data-original-title="Usuario"></img>
                     </div>
-                    <div class="col-md-6">
+                    <div className="col-md-6">
                         <strong>Information</strong><br></br><br></br>
-                        <div class="table-responsive">
-                            <table class="table table-user-information">
+                        <div className="table-responsive">
+                            <table className="table table-user-information">
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <strong>
-                                                <span class="glyphicon glyphicon-asterisk text-primary"></span>
-                                                Identificacion
-                                            </strong>
+                                            <strong>ID </strong>
                                         </td>
                                         <td>
-                                            <span class="text-primary"></span>
-                                            123456789
+                                            <div> {userLogin.id} </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <strong>
-                                                <span class="text-primary"></span>
-                                                Name
-                                            </strong>
+                                            <strong>Full Name</strong>
                                         </td>
-                                        <td class="text-primary">
-                                            Bootdey
+                                        <td>
+                                            <div>{userLogin.fullname} </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <strong>
-                                                <span class="glyphicon glyphicon-cloud text-primary"></span>
-                                                Lastname
-                                            </strong>
+                                            <strong>Username</strong>
                                         </td>
-                                        <td class="text-primary">
-                                            Bootstrap
+                                        <td>
+                                            <div>{userLogin.username}</div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <strong>
-                                                <span class="glyphicon glyphicon-bookmark text-primary"></span>
-                                                Username
-                                            </strong>
+                                            <strong>Admin</strong>
                                         </td>
-                                        <td class="text-primary">
-                                            bootnipets
+                                        <td>
+                                            <div>{`${userLogin.is_admin}`}</div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <strong>
-                                                <span class="glyphicon glyphicon-eye-open text-primary"></span>
-                                                Role
-                                            </strong>
+                                            <strong>Supervisor</strong>
                                         </td>
-                                        <td class="text-primary">
-                                            Admin
+                                        <td>
+                                            <div>{`${userLogin.is_supervisor}`}</div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <strong>
-                                                <span class="glyphicon glyphicon-envelope text-primary"></span>
-                                                Email
-                                            </strong>
+                                            <strong>Is Military</strong>
                                         </td>
-                                        <td class="text-primary">
-                                            noreply@email.com
+                                        <td>
+                                            <div>{`${userLogin.is_military}`}</div>
                                         </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Job Name: </strong>
+                                        </td>
+                                        <td>
+                                            <div>{job.job_name}</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Unit Name: </strong>
+                                        </td>
+                                        <td>
+                                            <div>{unit.unit_name}</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Email</strong>
+                                        </td>
+                                        <td>
+                                            <div> {userLogin.username}@gmail.com</div>                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

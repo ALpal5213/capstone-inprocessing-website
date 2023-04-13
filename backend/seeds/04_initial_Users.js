@@ -22,7 +22,7 @@ bcrypt.genSalt(saltRounds, (err, salt) => {
       fullname:faker.name.fullName(), 
       username:'admin', 
       password:hash, 
-      is_admin:faker.datatype.boolean(), 
+      is_admin: true, 
       is_supervisor:faker.datatype.boolean(), 
       is_military:faker.datatype.boolean(), 
       job_id:randomizeJobs(), 
