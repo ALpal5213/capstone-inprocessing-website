@@ -10,47 +10,39 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiYWxwYWw1MjEzIiwiYSI6ImNsZ2U3aDNzZzJoeDUzZWxpM
 const Map = ({ selectedLocation }) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [locations, setLocations] = useState(null);
   const [style, setStyle] = useState(false);
   const [marker, setMarker] = useState(null);
 
+  console.log(selectedLocation);
+
   const handleHome = () => {
     map.current.flyTo({
-      center: [-84.0537, 39.8137],
-      zoom: 12,
+      center: [selectedLocation.longitude, selectedLocation.latitude],
+      zoom: 16,
       bearing: 0,
       pitch: 0,
       essential: true
     });
   }
 
-  //useEffect to get locations from server.
-  useEffect(() => {
-    fetch('http://localhost:3001/table/Locations')
-      .then(res => res.json())
-      .then(data => setLocations(data))
-      .catch(error => console.log("Error fetching data: ", error))
-  }, []);
-
   //create map
   useEffect(() => {
-    if (!mapContainer.current || !locations) return;
+    if (!mapContainer.current) return;
 
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: style ? 'mapbox://styles/mapbox/navigation-night-v1' : 'mapbox://styles/mapbox/outdoors-v12',
       center: [-84.0537, 39.8137],
-      zoom: 12
+      zoom: 11
     })
-      .addControl(new mapboxgl.FullscreenControl(), 'top-right')
-      .addControl(new mapboxgl.NavigationControl(), 'top-right')
+    .addControl(new mapboxgl.FullscreenControl(), 'top-right')
+    .addControl(new mapboxgl.NavigationControl(), 'top-right')
 
+  }, [style]);
 
-  }, [locations, style]);
-
-  // map fly to launch site when launch selected on home page
+  // map fly to location
   useEffect(() => {
-    if (!selectedLocation || !locations) return;
+    if (!selectedLocation) return;
 
     map.current.flyTo({
       center: [selectedLocation.longitude, selectedLocation.latitude],
@@ -68,7 +60,7 @@ const Map = ({ selectedLocation }) => {
       .setLngLat([selectedLocation.longitude, selectedLocation.latitude])
       .setPopup(new mapboxgl.Popup().setText(`${selectedLocation.building}`))
       .addTo(map.current))
-  }, [selectedLocation])
+  }, [selectedLocation, style])
 
   const changeStyle = (e) => {
     e.preventDefault();
@@ -76,14 +68,14 @@ const Map = ({ selectedLocation }) => {
   }
 
   return (
-    <Container className='py-2 map-wrapper'>
+    <Container className='map-wrapper'>
+      <Row>
+        <button onClick={() => handleHome()} className='reset-btn'>Return to Location</button>
+      </Row>
       <Row className='justify-content-center'>
         <div ref={mapContainer} className="map-container" />
       </Row>
       <Row>
-        <Col>
-          <Button onClick={() => handleHome()} variant='success' className='reset-btn'>Home</Button>
-        </Col>
         <Col>
           <Button onClick={changeStyle} variant='primary' className='style-btn'>Change Theme</Button>
         </Col>
