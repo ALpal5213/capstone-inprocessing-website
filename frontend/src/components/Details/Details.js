@@ -4,6 +4,8 @@ import { Accordion } from "react-bootstrap";
 import Button from 'react-bootstrap/Button';
 import './Details.css'
 import { useLocation } from 'react-router-dom';
+import { FileUpload } from './FileUpload';
+
 
 const Details = () => {
     const location = useLocation();
@@ -34,6 +36,8 @@ const Details = () => {
             </Accordion>
             <Button variant="warning" className='detailH1Button'>Edit</Button>{' '}
             <Button variant="danger" className='detailH1Button'>Delete</Button>{' '}
+            <div><br></br></div>
+            <FileUpload/>
         </Container>
     );
 }
