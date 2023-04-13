@@ -11,7 +11,7 @@ import { useLocation } from 'react-router-dom';
 
 const Details = () => {
     const location = useLocation();
-    console.log(location.state);
+    console.log(location.state); //this has the task object that was selested from homepage
     const selected = 0;
 
     const [ taskList, setTaskList ] = useState([{task_name:'x', task_description:'x', address:'x', hours:'x', building:'x', room:'x', phone_number:'x', notes:'x', url:'x'}]);

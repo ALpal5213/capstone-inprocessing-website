@@ -47,7 +47,7 @@ export const TaskTabs = () => {
     const rowEvents = {
         onClick: (e,cell) => {
             setTask(cell);
-            navigate('/details', {state:cell})
+            navigate('/details/', {state:cell})
 
         }
     }
