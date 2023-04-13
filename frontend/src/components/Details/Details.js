@@ -18,12 +18,16 @@ const handlePatch = (e) => {
 const Details = () => {
     const location = useLocation();
     const task = location.state;
+<<<<<<< HEAD
     const [ editable, setEdits ] = useState(false);
 
     const submitEdits = () => {
 
         setEdits(false);
     }
+=======
+    console.log(task);
+>>>>>>> origin
 
     return (
         <Container>
