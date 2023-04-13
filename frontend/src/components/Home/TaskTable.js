@@ -7,11 +7,10 @@ import BootstrapTable from 'react-bootstrap-table-next'
 import { GlobalContext } from '../../App';
 
 
-
 export const TaskTabs = () => {
     const navigate = useNavigate();
     const { userLogin } = useContext(GlobalContext);
-    console.log(userLogin);
+
 
     const taskIcons = {
         pending: <Icon.HourglassSplit />,
@@ -25,7 +24,7 @@ export const TaskTabs = () => {
     const [unitTasks, setUnitTasks] = useState([]);
     const [jobTasks, setJobTasks] = useState([]);
     const [personalTasks, setPersonalTasks] = useState([]);
-    const [task, setTask]=useState({});
+    const [task, setTask] = useState({});
 
     useEffect(() => {
         fetch(`http://localhost:3001/tasks-locations/${userLogin.id}`)
@@ -36,20 +35,20 @@ export const TaskTabs = () => {
                 setUnitTasks(data.filter((task) => task.task_type === 'unit'))
                 setPersonalTasks(data.filter((task) => task.task_type === 'personal'))
             })
-    }, [])
+    }, [userLogin])
 
     const columns = [
-        
-        {text: 'Name', dataField: 'task_name'},
+
+        { text: 'Name', dataField: 'task_name' },
         { text: 'Priority', dataField: 'priority', sort: true },
         { text: 'Due Date', dataField: 'due_date', sort: true },
         { text: 'Status', dataField: 'status', sort: true }
     ];
 
     const rowEvents = {
-        onClick: (e,cell) => {
+        onClick: (e, cell) => {
             setTask(cell);
-            navigate('/details/', {state:cell})
+            navigate('/details/', { state: cell })
 
         }
     }
@@ -74,13 +73,12 @@ export const TaskTabs = () => {
                 <div>
                     <TabPanel>
                         <div className="panel-content">
-                            <div className = 'taskTable-div' style={{ maxWidth: '100%' }}>
+                            <div className='taskTable-div' style={{ maxWidth: '100%' }}>
                                 <BootstrapTable columns={columns} data={installationTasks} rowEvents={rowEvents} keyField='id' />
                             </div>
                         </div>
                     </TabPanel>
                 </div>
-
                 <TabPanel>
                     <div className="panel-content">
                         <div style={{ maxWidth: '100%' }}>
