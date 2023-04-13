@@ -5,19 +5,22 @@ import Navbar from 'react-bootstrap/Navbar';
 import {useNavigate} from 'react-router-dom';
 import { GlobalContext } from '../../App';
 import './AppNavBar.css'
+import Cookies from 'js-cookie'
 
 const AppNavBar = () => {
   const navigate = useNavigate();
-  const { userLogin, setUserLogin } = useContext(GlobalContext);
+  const { userLogin, setUserLogin, userAuth, setUserAuth } = useContext(GlobalContext);
 
   const userLogout = () => {
     setUserLogin(false)
+    setUserAuth(false)
+    Cookies.remove('session_id')
     navigate('/login')
   }
 
   const navBarContent = () => {
-    if (userLogin == false) {
-      return ''
+    if (userLogin === false && userAuth === Cookies.get('name')) {
+      return null 
     } else {
       return (
         <Navbar bg="dark" variant='dark' export="lg" textcolor="white">

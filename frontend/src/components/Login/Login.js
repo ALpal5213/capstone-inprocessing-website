@@ -41,7 +41,8 @@ export const Login = () => {
         body: JSON.stringify({ "authenticated": true, id: userId })
       }).then(res => res.json())
         .then(data => {
-          Cookies.set('session_id', `${data.session_id}`, { expires: 1, path: '/login' });
+          //Cookie should expire one day from now, and is valid across the entire site
+          Cookies.set('session_id', `${data.session_id}`, { expires: 1, sameSite: 'strict'});
           setUserAuth(true)
           console.log(data)
         })

@@ -26,22 +26,22 @@ routePath.use(session({
 // Sends URL of service location to update the file location
 routePath.patch('/tasks/upload/:id', (req, res) => {
     // upload to task ID
-  let id = req.params.id;
+    let id = req.params.id;
 
-  if (req.files === null) {
-    return res.status(400).json({ msg: 'No file uploaded' });
-  }
+    if (req.files === null) {
+        return res.status(400).json({ msg: 'No file uploaded' });
+    }
 
-  const file = req.files.file;
-  console.log(file)
+    const file = req.files.file;
+    console.log(file)
 
-  return knex('Tasks')
-    .where({ id: id })
-    .update({
-        my_file: file
-    })
-    .then(data => response.status(200).send("Patched"))
-    .catch(error => response.status(405).send("Not patched"))
+    return knex('Tasks')
+        .where({ id: id })
+        .update({
+            my_file: file
+        })
+        .then(data => response.status(200).send("Patched"))
+        .catch(error => response.status(405).send("Not patched"))
 });
 
 /* GET *******************************************************************/
@@ -74,7 +74,7 @@ routePath.get("/table/:table/:id", (request, response) => {
 //Get join table and allow order by and limit (optional)
 routePath.get("/tasks-locations/:userID", (request, response) => {
     let id = request.params.userID;
- 
+
     return knex('Locations')
         .join('Tasks', 'Locations.id', '=', 'Tasks.location_id')
         .select('*')
@@ -82,6 +82,10 @@ routePath.get("/tasks-locations/:userID", (request, response) => {
         .then(data => response.status(200).json(data))
         .catch(error => response.status(405).send("Could not get"))
 });
+
+
+
+
 
 /* POST *********************************************************************/
 
@@ -101,34 +105,34 @@ routePath.post("/tasks", (request, response) => {
 routePath.post("/Users", (request, response) => {
     var missingKeyCount = 0;
     const userKeys = ['fullname', 'username', 'password', 'is_admin', 'is_supervisor', 'is_military', 'job_id', 'unit_id']
-    userKeys.forEach(key => {if (!Object.keys(request.body).includes(key)) missingKeyCount++});
+    userKeys.forEach(key => { if (!Object.keys(request.body).includes(key)) missingKeyCount++ });
 
     if (missingKeyCount === 0) {
-      return knex('Users')
-      .insert(request.body)
-      .then(() => {
-        response.status(201).send({response: `added new user`});
-      })
-      .catch((err) => {
-        console.log(err);
-        response.send({response: `error adding new user`})
-      })
+        return knex('Users')
+            .insert(request.body)
+            .then(() => {
+                response.status(201).send({ response: `added new user` });
+            })
+            .catch((err) => {
+                console.log(err);
+                response.send({ response: `error adding new user` })
+            })
     } else {
-      response.send({response: `error adding new user, missing object properties in request body`})
+        response.send({ response: `error adding new user, missing object properties in request body` })
     }
 });
 
 routePath.post("/username", async (request, response) => {
-  knex('Users')
-    .select('username')
-    .where({username: request.body.username})
-    .then(data => {
-      if (data.length > 0) {
-        response.send({found: true})
-      } else {
-        response.send({found: false})
-      }
-    })
+    knex('Users')
+        .select('username')
+        .where({ username: request.body.username })
+        .then(data => {
+            if (data.length > 0) {
+                response.send({ found: true })
+            } else {
+                response.send({ found: false })
+            }
+        })
 })
 
 // Post items below are a work-in-progress
@@ -167,7 +171,7 @@ routePath.post("/login", async function (req, res) {
             return knex("Users")
                 .where({ username: usernameMatcher.username, password: passwordMatcher })
                 .modify((queryBuilder) => queryBuilder.update({ session_id: sid })).then(() => {
-                  
+
                 }).then(data => {
                     return knex
                         .select('*')
@@ -179,7 +183,7 @@ routePath.post("/login", async function (req, res) {
                             req.session.first_name = data[0].first_name
                             req.session.last_name = data[0].last_name
                             //Only sends hashed password
-                            return res.type("json").send({id: usernameMatcher.id ,password: passwordMatcher})
+                            return res.type("json").send({ id: usernameMatcher.id, password: passwordMatcher })
                         })
                 })
         }
@@ -190,20 +194,20 @@ routePath.post("/login", async function (req, res) {
 
 
 
-routePath.post("/session", async function (req, res ){
-    if (req.body.authenticated){
+routePath.post("/session", async function (req, res) {
+    if (req.body.authenticated) {
         req.session.session_id = req.sessionID
         let sid = req.sessionID
         knex('Users')
-        .where({id: req.body.id})
-        .modify((queryBuilder) => queryBuilder.update({session_id:sid})).then(data => {
-console.log(`Session_id for user of id ${req.body.id} has been changed to:  ${sid}`)
-            return res.status(202).json({"message":"Session Id Modified at database!", ...req.session})
-        })
+            .where({ id: req.body.id })
+            .modify((queryBuilder) => queryBuilder.update({ session_id: sid })).then(data => {
+                console.log(`Session_id for user of id ${req.body.id} has been changed to:  ${sid}`)
+                return res.status(202).json({ "message": "Session Id Modified at database!", ...req.session })
+            })
     }
-    else{
+    else {
         req.session.destroy();
-        res.status(404).json({"message":"Authentication Failed!"})
+        res.status(404).json({ "message": "Authentication Failed!" })
     }
 
 })
@@ -212,22 +216,32 @@ console.log(`Session_id for user of id ${req.body.id} has been changed to:  ${si
 // Upload Endpoint
 routePath.post('/upload', (req, res) => {
     if (req.files === null) {
-      return res.status(400).json({ msg: 'No file uploaded' });
+        return res.status(400).json({ msg: 'No file uploaded' });
     }
-  
+
     const file = req.files.file;
-  
+
     file.mv(`${__dirname}/uploads/${file.name}`, err => {
-      if (err) {
-        console.error(err);
-        return res.status(500).send(err);
-      }
-  
-      res.json({ fileName: file.name, filePath: `http://localhost:3001/${file.name}` });
+        if (err) {
+            console.error(err);
+            return res.status(500).send(err);
+        }
+
+        res.json({ fileName: file.name, filePath: `http://localhost:3001/${file.name}` });
 
     });
-  });
-  
+});
+
+//Session Id Authentication 
+routePath.get("/sessionId/:sid", async (request, response) => {
+    let sid  = request.params.sid
+    console.log(sid)
+    return await knex.select('session_id')
+        .from('Users')
+        .where({session_id:sid})
+        .then(data => response.status(200).json({"message": "true"}))
+        .catch(error => response.status(405).json({"message": "false"}))
+});
 
 
 /* PATCH ********************************************************************/
@@ -290,7 +304,7 @@ const getUsername = async (username) => {
                 usernameMatcher = undefined;
                 return usernameMatcher;
             } else if (data[0].username === username)
-                usernameMatcher = {id: data[0].id ,username: data[0].username}
+                usernameMatcher = { id: data[0].id, username: data[0].username }
             // console.log('Username Match Success:' + usernameMatcher.username)
             return usernameMatcher;
         })
