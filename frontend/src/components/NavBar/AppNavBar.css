@@ -1,5 +1,17 @@
-.navBar {
-    color: white;
-    padding-right: 3px;
-  
+.navLinkText {
+  color: white;
+}
+
+.navLinkText:hover {
+  color: rgb(196, 196, 196);
+}
+
+.icon {
+  position: relative;
+  top: -1.5px;
+  margin-right: 5px;
+}
+
+.brandLink:hover {
+  cursor: pointer;
 }
