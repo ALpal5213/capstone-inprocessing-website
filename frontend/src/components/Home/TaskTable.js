@@ -37,16 +37,36 @@ export const TaskTabs = () => {
             })
     }, [userLogin])
 
-    const columns = [
+    const statusFormatter =(cell,row,formatExtraData)=>{
+      if(cell === 'pending')
+        return(
+        <span><Icon.HourglassSplit size={52} /></span>
+      )
+      else if(cell ==='complete')
+      return(
+        <span><Icon.PatchCheckFill color="green" size={52}/></span>
+      )
+      else return(
+        <span><Icon.XSquareFill color="red" size={52}/></span>
+      )
+    }
 
+    const columns = [
         { text: 'Name', dataField: 'task_name' },
         { text: 'Priority', dataField: 'priority', sort: true },
-        { text: 'Due Date', dataField: 'due_date', sort: true },
-        { text: 'Status', dataField: 'status', sort: true }
+        { text: 'Due Date', dataField: 'due_date', sort: true},
+        { text: 'status', dataField: 'status', 
+        formatter: statusFormatter,
+        // formatExtraData: {
+        //   pending: <Icon.HourglassSplit />,
+        //   complete: 'glyphicon glyphicon-chevron-down'},
+           sort: true }
     ];
 
+    let statusList = ['complete', 'pending', 'incomplete']
+
     const rowEvents = {
-        onClick: (e, cell) => {
+        onDoubleClick: (cell) => {
             setTask(cell);
             navigate('/details/', { state: cell })
 
