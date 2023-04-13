@@ -12,6 +12,8 @@ exports.up = function (knex) {
         table.string('hours');
         table.string('url');
         table.string('notes');
+        table.float('latitude', [4]);
+        table.float('longitude', [4]);
     })
 };
 
