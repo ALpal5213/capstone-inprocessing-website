@@ -3,7 +3,8 @@ import Details from './components/Details/Details.js';
 import React, { useState, createContext } from 'react';
 import { AllRoutes } from './components/Routes/AllRoutes.js';
 //Styling Imports
-import './App.css';
+// import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 //Create Application Context
 export const GlobalContext = createContext();

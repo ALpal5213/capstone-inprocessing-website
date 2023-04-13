@@ -10,10 +10,7 @@ import { Message } from './Message';
 import axios from 'axios';
 import './Details.css'
 
-
-
 const Details = () => {
-
     const [taskList, setTaskList] = useState([{ task_name: 'x', task_description: 'x', address: 'x', hours: 'x', building: 'x', room: 'x', phone_number: 'x', notes: 'x', url: 'x' }]);
 
     const [file, setFile] = useState('');

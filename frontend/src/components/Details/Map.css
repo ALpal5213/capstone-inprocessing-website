@@ -1,0 +1,19 @@
+.map-container {
+  height: 900px;
+  width: 96%;
+  border-radius: 5px;
+}
+
+.mapboxgl-ctrl-bottom-right {
+  display: none !important
+}
+
+.map-wrapper{
+  position: relative;
+}
+
+.reset-btn{
+  position: absolute;
+  left:3%;
+  top:3%;
+}
