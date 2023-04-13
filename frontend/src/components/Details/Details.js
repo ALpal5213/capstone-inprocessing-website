@@ -10,6 +10,7 @@ import { FileUpload } from './FileUpload';
 const Details = () => {
     const location = useLocation();
     const task = location.state;
+    console.log(task);
 
     return (
         <Container>
