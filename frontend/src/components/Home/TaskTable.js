@@ -24,7 +24,6 @@ export const TaskTabs = () => {
     const [unitTasks, setUnitTasks] = useState([]);
     const [jobTasks, setJobTasks] = useState([]);
     const [personalTasks, setPersonalTasks] = useState([]);
-    const [task, setTask] = useState({});
 
     useEffect(() => {
         fetch(`http://localhost:3001/tasks-locations/${userLogin.id}`)
@@ -56,18 +55,15 @@ export const TaskTabs = () => {
         { text: 'Priority', dataField: 'priority', sort: true },
         { text: 'Due Date', dataField: 'due_date', sort: true},
         { text: 'status', dataField: 'status', 
-        formatter: statusFormatter,
-        // formatExtraData: {
-        //   pending: <Icon.HourglassSplit />,
-        //   complete: 'glyphicon glyphicon-chevron-down'},
+        //formatter: statusFormatter,
            sort: true }
     ];
 
     let statusList = ['complete', 'pending', 'incomplete']
 
     const rowEvents = {
-        onDoubleClick: (cell) => {
-            setTask(cell);
+        onClick: (row, cell) => {
+            console.log(cell)
             navigate('/details/', { state: cell })
 
         }
