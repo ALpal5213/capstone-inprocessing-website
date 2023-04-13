@@ -41,7 +41,7 @@ export const Login = () => {
         setUserLogin(data[0])
       })
       setFailMessage('')
-      navigate('/Home')
+      navigate('/home')
     }
   },[passMatch])
 
