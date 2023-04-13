@@ -5,6 +5,7 @@ import { CreateAccount } from '../Login/CreateAccount'
 import { HomePage } from '../Home/HomePage'
 import Profile from '../NavBar/Profile'
 import AppNavBar from '../NavBar/AppNavBar'
+import Map from '../Details/Map'
 import { NotAuthorized } from './NotAuthorized'
 import { DetailsPage } from '../Details/DetailsPage'
 
@@ -23,6 +24,7 @@ export const AllRoutes = () => {
                 <Route path='/details' element={<DetailsPage/>}></Route>
                 <Route path='/create-account' element={<CreateAccount/>}></Route>
                 <Route path='/profile' element={<Profile/>}></Route>
+                <Route path='/map' element={<Map/>}></Route>
                 {/* <Route element={<ProtectedRoutes />}> */}
                     {/* <Route path='/home' element={< Home />}></Route>
                     <Route path='/account' element={< Account />}></Route>
