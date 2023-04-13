@@ -1,19 +1,30 @@
+.map-wrapper{
+  /* border: solid blue 3px; */
+  height: 600px;
+}
+
 .map-container {
-  height: 900px;
-  width: 96%;
-  border-radius: 5px;
+  height: 400px;
+  width: 100%;
+  border-radius: 10px;
+  z-index: 1;
 }
 
 .mapboxgl-ctrl-bottom-right {
   display: none !important
 }
 
-.map-wrapper{
-  position: relative;
+.reset-btn{
+
+  margin-left: -10px;
+  width: 100px;
+  z-index: 2;
 }
 
-.reset-btn{
-  position: absolute;
-  left:3%;
-  top:3%;
+
+.style-btn{
+ 
+  margin-left: 500px;
+  
+
 }
