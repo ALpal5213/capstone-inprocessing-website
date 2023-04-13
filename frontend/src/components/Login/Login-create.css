@@ -1,0 +1,95 @@
+.backDiv {
+  background: url('../../images/darkbg.png');
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: #343a40;
+}
+
+.menuDiv {
+  position: absolute;
+  background: rgba(206, 212, 218, .5);
+  top: 50%;
+  left: 50%;
+  margin-left: -250px;
+  border-radius: 5px;
+  border-style: solid;
+  border-color: #212529;
+  border-width: 1.5px;
+}
+
+.loginDiv {
+  width: 500px;
+  height: 340px;
+  margin-top: -135px;
+}
+
+.createDiv {
+  width: 500px;
+  height: 820px;
+  margin-top: -410px;
+}
+
+.divItem {
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.formButtonStyle {
+  margin-left: 20px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.formRowItem {
+  display: inline-block;
+  margin-top: 10px;
+  margin-bottom: 10px !important;
+}
+
+.formRowDiv {
+  display: flex;
+  justify-content: center;
+}
+
+.colSplit {
+  padding-left: 1px;
+  padding-right: 1px;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.errMsg {
+  margin-left: 20px;
+  color: red;
+}
+
+.dropdownMenu {
+  width: 208px;
+  text-align: left;
+}
+
+.dropdownDiv {
+  max-height: 400px;
+  overflow-y:auto;
+  border-radius: 5px;
+}
+
+.errDiv {
+  width: 500px;
+  height: 30px;
+  text-align: center;
+}
+
+.newHereText {
+  color: white;
+}
+
+.formLink {
+  color: blue;
+}
+
+.newAccountLinkDiv {
+  display: inline-block;
+}

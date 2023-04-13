@@ -1,0 +1,5 @@
+.alert-info {
+    --bs-alert-color: #000000;
+    --bs-alert-bg: #ffc107;
+    --bs-alert-border-color: #ffc107
+}
