@@ -1,7 +1,5 @@
-import Container from 'react-bootstrap/Container';
+import {Container, Navbar, Nav} from 'react-bootstrap'
 import React, {useContext} from 'react';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
 import {useNavigate} from 'react-router-dom';
 import { GlobalContext } from '../../App';
 import './AppNavBar.css'
@@ -19,7 +17,7 @@ const AppNavBar = () => {
   }
 
   const navBarContent = () => {
-    if (userLogin === false && userAuth === Cookies.get('name')) {
+    if (userLogin === false && userAuth === false) {
       return null 
     } else {
       return (
