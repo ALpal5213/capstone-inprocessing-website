@@ -5,12 +5,13 @@ import Button from 'react-bootstrap/Button';
 import './Details.css'
 import { useLocation } from 'react-router-dom';
 import { FileUpload } from './FileUpload';
+import Map from './Map'
 
 
 const Details = () => {
     const location = useLocation();
     const task = location.state;
-    console.log(task);
+    
 
     return (
         <Container>
@@ -25,13 +26,14 @@ const Details = () => {
                 <Accordion.Item eventKey="1">
                     <Accordion.Header>Location</Accordion.Header>
                     <Accordion.Body>
-                        <p>{task.address}</p>
-                        <p>{task.hours}</p>
-                        <p>{task.building}</p>
-                        <p>{task.room}</p>
-                        <p>{task.phone_number}</p>
-                        <p>{task.notes}</p>
-                        <p>{task.url}</p>
+                        {task.building && <p>Building: {task.building}</p>}
+                        {task.room && <p>Room: {task.room}</p>}
+                        {task.address && <p>Address: {task.address}</p>}
+                        {task.hours && <p>Hours: {task.hours}</p>}
+                        {task.phone_number && <p>Phone Number: {task.phone_number}</p>}
+                        {task.notes && <p>Notes: {task.notes}</p>}
+                        {task.url && <p>Website: {task.url}</p>}
+                        {task.latitude && task.longitude && <Map selectedLocation={task}/>}
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>
