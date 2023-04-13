@@ -22,7 +22,7 @@ export const AllRoutes = () => {
                 <Route path='/home' element={<HomePage/>}></Route>
                 <Route path='/details' element={<DetailsPage/>}></Route>
                 <Route path='/create-account' element={<CreateAccount/>}></Route>
-                <Route path='/Profile' element={<Profile/>}></Route>
+                <Route path='/profile' element={<Profile/>}></Route>
                 {/* <Route element={<ProtectedRoutes />}> */}
                     {/* <Route path='/home' element={< Home />}></Route>
                     <Route path='/account' element={< Account />}></Route>
