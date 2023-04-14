@@ -7,7 +7,7 @@ export const HomePage = () => {
 
     return (
         <>
-            <AddTask />
+            {/* <AddTask /> */}
             {/* <ProgressBar /> */}
             <TaskTabs />
         </>
