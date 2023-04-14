@@ -46,7 +46,7 @@ const Details = () => {
     return (
 
         <>
-        <Container>
+        <Container className='details-container'>
             <div><h2>{task.task_name}</h2>
                 <Button variant="warning" onClick={() => setEdits(true)} className='detailH1Button'>Edit</Button>{' '}
                 <Button variant="danger" className='detailH1Button' onClick ={()=> {deleteTask(task)}}>Delete</Button>
