@@ -28,6 +28,7 @@ const AddTask = () => {
     const [locPMHours, setLocPMHours] = useState("5");
     const [locPhone, setLocPhone] = useState("");
     const [locURL, setLocURL] = useState("");
+    const [days, setDays] = useState([]);
     const [locNotes, setLocNotes] = useState("");
     const [taskUpload, setTaskUpload] = useState(false);
     const [taskDownload, setTaskDownload] = useState(false);
@@ -82,6 +83,15 @@ const AddTask = () => {
     const handleLocPMHoursChange = (e) => {
         setLocPMHours(e.target.value);
     }
+    const handleLocDaysChange = (e) => {
+        if(e.target.checked){
+            //add
+            setDays([...days, e.target.value]);
+        } else{
+            // //remove
+            setDays(days.filter(day => day !== e.target.value));
+        }        
+    }
     const handleLocURLChange = (e) => {
         setLocURL(e.target.value);
     }
@@ -111,13 +121,25 @@ const AddTask = () => {
     }
 
     const addLocation = () => {
-        console.log(locAMHours + " A.M. to " + locPMHours + " P.M.")
+        let hours = locAMHours + " A.M. to " + locPMHours + " P.M.";
+        let daysOfWeek = "";
+        if(days.includes("M") && days.includes("T") && days.includes("W") && days.includes("T") && days.includes("F")){
+            hours = hours + " M-F"
+        } else {
+            for (let i = 0; i < days.length; i++) {
+                const element = days[i];
+                daysOfWeek += element + ", "
+            }
+            daysOfWeek = daysOfWeek.slice(0, daysOfWeek.length-2);
+            hours = hours + " " + daysOfWeek;
+        }
+
         const newLocation = {
             "building": locBuilding,
             "room": locRoom,
             "address": locAddress,
             "phone_number": locPhone,
-            "hours": locAMHours + " A.M. to " + locPMHours + " P.M.",
+            "hours": hours,
             "url": locURL,
             "notes": locNotes
         }
@@ -131,11 +153,11 @@ const AddTask = () => {
                 body: JSON.stringify(newLocation)
             })
             .then((res) => res.json())
-            .then((data) => console.log(data))
+            .then((data) => (data))
     }
     const addTask = (location_id) => {
         const newTask = {
-            "user_id": 103,
+            "user_id": 1,
             "location_id": location_id,
             "task_name": taskName,
             "task_description": taskDesc,
@@ -157,7 +179,7 @@ const AddTask = () => {
                 body: JSON.stringify(newTask)
             })
             .then((res) => res.json())
-            .then((data) => console.log(data))
+            .then((data) => (data))
     }
 
     //states for the Modal
@@ -165,6 +187,18 @@ const AddTask = () => {
         setDefaultCheck(true);
         setShowNewLocation(false);
         setLoc(1);
+        setDays([]);
+        setMilOrCiv("Military");
+        setLocAddress("");
+        setLocBuilding("");
+        setLocRoom("");
+        setLocAMHours("8");
+        setLocPMHours("5");
+        setLocPhone("");
+        setLocURL("");
+        setLocNotes("");
+        setTaskUpload(false);
+        setTaskDownload(false);
         setShow(false);
     };
     const handleShow = () => setShow(true);
@@ -286,19 +320,19 @@ const AddTask = () => {
                                         </span>
                                         <span>
                                             <Form.Label for="Sunday">S</Form.Label>
-                                            <input type="checkbox" className="dayOfWeek" id="Sunday"></input>
+                                            <input type="checkbox" className="dayOfWeek" id="Sunday" value="S" onChange={handleLocDaysChange}></input>
                                             <Form.Label for="Monday">M</Form.Label>
-                                            <input type="checkbox" className="dayOfWeek" id="Monday"></input>
+                                            <input type="checkbox" className="dayOfWeek" id="Monday" value="M" onChange={handleLocDaysChange}></input>
                                             <Form.Label for="Tuesday">T</Form.Label>
-                                            <input type="checkbox" className="dayOfWeek" id="Tuesday"></input>
+                                            <input type="checkbox" className="dayOfWeek" id="Tuesday" value="T" onChange={handleLocDaysChange}></input>
                                             <Form.Label for="Wednesday">W</Form.Label>
-                                            <input type="checkbox" className="dayOfWeek" id="Wednesday"></input>
+                                            <input type="checkbox" className="dayOfWeek" id="Wednesday" value="W" onChange={handleLocDaysChange}></input>
                                             <Form.Label for="Thursday">Th</Form.Label>
-                                            <input type="checkbox" className="dayOfWeek" id="Thursday"></input>
+                                            <input type="checkbox" className="dayOfWeek" id="Thursday" value="Th" onChange={handleLocDaysChange}></input>
                                             <Form.Label for="Friday">F</Form.Label>
-                                            <input type="checkbox" className="dayOfWeek" id="Friday"></input>
+                                            <input type="checkbox" className="dayOfWeek" id="Friday" value="F" onChange={handleLocDaysChange}></input>
                                             <Form.Label for="Saturday">S</Form.Label>
-                                            <input type="checkbox" className="dayOfWeek" id="Saturday"></input>
+                                            <input type="checkbox" className="dayOfWeek" id="Saturday" value="S" onChange={handleLocDaysChange}></input>
                                         </span>
                                     </Row>
                                     <Row>
