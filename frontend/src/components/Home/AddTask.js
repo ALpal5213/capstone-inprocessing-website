@@ -63,9 +63,6 @@ const AddTask = () => {
     const handleTaskDownloadChange = (e) => {
         setTaskDownload(e.target.checked);
     }
-    const handleLocChange = (e) => {
-        setLoc(e.target.value);
-    }
     const handleLocBuildingChange = (e) => {
         setLocBuilding(e.target.value);
     }
@@ -101,16 +98,17 @@ const AddTask = () => {
     const submitRequest = () => {
         if (showNewLocation) { //user adding a new location to a task
             //create a new location first
-            //addLocation() FIX after changing inputs
+            addLocation()
             //then create a new task with the location of the task being the new location id
             const last_loc = locations[locations.length - 1]
             addTask(last_loc.id + 1)
         } else { //user adding an existing location to a task
             addTask(loc)
         }
-        setShow(false);
+        handleClose();
     }
     const addLocation = () => {
+        console.log(locAMHours + " A.M. to " + locPMHours + " P.M.")
         const newLocation = {
             "building": locBuilding,
             "room": locRoom,
@@ -162,12 +160,14 @@ const AddTask = () => {
     //states for the Modal
     const handleClose = () => {
         setDefaultCheck(true);
-        setShowNewLocation(false)
-        setShow(false)
+        setShowNewLocation(false);
+        setLoc(1);
+        setShow(false);
     };
     const handleShow = () => setShow(true);
 
     const handleCloseNewLocation = (e) => {
+        setLoc(e.target.value);
         if (e.target.value !== "newLocation") {
             setShowNewLocation(false);
         } else {
@@ -181,7 +181,7 @@ const AddTask = () => {
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header>
-                    <Modal.Title><h3 id="modal-header">Adding a New Task</h3></Modal.Title>
+                    <Modal.Title><h3 id="modal-title">Add a New Task</h3></Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Row className="form-group">

@@ -8,6 +8,7 @@
     font-style: italic;
 }
 
-#modal-header{
+#modal-title{
     text-align: center;
+    font-weight: bold;
 }
