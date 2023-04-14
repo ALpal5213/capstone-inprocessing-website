@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Col, Row, Modal, Button, Form } from "react-bootstrap";
 import './AddTask.css';
+import { GlobalContext } from '../../App';
 
 const AddTask = () => {
-
+    const { setReFetch } = useContext(GlobalContext);
     const [locations, setLocations] = useState([{
         "id": "",
         "building": "",
@@ -116,7 +117,9 @@ const AddTask = () => {
             addTask(loc)
         }
         handleClose();
+        setReFetch(true);
     }
+
     const addLocation = () => {
         let hours = locAMHours + " A.M. to " + locPMHours + " P.M.";
         let daysOfWeek = "";

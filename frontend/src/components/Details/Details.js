@@ -18,8 +18,8 @@ const Details = () => {
     const formattedDate = splitDate[0];
     const [ editable, setEdits ] = useState(false);
     const editRef = useRef({description: 'x', address: 'x', hours: 'x', building: 'x', room: 'x', phone_number: 'x', notes: 'x', url: 'x'});
-  const { userLogin,reFetch,setReFetch } = useContext(GlobalContext);
-  const navigate = useNavigate();
+    const { userLogin,reFetch,setReFetch } = useContext(GlobalContext);
+    const navigate = useNavigate();
 
     const handlePatch = (e) => {
         e.preventDefault();
@@ -32,22 +32,21 @@ const Details = () => {
 
     const deleteTask=()=>{
         fetch(`http://localhost:3001/tasks/${task.id}`, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(task)
-    })
-      .then(res => res.json())
-      .then(data => {
-        setReFetch(true)
-        navigate('/home')
-      })
-      .catch(err => console.log(err))
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(task)
+        })
+        .then(data => {
+            setReFetch(true)
+            navigate('/home')
+        })
+        .catch(err => console.log(err))
     }
     
     return (
 
         <>
-        <Container>
+        <Container className='details-container'>
             <div><h2>{task.task_name}</h2>
                 <Button variant="warning" onClick={() => setEdits(true)} className='detailH1Button'>Edit</Button>{' '}
                 <Button variant="danger" className='detailH1Button' onClick ={()=> {deleteTask(task)}}>Delete</Button>

@@ -1,13 +1,15 @@
 input#customFile.custom-file-input {
-    display:none;
-    }
-   
-div.upload-box.container{
-    width:50%;
+    display: none;
+}
+
+
+
+div.upload-box.container {
+    width: 50%;
     border-style: solid;
     box-shadow: 0 0 6px 5px rgba(0, 0, 0, .1);
     border-color: rgba(0, 0, 0, .1);
-    border-radius:10px
-
-    
+    border-radius: 10px;
+    margin-top: 27vh;
+    margin-bottom: 15vh;
 }
