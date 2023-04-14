@@ -18,8 +18,8 @@ const Details = () => {
     const formattedDate = splitDate[0];
     const [ editable, setEdits ] = useState(false);
     const editRef = useRef({description: 'x', address: 'x', hours: 'x', building: 'x', room: 'x', phone_number: 'x', notes: 'x', url: 'x'});
-  const { userLogin,reFetch,setReFetch } = useContext(GlobalContext);
-  const navigate = useNavigate();
+    const { userLogin,reFetch,setReFetch } = useContext(GlobalContext);
+    const navigate = useNavigate();
 
     const handlePatch = (e) => {
         e.preventDefault();
@@ -32,16 +32,15 @@ const Details = () => {
 
     const deleteTask=()=>{
         fetch(`http://localhost:3001/tasks/${task.id}`, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(task)
-    })
-      .then(res => res.json())
-      .then(data => {
-        setReFetch(true)
-        navigate('/home')
-      })
-      .catch(err => console.log(err))
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(task)
+        })
+        .then(data => {
+            setReFetch(true)
+            navigate('/home')
+        })
+        .catch(err => console.log(err))
     }
     
     return (
