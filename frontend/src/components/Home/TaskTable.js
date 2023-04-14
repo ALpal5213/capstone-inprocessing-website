@@ -30,14 +30,14 @@ export const TaskTabs = () => {
     const statusFormatter =(cell,row,formatExtraData)=>{
       if(cell === 'pending')
         return(
-        <span><Icon.HourglassSplit size={52} /></span>
+        <span><Icon.HourglassSplit size={25} /></span>
       )
       else if(cell ==='complete')
       return(
-        <span><Icon.PatchCheckFill color="green" size={52}/></span>
+        <span><Icon.PatchCheckFill color="green" size={25}/></span>
       )
       else return(
-        <span><Icon.XSquareFill color="red" size={52}/></span>
+        <span><Icon.XSquareFill color="red" size={25}/></span>
       )
     }
 

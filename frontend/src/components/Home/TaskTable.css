@@ -17,9 +17,9 @@
 
 .react-tabs {
   display: flex;
-  margin: 0;
   width: 100%;
   overflow: hidden;
+  border: none !important;
 }
 
 .react-tabs__tab {
@@ -38,16 +38,18 @@
   flex-direction: column;
   width: 60px;
   margin: 0;
+  margin-right: 15px;
   padding: 0;
   color: white;
   background: #3c3e43;  
-  border-radius: 5px;
+  border-radius: 5px 0 0 5px;
 }
 
 .react-tabs__tab--selected {
   background: #1c1d1f;
   border-color: #1c1d1f;
   border-left: 4px solid #6eb800;
+  border-radius: 5px 0 0 5px;
   color: white;
   padding-left: 21px;
 }
@@ -56,16 +58,35 @@
   display: none;
   width: 100%;
   overflow-y: auto;
+  border: none !important;
 }
 
 .react-tabs__tab-panel--selected {
   display: block;
+  border: none !important;
 }
 
 .taskLine{
   display:flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+th {
+  border: none !important;
+}
+
+tr {
+  text-align: right;
+  border: none !important;
+}
+
+td {
+  cursor: pointer;
+  border-bottom: solid black 1px !important;
+  border-right: none !important;
+  border-left: none !important;
+  border-top: solid black 1px !important;
 }
 
 .task-header-div{
