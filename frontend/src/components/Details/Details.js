@@ -26,12 +26,15 @@ const Details = () => {
     const submitEdits = () => {
         setEdits(false);
     }
-
+    const splitDate = task.due_date.split('T');
+    const formattedDate = splitDate[0];
     return (
         <Container>
             <div>{task.task_name}
                 <Button variant="warning" onClick={() => setEdits(true)} className='detailH1Button'>Edit</Button>{' '}
                 <Button variant="danger" className='detailH1Button'>Delete</Button>{' '}
+                <div className= 'status-div'><h5> Status</h5><p>{task.status}</p></div>
+                <div className= 'status-div'><h5> Due Date</h5><p>{formattedDate}</p></div>
             </div>
             {!editable && <Accordion>
                 <Accordion.Item eventKey="0">
@@ -54,8 +57,6 @@ const Details = () => {
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>}
-            {/* <Button variant="warning" className='detailH1Button'>Edit</Button>{' '} */}
-            {/* <Button variant="danger" className='detailH1Button'>Delete</Button>{' '} */}
         </Container>
     );
 }

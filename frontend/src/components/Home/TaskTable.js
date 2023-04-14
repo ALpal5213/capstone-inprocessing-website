@@ -5,20 +5,12 @@ import * as Icon from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 import BootstrapTable from 'react-bootstrap-table-next'
 import { GlobalContext } from '../../App';
+import AddTask from './AddTask';
 
 
 export const TaskTabs = () => {
     const navigate = useNavigate();
     const { userLogin } = useContext(GlobalContext);
-
-
-    const taskIcons = {
-        pending: <Icon.HourglassSplit />,
-        complete: <Icon.PatchCheckFill />,
-        highP: <Icon.ExclamationOctagonFill />,
-        medP: <Icon.ExclamationDiamondFill />,
-        lowP: <Icon.ExclamationLg />
-    }
 
     const [installationTasks, setInstallationTasks] = useState([]);
     const [unitTasks, setUnitTasks] = useState([]);
@@ -120,6 +112,7 @@ export const TaskTabs = () => {
                         <div style={{ maxWidth: '100%' }}>
                             <BootstrapTable columns={columns} data={personalTasks} rowEvents={rowEvents} keyField='id' />
                         </div>
+                        <AddTask />
                     </div>
                 </TabPanel>
             </Tabs>
