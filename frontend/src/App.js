@@ -16,9 +16,10 @@ function App() {
   const [ currentUser, setCurrentUser ] = useState({ user_id: "12345", user_name: "Ricky" });
   const [ userLogin, setUserLogin ] = useState(false);
   const [userAuth, setUserAuth] = useState(false)
+  const[reFetch, setReFetch] = useState(false);
   
   return (
-    <GlobalContext.Provider value={{ selectedTask, setSelectedTask, selectedLocation, setSelectedLocation, currentUser, setCurrentUser, userLogin, setUserLogin, userAuth, setUserAuth }}>
+    <GlobalContext.Provider value={{ selectedTask, setSelectedTask, selectedLocation, setSelectedLocation, currentUser, setCurrentUser, userLogin, setUserLogin, userAuth, setUserAuth, reFetch, setReFetch }}>
       <AllRoutes />
     </GlobalContext.Provider>
   );
