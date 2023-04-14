@@ -83,7 +83,13 @@ const AddTask = () => {
         setLocPMHours(e.target.value);
     }
     const handleLocDaysChange = (e) => {
-        setDays(...e.target.value);
+        if(e.target.checked){
+            //add
+            setDays([...days, e.target.value]);
+        } else{
+            // //remove
+            setDays(days.filter(day => day !== e.target.value));
+        }        
     }
     const handleLocURLChange = (e) => {
         setLocURL(e.target.value);
@@ -112,13 +118,28 @@ const AddTask = () => {
         handleClose();
     }
     const addLocation = () => {
-        console.log(locAMHours + " A.M. to " + locPMHours + " P.M.")
+        let hours = locAMHours + " A.M. to " + locPMHours + " P.M.";
+        let daysOfWeek = "";
+        if(days.includes("M") && days.includes("T") && days.includes("W") && days.includes("T") && days.includes("F")){
+            hours = hours + " M-F"
+        } else {
+            for (let i = 0; i < days.length; i++) {
+                const element = days[i];
+                daysOfWeek += element + ", "
+            }
+            daysOfWeek = daysOfWeek.slice(0, daysOfWeek.length-2)
+        }
+
+        console.log(hours)
+
+        console.log(daysOfWeek)
+
         const newLocation = {
             "building": locBuilding,
             "room": locRoom,
             "address": locAddress,
             "phone_number": locPhone,
-            "hours": locAMHours + " A.M. to " + locPMHours + " P.M.",
+            "hours": hours,
             "url": locURL,
             "notes": locNotes
         }
@@ -287,19 +308,19 @@ const AddTask = () => {
                                         </span>
                                         <span>
                                             <Form.Label for="Sunday">S</Form.Label>
-                                            <input type="checkbox" className="dayOfWeek" id="Sunday" value="Sunday" onChange={handleLocDaysChange}></input>
+                                            <input type="checkbox" className="dayOfWeek" id="Sunday" value="S" onChange={handleLocDaysChange}></input>
                                             <Form.Label for="Monday">M</Form.Label>
-                                            <input type="checkbox" className="dayOfWeek" id="Monday" value="Monday" onChange={handleLocDaysChange}></input>
+                                            <input type="checkbox" className="dayOfWeek" id="Monday" value="M" onChange={handleLocDaysChange}></input>
                                             <Form.Label for="Tuesday">T</Form.Label>
-                                            <input type="checkbox" className="dayOfWeek" id="Tuesday" value="Tuesday" onChange={handleLocDaysChange}></input>
+                                            <input type="checkbox" className="dayOfWeek" id="Tuesday" value="T" onChange={handleLocDaysChange}></input>
                                             <Form.Label for="Wednesday">W</Form.Label>
-                                            <input type="checkbox" className="dayOfWeek" id="Wednesday" value="Wednesday" onChange={handleLocDaysChange}></input>
+                                            <input type="checkbox" className="dayOfWeek" id="Wednesday" value="W" onChange={handleLocDaysChange}></input>
                                             <Form.Label for="Thursday">Th</Form.Label>
-                                            <input type="checkbox" className="dayOfWeek" id="Thursday" value="Thursday" onChange={handleLocDaysChange}></input>
+                                            <input type="checkbox" className="dayOfWeek" id="Thursday" value="Th" onChange={handleLocDaysChange}></input>
                                             <Form.Label for="Friday">F</Form.Label>
-                                            <input type="checkbox" className="dayOfWeek" id="Friday" value="Friday" onChange={handleLocDaysChange}></input>
+                                            <input type="checkbox" className="dayOfWeek" id="Friday" value="F" onChange={handleLocDaysChange}></input>
                                             <Form.Label for="Saturday">S</Form.Label>
-                                            <input type="checkbox" className="dayOfWeek" id="Saturday" value="Saturday" onChange={handleLocDaysChange}></input>
+                                            <input type="checkbox" className="dayOfWeek" id="Saturday" value="S" onChange={handleLocDaysChange}></input>
                                         </span>
                                     </Row>
                                     <Row>
