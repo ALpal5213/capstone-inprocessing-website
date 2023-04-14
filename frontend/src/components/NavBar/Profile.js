@@ -6,27 +6,24 @@ import './Profile.css'
 import Nav from 'react-bootstrap/Nav';
 import { GlobalContext } from '../../App';
 
-
-
 const Profile = () => {
     const { userLogin, currentUser } = useContext(GlobalContext);
-    const [unit, setUnit] = useState({unit_name:""});
-    const [job, setJob] = useState({job_name:""});
+    const [unit, setUnit] = useState({ unit_name: "" });
+    const [job, setJob] = useState({ job_name: "" });
     useEffect(() => {
         fetch(`http://localhost:3001/table/Units/${userLogin.unit_id}`)
             .then(res => res.json())
-            .then(data => 
-                { setUnit(data[0])
-                })
+            .then(data => {
+                setUnit(data[0])
+            })
 
     }, [])
     useEffect(() => {
         fetch(`http://localhost:3001/table/Jobs/${userLogin.job_id}`)
             .then(res => res.json())
-            .then(data => 
-                { setJob(data[0])
-                    console.log(data)
-                })
+            .then(data => {
+                setJob(data[0])
+            })
 
     }, [])
 
@@ -111,7 +108,8 @@ const Profile = () => {
                                             <strong>Email</strong>
                                         </td>
                                         <td>
-                                            <div> {userLogin.username}@gmail.com</div>                                        </td>
+                                            <div> {userLogin.username}@gmail.com</div>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -120,30 +118,6 @@ const Profile = () => {
                 </div>
             </div>
         </div>
-        // <table>
-        //     <tbody>
-        //         <tr>
-        //             <td>First Name</td>
-        //             {/* <td>${name1}</td> */}
-        //         </tr>
-        //         <tr>
-        //             <td>Last Name</td>
-        //             {/* <td>${name2}</td> */}
-        //         </tr>
-        //         <tr>
-        //             <td>Role</td>
-        //             {/* <td>${name2}</td> */}
-        //         </tr>
-        //         <tr>
-        //             <td>Email</td>
-        //             {/* <td>${email}</td> */}
-        //         </tr>
-        //         <tr>
-        //             <td>Password</td>
-        //             {/* <td>${pswrd}</td> */}
-        //         </tr>
-        //     </tbody>
-        // </table>
     )
 }
 export default Profile;

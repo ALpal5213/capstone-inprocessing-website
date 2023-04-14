@@ -50,22 +50,28 @@ export const TaskTabs = () => {
       )
     }
 
+    const dateFormatter =(cell, row, formatExtraData)=>{
+        let split = cell.split('T')
+        cell = split[0]
+        return(
+            <span>{cell}</span>
+          )
+    }
+
     const columns = [
         { text: 'Name', dataField: 'task_name' },
         { text: 'Priority', dataField: 'priority', sort: true },
-        { text: 'Due Date', dataField: 'due_date', sort: true},
+        { text: 'Due Date', dataField: 'due_date',
+        formatter: dateFormatter,
+        sort: true},
         { text: 'status', dataField: 'status', 
         formatter: statusFormatter,
            sort: true }
     ];
 
-    let statusList = ['complete', 'pending', 'incomplete']
-
     const rowEvents = {
         onClick: (row, cell) => {
-            console.log(cell)
             navigate('/details/', { state: cell })
-
         }
     }
 
