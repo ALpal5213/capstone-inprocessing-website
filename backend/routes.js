@@ -241,7 +241,7 @@ routePath.patch("/tasks/:id", (request, response) => {
         .where({ id: id })
         .update(changes)
         .then(data => response.status(200).send("Patched"))
-        .catch(error => response.status(405).send("Not patched"))
+        .catch(error => response.status(405).send(error))
 });
 
 /* DELETE *******************************************************************/
