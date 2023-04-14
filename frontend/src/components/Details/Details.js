@@ -29,6 +29,8 @@ const Details = () => {
     const splitDate = task.due_date.split('T');
     const formattedDate = splitDate[0];
     return (
+
+        <>
         <Container>
             <div>{task.task_name}
                 <Button variant="warning" onClick={() => setEdits(true)} className='detailH1Button'>Edit</Button>{' '}
@@ -58,6 +60,10 @@ const Details = () => {
                 </Accordion.Item>
             </Accordion>}
         </Container>
+
+        <FileUpload/>
+        </>
+      
     );
 }
 export default Details;

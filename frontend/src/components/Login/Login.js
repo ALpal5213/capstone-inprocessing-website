@@ -41,7 +41,10 @@ export const Login = () => {
         body: JSON.stringify({ "authenticated": true, id: userId })
       }).then(res => res.json())
         .then(data => {
-          Cookies.set('session_id', `${data.session_id}`, { expires: 1, path: '/login' });
+
+          //Set cookies for session Id and User Id
+          Cookies.set('session_id', `${data.session_id}`, { expires: 1, path: '/', sameSite:'strict' });
+          Cookies.set('user_id', `${data.user_id}`, { expires: 1, path: '/',  sameSite:'strict' });
           setUserAuth(true)
           console.log(data)
         })

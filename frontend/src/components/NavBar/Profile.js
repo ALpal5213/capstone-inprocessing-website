@@ -10,22 +10,23 @@ const Profile = () => {
     const { userLogin, currentUser } = useContext(GlobalContext);
     const [unit, setUnit] = useState({ unit_name: "" });
     const [job, setJob] = useState({ job_name: "" });
+
     useEffect(() => {
+
         fetch(`http://localhost:3001/table/Units/${userLogin.unit_id}`)
             .then(res => res.json())
             .then(data => {
                 setUnit(data[0])
             })
 
-    }, [])
-    useEffect(() => {
         fetch(`http://localhost:3001/table/Jobs/${userLogin.job_id}`)
             .then(res => res.json())
             .then(data => {
                 setJob(data[0])
+                console.log(data)
             })
 
-    }, [])
+    }, [userLogin])
 
     return (
         <div className="container">
