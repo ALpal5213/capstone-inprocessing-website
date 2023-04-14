@@ -2,8 +2,9 @@
 import Details from './components/Details/Details.js';
 import React, { useState, createContext } from 'react';
 import { AllRoutes } from './components/Routes/AllRoutes.js';
+
 //Styling Imports
-// import './App.css';
+import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 //Create Application Context
@@ -15,12 +16,15 @@ function App() {
   const [ selectedLocation, setSelectedLocation ] = useState({ location_id: "7", building: "7000", room: "27A", phone_number: "3675309", address: "27 W Palm Street", hours: "1300-1500 M-F", url: "https:www.finishmyinprocessing.com", notes: "these are notes." });
   const [ currentUser, setCurrentUser ] = useState({ user_id: "12345", user_name: "Ricky" });
   const [ userLogin, setUserLogin ] = useState(false);
-  const [userAuth, setUserAuth] = useState(false)
+  const [userAuth, setUserAuth] = useState(false);
+  const [theme, setTheme] = useState(true);
   const[reFetch, setReFetch] = useState(false);
   
   return (
     <GlobalContext.Provider value={{ selectedTask, setSelectedTask, selectedLocation, setSelectedLocation, currentUser, setCurrentUser, userLogin, setUserLogin, userAuth, setUserAuth, reFetch, setReFetch }}>
-      <AllRoutes />
+      <div className={theme ? 'dark-theme' : 'light-theme'}>
+        <AllRoutes />
+      </div>
     </GlobalContext.Provider>
   );
 }
