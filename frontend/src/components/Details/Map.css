@@ -1,0 +1,36 @@
+.map-wrapper{
+  /* border: solid blue 3px; */
+  /* height: 600px; */
+}
+
+.map-container {
+  height: 500px;
+  width: 100%;
+  border-radius: 10px;
+  z-index: 1;
+}
+
+.mapboxgl-ctrl-bottom-right {
+  display: none !important
+}
+
+/* .mapboxgl-canvas {
+  width: 100% !important;
+} */
+
+.reset-btn{
+  width: 160px !important;
+  height: 40px;
+  border-radius: 5px;
+  background-color: #015555;
+  color: white;
+  z-index: 2;
+}
+
+
+.style-btn{
+ 
+  margin-left: 500px;
+  
+
+}

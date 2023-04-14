@@ -5,6 +5,7 @@ import { CreateAccount } from '../Login/CreateAccount'
 import { HomePage } from '../Home/HomePage'
 import Profile from '../NavBar/Profile'
 import AppNavBar from '../NavBar/AppNavBar'
+import Map from '../Details/Map'
 import { NotAuthorized } from './NotAuthorized'
 import { DetailsPage } from '../Details/DetailsPage'
 
