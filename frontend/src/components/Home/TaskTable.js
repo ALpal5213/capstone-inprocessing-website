@@ -9,7 +9,7 @@ import AddTask from "./AddTask"
 
 export const TaskTabs = () => {
     const navigate = useNavigate();
-    const { userLogin } = useContext(GlobalContext);
+    const { userLogin,reFetch,setReFetch } = useContext(GlobalContext);
 
     const [installationTasks, setInstallationTasks] = useState([]);
     const [unitTasks, setUnitTasks] = useState([]);
@@ -25,7 +25,7 @@ export const TaskTabs = () => {
                 setUnitTasks(data.filter((task) => task.task_type === 'unit'))
                 setPersonalTasks(data.filter((task) => task.task_type === 'personal'))
             })
-    }, [userLogin])
+    }, [userLogin, reFetch])
 
     const statusFormatter =(cell,row,formatExtraData)=>{
       if(cell === 'pending')

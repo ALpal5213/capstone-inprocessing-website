@@ -18,9 +18,10 @@ function App() {
   const [ userLogin, setUserLogin ] = useState(false);
   const [userAuth, setUserAuth] = useState(false);
   const [theme, setTheme] = useState(true);
+  const[reFetch, setReFetch] = useState(false);
   
   return (
-    <GlobalContext.Provider value={{ selectedTask, setSelectedTask, selectedLocation, setSelectedLocation, currentUser, setCurrentUser, userLogin, setUserLogin, userAuth, setUserAuth }}>
+    <GlobalContext.Provider value={{ selectedTask, setSelectedTask, selectedLocation, setSelectedLocation, currentUser, setCurrentUser, userLogin, setUserLogin, userAuth, setUserAuth, reFetch, setReFetch }}>
       <div className={theme ? 'dark-theme' : 'light-theme'}>
         <AllRoutes />
       </div>
