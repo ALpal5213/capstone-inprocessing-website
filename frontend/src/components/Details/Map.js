@@ -13,7 +13,7 @@ const Map = ({ selectedLocation }) => {
   const [style, setStyle] = useState(false);
   const [marker, setMarker] = useState(null);
 
-  console.log(selectedLocation);
+  // console.log(selectedLocation);
 
   const handleHome = () => {
     map.current.flyTo({
