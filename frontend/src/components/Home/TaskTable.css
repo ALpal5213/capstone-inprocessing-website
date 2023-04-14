@@ -6,16 +6,34 @@
 .Task-Tabs-Div {
   border-radius: 10px;
   width: 80%;
-  height: 500px;
+  height: 600px;
   background-color: rgba(206, 212, 218, .5);
-  display: flex;
+  display: flex; 
   justify-content: center;
-  padding: 25px 25px 25px 25px;
+  padding: 40px;
   margin-bottom: 10%;
   margin-top:10%;
+  contain:strict;
 }
 
-.react-tabs {
+.p-bar-center {
+  display: flex;
+  justify-content: center;
+}
+
+.p-bar {
+  margin-bottom: 10px;
+  height: 20px !important;
+  border-radius: 10px !important;
+  width: 40%;
+}
+
+.table-container {
+  /* padding: 15px; */
+  margin-top: 20px;
+}
+
+.react-tabs { 
   display: flex;
   width: 100%;
   overflow: hidden;
@@ -75,8 +93,6 @@
 th {
   border: none !important;
 }
-
-
 
 tr {
   text-align: right;
