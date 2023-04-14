@@ -76,9 +76,15 @@ th {
   border: none !important;
 }
 
+
+
 tr {
   text-align: right;
   border: none !important;
+}
+
+tbody tr:hover {
+  background-color: rgba(77, 77, 77, 0.5);
 }
 
 td {
