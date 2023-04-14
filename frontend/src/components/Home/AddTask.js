@@ -153,7 +153,7 @@ const AddTask = () => {
                 body: JSON.stringify(newLocation)
             })
             .then((res) => res.json())
-            .then((data) => console.log(data))
+            .then((data) => (data))
     }
     const addTask = (location_id) => {
         const newTask = {
@@ -179,7 +179,7 @@ const AddTask = () => {
                 body: JSON.stringify(newTask)
             })
             .then((res) => res.json())
-            .then((data) => console.log(data))
+            .then((data) => (data))
     }
 
     //states for the Modal
