@@ -199,11 +199,11 @@ routePath.post("/session", async function (req, res) {
         req.session.session_id = req.sessionID
         let sid = req.sessionID
         knex('Users')
-            .where({ id: req.body.id })
-            .modify((queryBuilder) => queryBuilder.update({ session_id: sid })).then(data => {
-                console.log(`Session_id for user of id ${req.body.id} has been changed to:  ${sid}`)
-                return res.status(202).json({ "message": "Session Id Modified at database!", "user_id" : req.body.id, ...req.session })
-            })
+        .where({id: req.body.id})
+        .modify((queryBuilder) => queryBuilder.update({session_id:sid})).then(data => {
+console.log(`Session_id for user of id ${req.body.id} has been changed to:  ${sid}`)
+            return res.status(202).json({"message":"Session Id Modified at database!","user_id":req.body.id, ...req.session})
+        })
     }
     else {
         req.session.destroy();

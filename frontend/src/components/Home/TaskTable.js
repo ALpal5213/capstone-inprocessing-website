@@ -24,7 +24,6 @@ export const TaskTabs = () => {
     const [unitTasks, setUnitTasks] = useState([]);
     const [jobTasks, setJobTasks] = useState([]);
     const [personalTasks, setPersonalTasks] = useState([]);
-    const [task, setTask] = useState({});
 
     useEffect(() => {
         fetch(`http://localhost:3001/tasks-locations/${userLogin.id}`)
@@ -37,17 +36,34 @@ export const TaskTabs = () => {
             })
     }, [userLogin])
 
-    const columns = [
+    const statusFormatter =(cell,row,formatExtraData)=>{
+      if(cell === 'pending')
+        return(
+        <span><Icon.HourglassSplit size={52} /></span>
+      )
+      else if(cell ==='complete')
+      return(
+        <span><Icon.PatchCheckFill color="green" size={52}/></span>
+      )
+      else return(
+        <span><Icon.XSquareFill color="red" size={52}/></span>
+      )
+    }
 
+    const columns = [
         { text: 'Name', dataField: 'task_name' },
         { text: 'Priority', dataField: 'priority', sort: true },
-        { text: 'Due Date', dataField: 'due_date', sort: true },
-        { text: 'Status', dataField: 'status', sort: true }
+        { text: 'Due Date', dataField: 'due_date', sort: true},
+        { text: 'status', dataField: 'status', 
+        formatter: statusFormatter,
+           sort: true }
     ];
 
+    let statusList = ['complete', 'pending', 'incomplete']
+
     const rowEvents = {
-        onClick: (e, cell) => {
-            setTask(cell);
+        onClick: (row, cell) => {
+            console.log(cell)
             navigate('/details/', { state: cell })
 
         }
@@ -82,21 +98,21 @@ export const TaskTabs = () => {
                 <TabPanel>
                     <div className="panel-content">
                         <div style={{ maxWidth: '100%' }}>
-                            <BootstrapTable columns={columns} data={unitTasks} keyField='id' />
+                            <BootstrapTable columns={columns} data={unitTasks} rowEvents={rowEvents} keyField='id' />
                         </div>
                     </div>
                 </TabPanel>
                 <TabPanel>
                     <div className="panel-content">
                         <div style={{ maxWidth: '100%' }}>
-                            <BootstrapTable columns={columns} data={jobTasks} keyField='id' />
+                            <BootstrapTable columns={columns} data={jobTasks} rowEvents={rowEvents} keyField='id' />
                         </div>
                     </div>
                 </TabPanel>
                 <TabPanel>
                     <div className="panel-content">
                         <div style={{ maxWidth: '100%' }}>
-                            <BootstrapTable columns={columns} data={personalTasks} keyField='id' />
+                            <BootstrapTable columns={columns} data={personalTasks} rowEvents={rowEvents} keyField='id' />
                         </div>
                     </div>
                 </TabPanel>

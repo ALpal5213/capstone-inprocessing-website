@@ -1,5 +1,7 @@
-import { Container, Navbar, Nav } from 'react-bootstrap'
-import React, { useContext, useEffect, useState } from 'react';
+import Container from 'react-bootstrap/Container';
+import React, { useContext, useEffect } from 'react';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../../App';
 import './AppNavBar.css'
@@ -7,26 +9,33 @@ import Cookies from 'js-cookie'
 
 const AppNavBar = () => {
   const navigate = useNavigate();
-  const { userLogin, setUserLogin, userAuth, setUserAuth } = useContext(GlobalContext);
-  const [cookieState, setCookieState] = useState(false);
+  const { userLogin, setUserLogin } = useContext(GlobalContext);
+
+  useEffect(() => {
+    var user_id = Cookies.get('user_id')
+    console.log(user_id)
+    var session_id = Cookies.get('session_id')
+    console.log(session_id)
+
+    fetch(`http://localhost:3001/Table/Users/${user_id}`)
+      .then(res => res.json())
+      .then(data => {
+        setUserLogin(data[0])
+      })
+
+
+  }, [])
 
   const userLogout = () => {
-    if(Cookies.get('session_id')){
-      console.log('test')
-      document.cookie = "username=John Doe; expires=Thu, 18 Dec 2023 12:00:00 UTC";
-      document.cookie = "username=John Doe; expires=Thu, 18 Dec 2023 12:00:00 UTC";
-    Cookies.remove()
-    
-    // setUserLogin(false)
-    // setUserAuth(false)
-    // navigate('/login')
-    }
-
+    setUserLogin(false)
+    Cookies.remove('session_id')
+    Cookies.remove('user_id')
+    navigate('/login')
   }
 
   const navBarContent = () => {
-    if (userLogin === false && userAuth === false) {
-      return null
+    if (userLogin === false) {
+      return ''
     } else {
       return (
         <Navbar bg="dark" variant='dark' export="lg" textcolor="white">
