@@ -20,8 +20,8 @@
 
 .loginDiv {
   width: 500px;
-  height: 340px;
-  margin-top: -135px;
+  height: 325px;
+  margin-top: -162.5px;
 }
 
 .createDiv {
@@ -92,4 +92,8 @@
 
 .newAccountLinkDiv {
   display: inline-block;
+}
+
+.divButton {
+  margin-top: 3px;
 }
