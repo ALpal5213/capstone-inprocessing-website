@@ -28,6 +28,8 @@ const Details = () => {
     }
 
     return (
+
+        <>
         <Container>
             <div>{task.task_name}
                 <Button variant="warning" onClick={() => setEdits(true)} className='detailH1Button'>Edit</Button>{' '}
@@ -57,6 +59,10 @@ const Details = () => {
             {/* <Button variant="warning" className='detailH1Button'>Edit</Button>{' '} */}
             {/* <Button variant="danger" className='detailH1Button'>Delete</Button>{' '} */}
         </Container>
+
+        <FileUpload/>
+        </>
+      
     );
 }
 export default Details;
