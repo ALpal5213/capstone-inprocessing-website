@@ -27,6 +27,7 @@ const AddTask = () => {
     const [locPMHours, setLocPMHours] = useState("5");
     const [locPhone, setLocPhone] = useState("");
     const [locURL, setLocURL] = useState("");
+    const [days, setDays] = useState([]);
     const [locNotes, setLocNotes] = useState("");
     const [taskUpload, setTaskUpload] = useState(false);
     const [taskDownload, setTaskDownload] = useState(false);
@@ -81,6 +82,9 @@ const AddTask = () => {
     const handleLocPMHoursChange = (e) => {
         setLocPMHours(e.target.value);
     }
+    const handleLocDaysChange = (e) => {
+        setDays(...e.target.value);
+    }
     const handleLocURLChange = (e) => {
         setLocURL(e.target.value);
     }
@@ -132,7 +136,7 @@ const AddTask = () => {
     }
     const addTask = (location_id) => {
         const newTask = {
-            "user_id": 103,
+            "user_id": 1,
             "location_id": location_id,
             "task_name": taskName,
             "task_description": taskDesc,
@@ -283,19 +287,19 @@ const AddTask = () => {
                                         </span>
                                         <span>
                                             <Form.Label for="Sunday">S</Form.Label>
-                                            <input type="checkbox" className="dayOfWeek" id="Sunday"></input>
+                                            <input type="checkbox" className="dayOfWeek" id="Sunday" value="Sunday" onChange={handleLocDaysChange}></input>
                                             <Form.Label for="Monday">M</Form.Label>
-                                            <input type="checkbox" className="dayOfWeek" id="Monday"></input>
+                                            <input type="checkbox" className="dayOfWeek" id="Monday" value="Monday" onChange={handleLocDaysChange}></input>
                                             <Form.Label for="Tuesday">T</Form.Label>
-                                            <input type="checkbox" className="dayOfWeek" id="Tuesday"></input>
+                                            <input type="checkbox" className="dayOfWeek" id="Tuesday" value="Tuesday" onChange={handleLocDaysChange}></input>
                                             <Form.Label for="Wednesday">W</Form.Label>
-                                            <input type="checkbox" className="dayOfWeek" id="Wednesday"></input>
+                                            <input type="checkbox" className="dayOfWeek" id="Wednesday" value="Wednesday" onChange={handleLocDaysChange}></input>
                                             <Form.Label for="Thursday">Th</Form.Label>
-                                            <input type="checkbox" className="dayOfWeek" id="Thursday"></input>
+                                            <input type="checkbox" className="dayOfWeek" id="Thursday" value="Thursday" onChange={handleLocDaysChange}></input>
                                             <Form.Label for="Friday">F</Form.Label>
-                                            <input type="checkbox" className="dayOfWeek" id="Friday"></input>
+                                            <input type="checkbox" className="dayOfWeek" id="Friday" value="Friday" onChange={handleLocDaysChange}></input>
                                             <Form.Label for="Saturday">S</Form.Label>
-                                            <input type="checkbox" className="dayOfWeek" id="Saturday"></input>
+                                            <input type="checkbox" className="dayOfWeek" id="Saturday" value="Saturday" onChange={handleLocDaysChange}></input>
                                         </span>
                                     </Row>
                                     <Row>
