@@ -1,5 +1,5 @@
 import Details from "./Details";
-import { Footer } from "../Footer/Footer";
+import { Footer } from "../Home/Footer";
 
 export const DetailsPage = () => {
 
