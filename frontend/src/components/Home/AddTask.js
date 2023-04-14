@@ -165,7 +165,7 @@ const AddTask = () => {
 
     return (
         <>
-            <button type="button" className="btn btn-primary" onClick={handleShow}>Open</button>
+            <button type="button" className="btn btn-primary" onClick={handleShow}>Add Task</button>
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header>

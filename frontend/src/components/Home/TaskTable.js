@@ -5,20 +5,12 @@ import * as Icon from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 import BootstrapTable from 'react-bootstrap-table-next'
 import { GlobalContext } from '../../App';
+import AddTask from './AddTask';
 
 
 export const TaskTabs = () => {
     const navigate = useNavigate();
     const { userLogin } = useContext(GlobalContext);
-
-
-    const taskIcons = {
-        pending: <Icon.HourglassSplit />,
-        complete: <Icon.PatchCheckFill />,
-        highP: <Icon.ExclamationOctagonFill />,
-        medP: <Icon.ExclamationDiamondFill />,
-        lowP: <Icon.ExclamationLg />
-    }
 
     const [installationTasks, setInstallationTasks] = useState([]);
     const [unitTasks, setUnitTasks] = useState([]);
@@ -50,22 +42,28 @@ export const TaskTabs = () => {
       )
     }
 
+    const dateFormatter =(cell, row, formatExtraData)=>{
+        let split = cell.split('T')
+        cell = split[0]
+        return(
+            <span>{cell}</span>
+          )
+    }
+
     const columns = [
         { text: 'Name', dataField: 'task_name' },
         { text: 'Priority', dataField: 'priority', sort: true },
-        { text: 'Due Date', dataField: 'due_date', sort: true},
+        { text: 'Due Date', dataField: 'due_date',
+        formatter: dateFormatter,
+        sort: true},
         { text: 'status', dataField: 'status', 
         formatter: statusFormatter,
            sort: true }
     ];
 
-    let statusList = ['complete', 'pending', 'incomplete']
-
     const rowEvents = {
         onClick: (row, cell) => {
-            console.log(cell)
             navigate('/details/', { state: cell })
-
         }
     }
 
@@ -114,6 +112,7 @@ export const TaskTabs = () => {
                         <div style={{ maxWidth: '100%' }}>
                             <BootstrapTable columns={columns} data={personalTasks} rowEvents={rowEvents} keyField='id' />
                         </div>
+                        <AddTask />
                     </div>
                 </TabPanel>
             </Tabs>
