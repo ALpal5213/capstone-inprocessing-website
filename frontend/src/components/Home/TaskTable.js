@@ -5,8 +5,7 @@ import * as Icon from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 import BootstrapTable from 'react-bootstrap-table-next'
 import { GlobalContext } from '../../App';
-import AddTask from './AddTask';
-
+import AddTask from "./AddTask"
 
 export const TaskTabs = () => {
     const navigate = useNavigate();
@@ -68,6 +67,7 @@ export const TaskTabs = () => {
     }
 
     return (
+        <div className="table-wrapper">
         <div className="Task-Tabs-Div">
             <Tabs>
                 <TabList>
@@ -84,38 +84,42 @@ export const TaskTabs = () => {
                         <p>Personal</p>
                     </Tab>
                 </TabList>
-                <div>
-                    <TabPanel>
-                        <div className="panel-content">
-                            <div className='taskTable-div' style={{ maxWidth: '100%' }}>
-                                <BootstrapTable columns={columns} data={installationTasks} rowEvents={rowEvents} keyField='id' />
-                            </div>
-                        </div>
-                    </TabPanel>
-                </div>
+
                 <TabPanel>
                     <div className="panel-content">
-                        <div style={{ maxWidth: '100%' }}>
+                        <div className='taskTable-div' style={{ maxWidth: '100%' }}>
+                            <BootstrapTable columns={columns} data={installationTasks} rowEvents={rowEvents} keyField='id' />
+                        </div>
+                    </div>
+                </TabPanel>
+
+                <TabPanel >
+                    <div className="panel-content">
+                        <div className='taskTable-div' style={{ maxWidth: '100%' }}>
                             <BootstrapTable columns={columns} data={unitTasks} rowEvents={rowEvents} keyField='id' />
                         </div>
                     </div>
                 </TabPanel>
+
                 <TabPanel>
                     <div className="panel-content">
-                        <div style={{ maxWidth: '100%' }}>
+                        <div className='taskTable-div' style={{ maxWidth: '100%' }}>
                             <BootstrapTable columns={columns} data={jobTasks} rowEvents={rowEvents} keyField='id' />
                         </div>
                     </div>
                 </TabPanel>
+
                 <TabPanel>
                     <div className="panel-content">
-                        <div style={{ maxWidth: '100%' }}>
+                        <div className='taskTable-div' style={{ maxWidth: '100%' }}>
                             <BootstrapTable columns={columns} data={personalTasks} rowEvents={rowEvents} keyField='id' />
                         </div>
                         <AddTask />
                     </div>
+                    <AddTask />
                 </TabPanel>
             </Tabs>
+        </div>
         </div>
     )
 }
