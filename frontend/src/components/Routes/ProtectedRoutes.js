@@ -13,7 +13,7 @@ export const ProtectedRoutes = () => {
 
     if ( Cookies.get('session_id') ) {
         let cookie = Cookies.get('session_id');
-        console.log(cookie)
+        // console.log(cookie)
 
         fetch(`http://localhost:3001/sessionId/${cookie}`)
             .then(res => res.json())
