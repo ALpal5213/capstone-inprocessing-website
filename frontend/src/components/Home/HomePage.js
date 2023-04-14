@@ -7,7 +7,6 @@ export const HomePage = () => {
 
     return (
         <>
-            <AppNavBar />
             <AddTask />
             {/* <ProgressBar /> */}
             <TaskTabs />

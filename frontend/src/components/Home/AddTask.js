@@ -19,7 +19,7 @@ const AddTask = () => {
     const [taskDueDate, setTaskDueDate] = useState("");
     const [taskPriority, setTaskPriority] = useState("Low");
     const [mil_or_civ, setMilOrCiv] = useState("");
-    const [loc, setLoc] = useState("");
+    const [loc, setLoc] = useState(1);
     const [locAddress, setLocAddress] = useState("");
     const [locBuilding, setLocBuilding] = useState("");
     const [locRoom, setLocRoom] = useState("");
@@ -60,6 +60,7 @@ const AddTask = () => {
         setTaskDownload(e.target.checked);
     }
     const handleLocChange = (e) => {
+        console.log(e.target.value)
         setLoc(e.target.value);
     }
     const handleLocBuildingChange = (e) => {
@@ -97,13 +98,14 @@ const AddTask = () => {
     const submitRequest = () => {
         if (showNewLocation) { //user adding a new location to a task
             //create a new location first
-            addLocation()
+                //addLocation() FIX after changing inputs
             //then create a new task with the location of the task being the new location id
             const last_loc = locations[locations.length - 1]
             addTask(last_loc.id + 1)
         } else { //user adding an existing location to a task
             addTask(loc)
         }
+        setShow(false);
     }
     const addLocation = () => {
         const newLocation = {
@@ -116,7 +118,7 @@ const AddTask = () => {
             "notes": locNotes
         }
 
-        fetch(`https://localhost:3001/locations`,
+        fetch("http://localhost:3001/locations",
             {
                 method: "POST",
                 headers: {
@@ -129,8 +131,8 @@ const AddTask = () => {
     }
     const addTask = (location_id) => {
         const newTask = {
-            "user_id": 4,
-            "location_id": 4,
+            "user_id": 103,
+            "location_id": location_id,
             "task_name": taskName,
             "task_description": taskDesc,
             "priority": taskPriority,
@@ -142,13 +144,11 @@ const AddTask = () => {
             "has_download": taskDownload
         }
 
-        console.log(newTask)
-
-        fetch(`https://localhost:3001/tasks`,
+        fetch("http://localhost:3001/tasks",
             {
                 method: "POST",
                 headers: {
-                    'Content-Type': "application/json",
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify(newTask)
             })
@@ -178,7 +178,7 @@ const AddTask = () => {
                     </Row>
                     <Row class="form-group">
                         <label for="newTaskDesc">Task Description*</label>
-                        <textarea id="newTaskDesc" rows="4" cols="50" placeholder="Task Description" onBlue={handleTaskDescChange}></textarea>
+                        <textarea id="newTaskDesc" rows="4" cols="50" placeholder="Task Description" onBlur={handleTaskDescChange}></textarea>
                     </Row>
                     <Row class="form-group">
                         <label for="newTaskDueDate">Due Date*</label>
@@ -214,13 +214,13 @@ const AddTask = () => {
                             <select className="form-control" id="newTaskPriority">
                                 {
                                     //FIX on change and on select
-                                    locations.map((location) => <option value={location.id} onChange={handleLocChange} onSelect={handleCloseNewLocation}>{location.building}</option>)
+                                    locations.map((location) => <option value={location.id} onSelect={handleLocChange}>{location.building}</option>)
                                 }
                                 <option id="newLocation" value="newLocation" onSelect={handleShowNewLocation}>Add Location</option>
                             </select>
                         </Col>
                     </Row>
-                    <div id="locationDiv" show={showNewLocation}>
+                    <div id="locationDiv">
                         <Row>
                             <input type="text" className="form-control" id="newLocAddress" placeholder="Address" onBlur={handleLocAddressChange}></input>
                             <Col>
