@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import BootstrapTable from 'react-bootstrap-table-next'
 import { GlobalContext } from '../../App';
 import AddTask from "./AddTask"
+// import ProgressBar from "./ProgressBar"
+import {Container, Row, Col, ProgressBar} from 'react-bootstrap'
 
 export const TaskTabs = () => {
     const navigate = useNavigate();
@@ -66,9 +68,24 @@ export const TaskTabs = () => {
         }
     }
 
+    const calcProgress = (taskArray) => {
+        let count = 0;
+        if(taskArray.length > 0) {
+            for(let i = 0; i < taskArray.length; i++) {
+                if(taskArray[i].status === 'complete') {
+                    count++;
+                }
+            }
+        }
+        
+        return (count / taskArray.length) * 100;
+    }
+
     return (
         <div className="table-wrapper">
+            
         <div className="Task-Tabs-Div">
+            
             <Tabs>
                 <TabList>
                     <Tab>
@@ -87,6 +104,9 @@ export const TaskTabs = () => {
 
                 <TabPanel>
                     <div className="panel-content">
+                        <div className="p-bar-center">
+                            <ProgressBar className="p-bar" variant="info" now={calcProgress(installationTasks)} label/>
+                        </div>
                         <div className='taskTable-div' style={{ maxWidth: '100%' }}>
                             <BootstrapTable columns={columns} data={installationTasks} rowEvents={rowEvents} keyField='id' />
                         </div>
@@ -95,6 +115,9 @@ export const TaskTabs = () => {
 
                 <TabPanel >
                     <div className="panel-content">
+                        <div className="p-bar-center">
+                            <ProgressBar className="p-bar" variant="info" now={calcProgress(unitTasks)} label/>
+                        </div>
                         <div className='taskTable-div' style={{ maxWidth: '100%' }}>
                             <BootstrapTable columns={columns} data={unitTasks} rowEvents={rowEvents} keyField='id' />
                         </div>
@@ -103,6 +126,9 @@ export const TaskTabs = () => {
 
                 <TabPanel>
                     <div className="panel-content">
+                        <div className="p-bar-center">
+                            <ProgressBar className="p-bar" variant="info" now={calcProgress(jobTasks)} label/>
+                        </div>
                         <div className='taskTable-div' style={{ maxWidth: '100%' }}>
                             <BootstrapTable columns={columns} data={jobTasks} rowEvents={rowEvents} keyField='id' />
                         </div>
@@ -111,6 +137,9 @@ export const TaskTabs = () => {
 
                 <TabPanel>
                     <div className="panel-content">
+                        <div className="p-bar-center">
+                            <ProgressBar className="p-bar" variant="info" now={calcProgress(personalTasks)}/>
+                        </div>
                         <div className='taskTable-div' style={{ maxWidth: '100%' }}>
                             <BootstrapTable columns={columns} data={personalTasks} rowEvents={rowEvents} keyField='id' />
                         </div>
