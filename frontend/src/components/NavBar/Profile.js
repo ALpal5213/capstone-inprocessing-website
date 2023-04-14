@@ -6,8 +6,6 @@ import './Profile.css'
 import Nav from 'react-bootstrap/Nav';
 import { GlobalContext } from '../../App';
 
-
-
 const Profile = () => {
     const { userLogin, currentUser } = useContext(GlobalContext);
     const [unit, setUnit] = useState({ unit_name: "" });
@@ -111,7 +109,8 @@ const Profile = () => {
                                             <strong>Email</strong>
                                         </td>
                                         <td>
-                                            <div> {userLogin.username}@gmail.com</div>                                        </td>
+                                            <div> {userLogin.username}@gmail.com</div>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -120,30 +119,6 @@ const Profile = () => {
                 </div>
             </div>
         </div>
-        // <table>
-        //     <tbody>
-        //         <tr>
-        //             <td>First Name</td>
-        //             {/* <td>${name1}</td> */}
-        //         </tr>
-        //         <tr>
-        //             <td>Last Name</td>
-        //             {/* <td>${name2}</td> */}
-        //         </tr>
-        //         <tr>
-        //             <td>Role</td>
-        //             {/* <td>${name2}</td> */}
-        //         </tr>
-        //         <tr>
-        //             <td>Email</td>
-        //             {/* <td>${email}</td> */}
-        //         </tr>
-        //         <tr>
-        //             <td>Password</td>
-        //             {/* <td>${pswrd}</td> */}
-        //         </tr>
-        //     </tbody>
-        // </table>
     )
 }
 export default Profile;
