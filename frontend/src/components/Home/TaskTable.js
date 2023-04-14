@@ -114,7 +114,6 @@ export const TaskTabs = () => {
                         <div className='taskTable-div' style={{ maxWidth: '100%' }}>
                             <BootstrapTable columns={columns} data={personalTasks} rowEvents={rowEvents} keyField='id' />
                         </div>
-                        <AddTask />
                     </div>
                     <AddTask />
                 </TabPanel>
