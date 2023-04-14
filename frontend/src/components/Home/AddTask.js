@@ -127,12 +127,9 @@ const AddTask = () => {
                 const element = days[i];
                 daysOfWeek += element + ", "
             }
-            daysOfWeek = daysOfWeek.slice(0, daysOfWeek.length-2)
+            daysOfWeek = daysOfWeek.slice(0, daysOfWeek.length-2);
+            hours = hours + " " + daysOfWeek;
         }
-
-        console.log(hours)
-
-        console.log(daysOfWeek)
 
         const newLocation = {
             "building": locBuilding,
@@ -187,6 +184,18 @@ const AddTask = () => {
         setDefaultCheck(true);
         setShowNewLocation(false);
         setLoc(1);
+        setDays([]);
+        setMilOrCiv("Military");
+        setLocAddress("");
+        setLocBuilding("");
+        setLocRoom("");
+        setLocAMHours("8");
+        setLocPMHours("5");
+        setLocPhone("");
+        setLocURL("");
+        setLocNotes("");
+        setTaskUpload(false);
+        setTaskDownload(false);
         setShow(false);
     };
     const handleShow = () => setShow(true);
