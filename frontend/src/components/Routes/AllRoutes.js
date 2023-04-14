@@ -8,7 +8,7 @@ import AppNavBar from '../NavBar/AppNavBar'
 import Map from '../Details/Map'
 import { NotAuthorized } from './NotAuthorized'
 import { DetailsPage } from '../Details/DetailsPage'
-
+import Footer from '../Home/Footer'
 
 
 export const AllRoutes = () => {
@@ -31,6 +31,7 @@ export const AllRoutes = () => {
                 {/* </Route> */}
                 <Route path='*' element={<NotAuthorized/>}></Route>
             </Routes>
+            <Footer/>
         </Router>
 
     )

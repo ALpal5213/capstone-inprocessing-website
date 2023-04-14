@@ -5,7 +5,6 @@ import { StyleHTMLAttributes } from 'react';
 import './Profile.css'
 import Nav from 'react-bootstrap/Nav';
 import { GlobalContext } from '../../App';
-import { Footer } from '../Home/Footer';
 
 const Profile = () => {
     const { userLogin, currentUser } = useContext(GlobalContext);
@@ -121,7 +120,6 @@ const Profile = () => {
                     </div>
                 </div>
             </div>
-            <Footer />
         </>
     )
 }
