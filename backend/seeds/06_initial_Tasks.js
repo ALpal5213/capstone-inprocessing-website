@@ -25,31 +25,31 @@ const randomizeLocation = () => {
 }
 
 const randomize2 = () => {
-  return Math.floor(Math.random() * 1)
-}
-
-const randomize3 = () => {
   return Math.floor(Math.random() * 2)
 }
 
-const randomize4 = () => {
+const randomize3 = () => {
   return Math.floor(Math.random() * 3)
+}
+
+const randomize4 = () => {
+  return Math.floor(Math.random() * 4)
 }
 
 for (let i = 0; i <= 1000; i++){
   fakeTasksList.push({
-    user_id:randomizeUsers(), 
-    location_id:randomizeLocation(),
-    task_name:faker.name.jobArea(),
-    task_description:faker.commerce.productDescription(), 
-    priority:priorities[randomize3()], 
-    task_type:taskTypes[randomize4()], 
-    due_date:faker.date.future(1), 
-    status:statusList[randomize3()], 
-    task_url:faker.internet.url(),
-    mil_or_civ:milOrCivList[randomize3()],
-    has_upload:faker.datatype.boolean(),
-    has_download:faker.datatype.boolean(),
+    user_id: randomizeUsers(), 
+    location_id: randomizeLocation(),
+    task_name: faker.name.jobArea(),
+    task_description: faker.commerce.productDescription(), 
+    priority: priorities[randomize3()], 
+    task_type: taskTypes[randomize3()], 
+    due_date: faker.date.future(1), 
+    status: statusList[randomize3()], 
+    task_url: faker.internet.url(),
+    mil_or_civ: milOrCivList[randomize3()],
+    has_upload: faker.datatype.boolean(),
+    has_download: faker.datatype.boolean(),
   })
 }
 
