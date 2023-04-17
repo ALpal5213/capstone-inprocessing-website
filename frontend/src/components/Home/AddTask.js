@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Col, Row, Modal, Button, Form } from "react-bootstrap";
 import './AddTask.css';
 import { GlobalContext } from '../../App';
+import Cookies from 'js-cookie'
 
 const AddTask = () => {
     const { setReFetch } = useContext(GlobalContext);
@@ -99,6 +100,8 @@ const AddTask = () => {
         setLocNotes(e.target.value);
     }
 
+    var user_id = Cookies.get('user_id')
+
     useEffect(() => {
         fetch('http://localhost:3001/table/Locations')
             .then(res => res.json())
@@ -111,13 +114,12 @@ const AddTask = () => {
             //create a new location first
             addLocation()
             //then create a new task with the location of the task being the new location id
-            const last_loc = locations[locations.length - 1]
-            addTask(last_loc.id + 1)
+            const last_loc = (locations.length + 1)
+            addTask(last_loc)
         } else { //user adding an existing location to a task
             addTask(loc)
         }
         handleClose();
-        setReFetch(true);
     }
 
     const addLocation = () => {
@@ -156,8 +158,8 @@ const AddTask = () => {
             .then((data) => (data))
     }
     const addTask = (location_id) => {
-        const newTask = {
-            "user_id": 1,
+        let newTask = {
+            "user_id": user_id,
             "location_id": location_id,
             "task_name": taskName,
             "task_description": taskDesc,
@@ -169,6 +171,8 @@ const AddTask = () => {
             "has_upload": taskUpload,
             "has_download": taskDownload
         }
+
+        console.log("New task: " + taskName)
 
         fetch("http://localhost:3001/tasks",
             {
@@ -199,6 +203,7 @@ const AddTask = () => {
         setLocNotes("");
         setTaskUpload(false);
         setTaskDownload(false);
+        setReFetch(true);
         setShow(false);
     };
     const handleShow = () => setShow(true);
