@@ -8,7 +8,7 @@ import AppNavBar from '../NavBar/AppNavBar'
 import Map from '../Details/Map'
 import { NotAuthorized } from './NotAuthorized'
 import { DetailsPage } from '../Details/DetailsPage'
-import Footer from '../Home/Footer'
+import {Footer} from '../Footer/Footer'
 
 
 export const AllRoutes = () => {
