@@ -66,7 +66,7 @@
 .react-tabs__tab--selected {
   background: #1c1d1f;
   border-color: #1c1d1f;
-  border-left: 4px solid #6eb800;
+  border-left: 4px solid green;
   border-radius: 5px 0 0 5px;
   color: white;
   padding-left: 21px;
@@ -77,6 +77,16 @@
   width: 100%;
   overflow-y: auto;
   border: none !important;
+}
+
+.react-tabs__tab-panel::-webkit-scrollbar {
+  background: transparent;
+  width: 10px;
+}
+
+.react-tabs__tab-panel::-webkit-scrollbar-thumb {
+  background: green;
+  border-radius: 1vh;
 }
 
 .react-tabs__tab-panel--selected {

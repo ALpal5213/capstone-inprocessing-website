@@ -25,7 +25,7 @@
   border: solid 1px black;
   filter: drop-shadow(5px 10px 2px black);
   border-radius: 10px;
-  background-color: grey;
+  background-color: rgba(206, 212, 218, .5);
   height: 120px;
   max-width: 200px;
   display: flex;
