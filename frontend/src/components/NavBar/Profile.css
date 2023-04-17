@@ -1,7 +1,7 @@
 .table-responsive {
     border-radius: 10px;
     width: 400px;
-    height: 500px;
+    height: 550px;
     background-color: rgba(206, 212, 218, .5);
     display: flex; 
     
@@ -14,14 +14,16 @@
     pointer-events: none;
 }
 .email {
-    border-bottom: solid rgba(206, 212, 218, .5) 1px !important;
+    border-bottom: solid rgba(206, 212, 218, .5) 0px !important;
+    height: 10px;
 }
-.Profile-Lits-row  {
-    color: red;
+.Profile-Lists-row  {
+    color: #4f4f4f;
+    
 }
 
   td {
-    border-bottom: solid black 1px !important;
+    border-bottom: solid black 0px !important;
     border-right: none !important;
     border-left: none !important;
     border-top: solid black 1px !important;
