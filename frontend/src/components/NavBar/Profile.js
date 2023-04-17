@@ -40,9 +40,9 @@ const Profile = () => {
                             <strong>Information</strong><br></br><br></br>
                             <div className="table-responsive">
                                 <table className="table table-user-information">
-                                    <tbody>
-                                        <tr>
-                                            <td>
+                                    <tbody className="Profile-List">
+                                        <tr className="Profile-Lits-row">
+                                            <td className="Profile-data">
                                                 <strong>ID </strong>
                                             </td>
                                             <td>
@@ -105,7 +105,7 @@ const Profile = () => {
                                                 <div>{unit.unit_name}</div>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr className="email">
                                             <td>
                                                 <strong>Email</strong>
                                             </td>

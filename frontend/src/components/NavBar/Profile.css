@@ -1,5 +1,31 @@
+.table-responsive {
+    border-radius: 10px;
+    width: 400px;
+    height: 500px;
+    background-color: rgba(206, 212, 218, .5);
+    display: flex; 
+    
+    padding: 0px;
+    margin-bottom: 20%;
+    margin-top:5%;
+}
+tr.email {
+    border-bottom: solid rgba(206, 212, 218, .5) 1px !important;
+}
+
+
+  td {
+    border-bottom: solid black 1px !important;
+    border-right: none !important;
+    border-left: none !important;
+    border-top: solid black 1px !important;
+    
+  }
+
 .inf-content{
     border:1px solid #DDDDDD;
+    padding-left: 20px;
+    padding-top: 20px;
     -webkit-border-radius:10px;
     -moz-border-radius:10px;
     border-radius:10px;
