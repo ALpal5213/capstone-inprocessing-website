@@ -41,15 +41,15 @@ const Profile = () => {
                             <div className="table-responsive">
                                 <table className="table table-user-information">
                                     <tbody className="Profile-List">
-                                        <tr className="Profile-Lits-row">
-                                            <td className="Profile-data">
+                                        <tr className="Profile-Lits-row noHover">
+                                            <td className="Profile-data ">
                                                 <strong>ID </strong>
                                             </td>
                                             <td>
                                                 <div> {userLogin.id} </div>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr className='noHover'>
                                             <td>
                                                 <strong>Full Name</strong>
                                             </td>
@@ -57,7 +57,7 @@ const Profile = () => {
                                                 <div>{userLogin.fullname} </div>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr className='noHover'>
                                             <td>
                                                 <strong>Username</strong>
                                             </td>
@@ -65,7 +65,7 @@ const Profile = () => {
                                                 <div>{userLogin.username}</div>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr className='noHover'>
                                             <td>
                                                 <strong>Admin</strong>
                                             </td>
@@ -73,7 +73,7 @@ const Profile = () => {
                                                 <div>{`${userLogin.is_admin}`}</div>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr className='noHover'>
                                             <td>
                                                 <strong>Supervisor</strong>
                                             </td>
@@ -81,7 +81,7 @@ const Profile = () => {
                                                 <div>{`${userLogin.is_supervisor}`}</div>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr className='noHover'>
                                             <td>
                                                 <strong>Is Military</strong>
                                             </td>
@@ -89,7 +89,7 @@ const Profile = () => {
                                                 <div>{`${userLogin.is_military}`}</div>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr className='noHover'>
                                             <td>
                                                 <strong>Job Name: </strong>
                                             </td>
@@ -97,7 +97,7 @@ const Profile = () => {
                                                 <div>{job.job_name}</div>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr className='noHover'>
                                             <td>
                                                 <strong>Unit Name: </strong>
                                             </td>
@@ -105,7 +105,7 @@ const Profile = () => {
                                                 <div>{unit.unit_name}</div>
                                             </td>
                                         </tr>
-                                        <tr className="email">
+                                        <tr className='email'>
                                             <td>
                                                 <strong>Email</strong>
                                             </td>

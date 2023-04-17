@@ -9,10 +9,16 @@
     margin-bottom: 20%;
     margin-top:5%;
 }
-tr.email {
+
+.noHover {
+    pointer-events: none;
+}
+.email {
     border-bottom: solid rgba(206, 212, 218, .5) 1px !important;
 }
-
+.Profile-Lits-row  {
+    color: red;
+}
 
   td {
     border-bottom: solid black 1px !important;

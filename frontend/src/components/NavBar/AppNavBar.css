@@ -9,9 +9,12 @@
 .icon {
   position: relative;
   top: -1.5px;
-  margin-right: 5px;
+  margin-right: 8px;
+  
 }
-
+.linkTextDiv {
+  padding: 5px;
+}
 .brandLink:hover {
   cursor: pointer;
 }
