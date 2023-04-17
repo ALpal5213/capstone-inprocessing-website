@@ -5,11 +5,20 @@ input#customFile.custom-file-input {
 
 
 div.upload-box.container {
-    width: 50%;
+    max-width: 90%;
+    max-height: 100%;
     border-style: solid;
     box-shadow: 0 0 6px 5px rgba(0, 0, 0, .1);
     border-color: rgba(0, 0, 0, .1);
     border-radius: 10px;
-    margin-top: 27vh;
-    margin-bottom: 15vh;
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+}
+
+.taskDescriptions {
+    margin-top: 25px;
+}
+
+.status-div {
+    margin-bottom: 15px;
 }

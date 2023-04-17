@@ -1,6 +1,7 @@
 import React, { useState, useRef, useContext } from 'react';
 import Container from 'react-bootstrap/Container';
 import { Row, Col } from "react-bootstrap";
+import Collapse from 'react-bootstrap/Collapse';
 import Button from 'react-bootstrap/Button';
 import './Details.css'
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -19,6 +20,7 @@ const Details = () => {
     const [editable, setEditable] = useState(false);
     const editRef = useRef({ task_description: task.task_description, address: task.address, hours: task.hours, building: task.building, room: task.room, phone_number: task.phone_number, notes: task.notes, url: task.url });
     const { setReFetch } = useContext(GlobalContext);
+    const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     let editObj = {};
 
@@ -50,6 +52,12 @@ const Details = () => {
 
     }
 
+
+    const handleDelete = () => {
+        navigate('/home')
+        setReFetch(true)
+        deleteTask(task)
+    }
     const deleteTask = () => {
         fetch(`http://localhost:3001/tasks/${task.id}`, {
             method: "DELETE",
@@ -68,18 +76,23 @@ const Details = () => {
 
         <>
             <Container>
+                <hr class="solid"></hr>
                 <div><h2>{task.task_name}</h2>
-                    <Button variant="warning" onClick={() => startEdit()} className='detailH1Button'>Edit</Button>{' '}
-                    <Button variant="danger" className='detailH1Button' onClick={() => { deleteTask(task) }}>Delete</Button>
-
+                <hr class="solid"></hr>
                 </div>
                 {(!editable) ?
-                    <Container>
+                    <Container className='taskDescriptions'>
+
                         <Row>
                             <Col>
                         <div className='status-div'><h5> Status</h5><p>{task.status}</p></div>
                         <div className='status-div'><h5> Due Date</h5><p>{formattedDate}</p></div>
                         <div className='status-div'><h5> Task Description</h5><p>{task.task_description}</p></div>
+                        <Button variant="outline-warning" onClick={() => startEdit()} className='detailH1Button'>Edit Task</Button>{' '}
+                        <Button variant="outline-danger" className='detailH1Button' onClick={() => { handleDelete(task) }}>Delete Task</Button>
+                        <br></br>
+                        <FileUpload />
+                        
                             </Col>
                             <Col>
                         <div className='status-div'><h5> Location</h5></div>
@@ -92,11 +105,14 @@ const Details = () => {
                                     {task.url && <p>Website: {task.url}</p>}
                             </Col>       
                         </Row>
+                        <hr class="solid"></hr>
                         {task.latitude && task.longitude && <Map selectedLocation={task} />}
+                        <br></br>
                     </Container>
                     :
                     <div>
-                        <Container>
+                        <Container className='taskDescriptions'>
+                            <div className='status-div'> Editing Tasks</div>
                             <Form>
                             <Form.Group className="mb-3" controlId="formDueDate">
                             <Form.Label>Status</Form.Label>
@@ -116,13 +132,13 @@ const Details = () => {
                                     <Form.Control type="text" defaultValue={task.task_description} onChange={(e) => editObj["task_description"] = e.target.value} />
                             
                                 </Form.Group>
-                                <Button variant="primary" onClick={() => handlePatch()}>Save</Button>
-                                <Button variant="warning" onClick={() => setEditable(false)} className='detailH1Button'>Cancel</Button>
+                                <Button variant="outline-primary" onClick={() => handlePatch()}>Save</Button>
+                                <Button variant="outline-warning" onClick={() => setEditable(false)} className='detailH1Button'>Cancel</Button>
                             </Form>
                         </Container>
                     </div>
                 }
-                <FileUpload />
+                
             </Container>
         </>
     );
