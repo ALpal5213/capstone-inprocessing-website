@@ -5,20 +5,13 @@ import * as Icon from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 import BootstrapTable from 'react-bootstrap-table-next'
 import { GlobalContext } from '../../App';
-
+import AddTask from "./AddTask"
+// import ProgressBar from "./ProgressBar"
+import {Container, Row, Col, ProgressBar} from 'react-bootstrap'
 
 export const TaskTabs = () => {
     const navigate = useNavigate();
-    const { userLogin } = useContext(GlobalContext);
-
-
-    const taskIcons = {
-        pending: <Icon.HourglassSplit />,
-        complete: <Icon.PatchCheckFill />,
-        highP: <Icon.ExclamationOctagonFill />,
-        medP: <Icon.ExclamationDiamondFill />,
-        lowP: <Icon.ExclamationLg />
-    }
+    const { userLogin,reFetch,setReFetch } = useContext(GlobalContext);
 
     const [installationTasks, setInstallationTasks] = useState([]);
     const [unitTasks, setUnitTasks] = useState([]);
@@ -34,43 +27,66 @@ export const TaskTabs = () => {
                 setUnitTasks(data.filter((task) => task.task_type === 'unit'))
                 setPersonalTasks(data.filter((task) => task.task_type === 'personal'))
             })
-    }, [userLogin])
+    }, [userLogin, reFetch])
 
     const statusFormatter =(cell,row,formatExtraData)=>{
       if(cell === 'pending')
         return(
-        <span><Icon.HourglassSplit size={52} /></span>
+        <span><Icon.HourglassSplit size={25} /></span>
       )
       else if(cell ==='complete')
       return(
-        <span><Icon.PatchCheckFill color="green" size={52}/></span>
+        <span><Icon.PatchCheckFill color="green" size={25}/></span>
       )
       else return(
-        <span><Icon.XSquareFill color="red" size={52}/></span>
+        <span><Icon.XSquareFill color="red" size={25}/></span>
       )
+    }
+
+    const dateFormatter =(cell, row, formatExtraData)=>{
+        let split = cell.split('T')
+        cell = split[0]
+        return(
+            <span>{cell}</span>
+          )
     }
 
     const columns = [
         { text: 'Name', dataField: 'task_name' },
         { text: 'Priority', dataField: 'priority', sort: true },
-        { text: 'Due Date', dataField: 'due_date', sort: true},
+        { text: 'Due Date', dataField: 'due_date',
+        formatter: dateFormatter,
+        sort: true},
         { text: 'status', dataField: 'status', 
         formatter: statusFormatter,
            sort: true }
     ];
 
-    let statusList = ['complete', 'pending', 'incomplete']
-
     const rowEvents = {
         onClick: (row, cell) => {
-            console.log(cell)
             navigate('/details/', { state: cell })
-
         }
     }
 
+    const calcProgress = (taskArray) => {
+        let count = 0;
+        let total = taskArray.length === 0 ? 1 : taskArray.length;
+        if(taskArray.length > 0) {
+            for(let i = 0; i < taskArray.length; i++) {
+                if(taskArray[i].status === 'complete') {
+                    count++;
+                }
+            }
+        }
+        
+        return Math.round((count / total) * 100);
+    }
+
     return (
+        <div className="table-wrapper">
+            
         <div className="Task-Tabs-Div">
+            
             <Tabs>
                 <TabList>
                     <Tab>
@@ -86,37 +102,73 @@ export const TaskTabs = () => {
                         <p>Personal</p>
                     </Tab>
                 </TabList>
-                <div>
-                    <TabPanel>
-                        <div className="panel-content">
-                            <div className='taskTable-div' style={{ maxWidth: '100%' }}>
-                                <BootstrapTable columns={columns} data={installationTasks} rowEvents={rowEvents} keyField='id' />
-                            </div>
-                        </div>
-                    </TabPanel>
-                </div>
+
                 <TabPanel>
                     <div className="panel-content">
-                        <div style={{ maxWidth: '100%' }}>
+                        <div className="p-bar-center">
+                            <ProgressBar 
+                                className="p-bar" 
+                                variant={calcProgress(installationTasks) === 100 ? "success" : "info"}
+                                now={calcProgress(installationTasks)} 
+                                label={calcProgress(installationTasks) === 0 ? '' : `${calcProgress(installationTasks)}%`}
+                            />
+                        </div>
+                        <div className='taskTable-div' style={{ maxWidth: '100%' }}>
+                            <BootstrapTable columns={columns} data={installationTasks} rowEvents={rowEvents} keyField='id' />
+                        </div>
+                    </div>
+                </TabPanel>
+
+                <TabPanel >
+                    <div className="panel-content">
+                        <div className="p-bar-center">
+                            <ProgressBar 
+                                className="p-bar" 
+                                variant={calcProgress(unitTasks) === 100 ? "success" : "info"} 
+                                now={calcProgress(unitTasks)} 
+                                label={calcProgress(unitTasks) === 0 ? '' : `${calcProgress(unitTasks)}%`}
+                            />
+                        </div>
+                        <div className='taskTable-div' style={{ maxWidth: '100%' }}>
                             <BootstrapTable columns={columns} data={unitTasks} rowEvents={rowEvents} keyField='id' />
                         </div>
                     </div>
                 </TabPanel>
+
                 <TabPanel>
                     <div className="panel-content">
-                        <div style={{ maxWidth: '100%' }}>
+                        <div className="p-bar-center">
+                            <ProgressBar 
+                                className="p-bar" 
+                                variant={calcProgress(jobTasks) === 100 ? "success" : "info"}
+                                now={calcProgress(jobTasks)} 
+                                label={calcProgress(jobTasks) === 0 ? '' : `${calcProgress(jobTasks)}%`}
+                            />
+                        </div>
+                        <div className='taskTable-div' style={{ maxWidth: '100%' }}>
                             <BootstrapTable columns={columns} data={jobTasks} rowEvents={rowEvents} keyField='id' />
                         </div>
                     </div>
                 </TabPanel>
+
                 <TabPanel>
                     <div className="panel-content">
-                        <div style={{ maxWidth: '100%' }}>
+                        <div className="p-bar-center">
+                            <ProgressBar 
+                                className="p-bar" 
+                                variant={calcProgress(personalTasks) === 100 ? "success" : "info"}
+                                now={calcProgress(personalTasks)} 
+                                label={calcProgress(personalTasks) === 0 ? '' : `${calcProgress(personalTasks)}%`}
+                            />
+                        </div>
+                        <div className='taskTable-div' style={{ maxWidth: '100%' }}>
                             <BootstrapTable columns={columns} data={personalTasks} rowEvents={rowEvents} keyField='id' />
                         </div>
                     </div>
+                    <AddTask />
                 </TabPanel>
             </Tabs>
+        </div>
         </div>
     )
 }

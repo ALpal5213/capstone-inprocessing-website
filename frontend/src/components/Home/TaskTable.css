@@ -1,61 +1,87 @@
-.Task-Tabs-Div {
-  font-family: sans-serif;
-  height: 100vh;
-  box-sizing: border-box;
-  margin-top:10%
+.table-wrapper {
+  display: flex;
+  justify-content: center;
 }
 
-.react-tabs {
+.Task-Tabs-Div {
+  border-radius: 10px;
+  width: 80%;
+  height: 600px;
+  background-color: rgba(206, 212, 218, .5);
+  display: flex; 
+  justify-content: center;
+  padding: 40px;
+  margin-bottom: 10%;
+  margin-top:10%;
+  contain:strict;
+}
+
+.p-bar-center {
   display: flex;
-  margin: auto;
-  width: max-content;
-  height: max-content;
-  border: 1px solid #3c3e43;
-  
+  justify-content: center;
+}
+
+.p-bar {
+  margin-bottom: 10px;
+  height: 20px !important;
+  border-radius: 10px !important;
+  width: 40%;
+}
+
+.table-container {
+  /* padding: 15px; */
+  margin-top: 20px;
+}
+
+.react-tabs { 
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  border: none !important;
+}
+
+.react-tabs__tab {
+  height: 150px;
+  list-style: none;
+  cursor: pointer;
+  color: #bbb;
+  text-align: center;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  /* transform: rotate(-90deg); */
 }
 
 .react-tabs__tab-list {
   display: flex;
   flex-direction: column;
-  width: 170px;
+  width: 60px;
   margin: 0;
+  margin-right: 15px;
   padding: 0;
   color: white;
   background: #3c3e43;  
-}
-
-.react-tabs__tab {
-  height: 70px;
-  list-style: none;
-  padding: 12px 6px;
-  cursor: pointer;
-  color: #bbb;
-  /* transform: rotate(-90deg); */
+  border-radius: 5px 0 0 5px;
 }
 
 .react-tabs__tab--selected {
   background: #1c1d1f;
   border-color: #1c1d1f;
   border-left: 4px solid #6eb800;
+  border-radius: 5px 0 0 5px;
   color: white;
-  
+  padding-left: 21px;
 }
 
 .react-tabs__tab-panel {
   display: none;
-  width: 400px;
+  width: 100%;
+  overflow-y: auto;
+  border: none !important;
 }
 
 .react-tabs__tab-panel--selected {
   display: block;
-}
-
-.react-tabs__tab {
-  padding-left: 24px;
-}
-
-.react-tabs__tab--selected {
-  padding-left: 21px;
+  border: none !important;
 }
 
 .taskLine{
@@ -63,9 +89,39 @@
   flex-direction: row;
   justify-content: space-between;
 }
+
+th {
+  border: none !important;
+}
+
+tr {
+  text-align: right;
+  border: none !important;
+}
+
+tbody tr:hover {
+  background-color: rgba(77, 77, 77, 0.5);
+}
+
+td {
+  cursor: pointer;
+  border-bottom: solid black 1px !important;
+  border-right: none !important;
+  border-left: none !important;
+  border-top: solid black 1px !important;
+}
+
 .task-header-div{
   display:flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.panel-content {
+  width: 100%
+}
+
+.taskTable-div {
+  width: 100%;
 }
 

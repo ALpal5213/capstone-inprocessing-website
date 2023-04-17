@@ -7,3 +7,8 @@
 #newLocation{
     font-style: italic;
 }
+
+#modal-title{
+    text-align: center;
+    font-weight: bold;
+}

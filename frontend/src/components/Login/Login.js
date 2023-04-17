@@ -9,8 +9,6 @@ import Cookies from 'js-cookie'
 
 const saltRounds = 10;
 
-
-
 export const Login = () => {
   const navigate = useNavigate();
   const { setUserLogin } = useContext(GlobalContext);
@@ -20,9 +18,12 @@ export const Login = () => {
   const [userId, setUserId] = useState(-1);
   const [passMatch, setPassMatch] = useState({ id: Date.now(), match: undefined })
   const [failMessage, setFailMessage] = useState(
-    <Form.Text className='newHereText'>
-      New Here? <Link to='/create-account' className="formLink">Click Here to create an account.</Link>
-    </Form.Text>
+    <div className='newAccountLinkDiv'>
+      <span className='newHereText'>New Here?</span>
+      <Form.Text>
+          <Link to='/create-account' className="formLink">Click Here to create an account.</Link>
+      </Form.Text>
+    </div>
   )
 
   const failContent = (
@@ -55,9 +56,12 @@ export const Login = () => {
           setUserLogin(data[0])
         })
       setFailMessage(
-        <Form.Text className='newHereText'>
-          New Here? <Link to='/create-account' className="formLink">Click Here to create an account.</Link>
-        </Form.Text>
+        <div className='newAccountLinkDiv'>
+          <span className='newHereText'>New Here?</span>
+          <Form.Text>
+              <Link to='/create-account' className="formLink">Click Here to create an account.</Link>
+          </Form.Text>
+        </div>
       )
       navigate('/home')
     }
@@ -105,9 +109,12 @@ export const Login = () => {
 
   const setUserCtl = (inputUser) => {
     setFailMessage(
-      <Form.Text className='newHereText'>
-        New Here? <Link to='/create-account' className="formLink">Click Here to create an account.</Link>
-      </Form.Text>
+      <div className='newAccountLinkDiv'>
+        <span className='newHereText'>New Here?</span>
+        <Form.Text>
+            <Link to='/create-account' className="formLink">Click Here to create an account.</Link>
+        </Form.Text>
+      </div>
     )
     setPassMatch({id: Date.now(), match: undefined})
     setUsername(inputUser)
@@ -127,12 +134,15 @@ export const Login = () => {
           <Form.Group className="mb-3 divItem" controlId="pass">
             <Form.Label>Password</Form.Label>
             <Form.Control type="password" placeholder="Password" onChange={() => setFailMessage(
-              <Form.Text className='newHereText'>
-                New Here? <Link to='/create-account' className="formLink">Click Here to create an account.</Link>
-              </Form.Text>
+              <div className='newAccountLinkDiv'>
+                <span className='newHereText'>New Here?</span>
+                <Form.Text>
+                    <Link to='/create-account' className="formLink">Click Here to create an account.</Link>
+                </Form.Text>
+              </div>
             )}/>
           </Form.Group>
-            <Button variant="dark divItem" onClick={() => passHashCk()}>Login</Button>{failMessage}
+            <Button variant="dark divItem divButton" onClick={() => passHashCk()}>Login</Button>{failMessage}
         </Form>}
       </div>
     </>
