@@ -95,7 +95,7 @@ return (
                 <Row>
                     <Col>
                         <form>
-                            <Button variant="primary">
+                            <Button variant="outline-success">
                                 <div className='file-up'>
                                     <input
                                         type='file'
