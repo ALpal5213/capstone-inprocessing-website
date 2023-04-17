@@ -52,11 +52,18 @@ routePath.get("/", (request, response) => {
 
 //Get by table
 routePath.get("/table/:table", (request, response) => {
-
-    return knex(request.params.table)
-        .select('*')
-        .then(data => response.status(200).json(data))
-        .catch(error => response.status(405).send("Not a table.\n Select from 'Users', 'Locations', 'Jobs', 'Units', or 'Tasks'"))
+    let table = request.params.table
+    let fields 
+    
+    if (table === 'Users') {
+      fields = ['id', 'fullname', 'username', 'role_id', 'is_admin', 'is_supervisor', 'is_leadership', 'is_military', 'job_id', 'unit_id', 'session_id']
+    } else {
+      fields = '*'
+    }
+    return knex(table)
+      .select(fields)
+      .then(data => response.status(200).json(data))
+      .catch(error => response.status(405).send("Not a table.\n Select from 'Users', 'Locations', 'Jobs', 'Units', or 'Tasks'"))
 });
 
 //Get Table by id
@@ -64,11 +71,19 @@ routePath.get("/table/:table/:id", (request, response) => {
     let table = request.params.table;
     let id = request.params.id;
 
+    let fields 
+    
+    if (table === 'Users') {
+      fields = ['id', 'fullname', 'username', 'role_id', 'is_admin', 'is_supervisor', 'is_leadership', 'is_military', 'job_id', 'unit_id', 'session_id']
+    } else {
+      fields = '*'
+    }
+
     return knex(table)
-        .select('*')
-        .where({ id: id })
-        .then(data => response.status(200).json(data))
-        .catch(error => response.status(405).send("Not a table or Id does not exist.\n Select from 'Users', 'Locations', 'Jobs', 'Units', or 'Tasks'"))
+      .select(fields)
+      .where({ id: id })
+      .then(data => response.status(200).json(data))
+      .catch(error => response.status(405).send("Not a table or Id does not exist.\n Select from 'Users', 'Locations', 'Jobs', 'Units', or 'Tasks'"))
 });
 
 //Get join table and allow order by and limit (optional)
@@ -83,16 +98,35 @@ routePath.get("/tasks-locations/:userID", (request, response) => {
         .catch(error => response.status(405).send("Could not get"))
 });
 
+//Get join table that returns a list of subordinate based on a passed in supervisor user id
+routePath.get("/supervisor/:id", (request, response) => {
+  let id = request.params.id;
 
+  return knex('Manage')
+      .join('Users', 'Manage.user_id', '=', 'Users.id')
+      .select('Manage.id', 'Manage.user_id as subordinate_id', 'Users.fullname')
+      .where({ supervisor_id: id })
+      .then(data => response.status(200).json(data))
+      .catch(error => response.status(405).send("Could not get"))
+});
 
+//Get join table that returns a list of squadron members based on a passed in commander user id
+routePath.get("/commander/:id", (request, response) => {
+  let id = request.params.id;
 
+  return knex('Manage')
+      .join('Users', 'Manage.user_id', '=', 'Users.id')
+      .select('Manage.id', 'Manage.user_id as unitMemberId', 'Users.fullname', 'Users.unit_id')
+      .where({ commander_id: id })
+      .then(data => response.status(200).json(data))
+      .catch(error => response.status(405).send("Could not get"))
+});
 
 /* POST *********************************************************************/
 
 routePath.post("/tasks", (request, response) => {
     if (request.body.task_name && request.body.due_date && request.body.priority && request.body.task_description) {
         let newTask = request.body
-
         return knex('Tasks')
             .insert(newTask)
             .then(data => response.status(200).send("Posted"))
