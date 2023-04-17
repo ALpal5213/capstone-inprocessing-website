@@ -17,6 +17,8 @@
 .announcement-row::-webkit-scrollbar-thumb {
   background: green;
   border-radius: 1vh;
+  cursor: grab;
+  /* cursor: grabbing; */
 }
 
 .announcement-card {
@@ -54,7 +56,7 @@
   width: 10px;
 }
 
-.announcement-text::-webkit-scrollbar-thumb {
+.announcement-text:hover::-webkit-scrollbar-thumb {
   background: green;
   border-radius: 15px;
 }
