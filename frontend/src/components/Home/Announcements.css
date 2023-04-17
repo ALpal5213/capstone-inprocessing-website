@@ -1,0 +1,56 @@
+.announcement-row {
+  overflow-x: auto;
+  list-style: none;
+  display: flex;
+  scroll-snap-type: x mandatory;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  padding-right: 100px;
+  -webkit-mask-image: linear-gradient(to right, black 80%, transparent);
+}
+
+.announcement-row::-webkit-scrollbar {
+  background: transparent;
+  height: 10px;
+}
+
+.announcement-row::-webkit-scrollbar-thumb {
+  background: green;
+  border-radius: 1vh;
+}
+
+.announcement-card {
+  border: solid 1px black;
+  border-radius: 10px;
+  background-color: grey;
+  height: 120px;
+  max-width: 200px;
+  display: flex;
+  flex: 0 0 30%;
+  scroll-snap-align: start;
+  transition: all 0.2s;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.announcement-image {
+  padding: 10px;
+  width: 50px;
+  height: 50px;
+}
+
+.announcement-text {
+  overflow: auto;
+  padding: 2px;
+}
+
+.announcement-text::-webkit-scrollbar {
+  background: transparent;
+  width: 10px;
+}
+
+.announcement-text::-webkit-scrollbar-thumb {
+  background: green;
+  border-radius: 15px;
+}
+
