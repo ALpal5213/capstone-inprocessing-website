@@ -5,7 +5,7 @@
 exports.up = function(knex) {
   return knex.schema.createTable('Announcements', table => {
     table.increments('id');
-    table.string('announcement');
+    table.text('announcement');
     table.string('image');
   })
 };
