@@ -36,6 +36,7 @@ const Details = () => {
             },
         })
             .then((json) => {
+                console.log(editObj)
                 setReFetch(true)
                 navigate('/home')
             });
@@ -99,7 +100,12 @@ const Details = () => {
                             <Form>
                             <Form.Group className="mb-3" controlId="formDueDate">
                             <Form.Label>Status</Form.Label>
-                                    <Form.Control type="text" defaultValue={task.status} onChange={(e) => editObj["status"] = e.target.value} />
+                                    <Form.Select type="text" defaultValue={task.status} onChange={(e) => editObj["status"] = e.target.value}>
+                                        <option>Status</option>
+                                        <option value="incomplete" >Incomplete</option>
+                                        <option value="pending">Pending</option> 
+                                        <option value="complete">Complete</option> 
+                                    </Form.Select>
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="formDueDate">
                                     <Form.Label>Due Date</Form.Label>
