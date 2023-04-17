@@ -105,7 +105,7 @@ const Profile = () => {
                                                 <div>{unit.unit_name}</div>
                                             </td>
                                         </tr>
-                                        <tr className='Profile-Lists-row email'>
+                                        <tr className='Profile-Lists-row email noHover'>
                                             <td>
                                                 <strong>Email</strong>
                                             </td>

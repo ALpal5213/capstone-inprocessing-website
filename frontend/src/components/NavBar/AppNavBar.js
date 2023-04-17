@@ -41,7 +41,7 @@ const AppNavBar = () => {
         <Navbar bg="dark" variant='dark' export="lg" textcolor="white">
           <Container>
             <div className='brand'>
-            <Navbar.Brand className='linkTextDiv' onClick={() => window.open("https://www.wpafb.af.mil")} className='brandLink'>Welcome to Wright-Patterson AFB</Navbar.Brand>
+            <Navbar.Brand className='linkTextDiv brandLink' onClick={() => window.open("https://www.wpafb.af.mil")}>Welcome to Wright-Patterson AFB</Navbar.Brand>
             </div>
             <Nav>
               <Nav.Item >
