@@ -114,7 +114,7 @@ const AddTask = () => {
             //create a new location first
             addLocation()
             //then create a new task with the location of the task being the new location id
-            const last_loc = (locations.length + 1)
+            let last_loc = parseInt(locations.length + 1)
             addTask(last_loc)
         } else { //user adding an existing location to a task
             addTask(loc)
@@ -157,9 +157,10 @@ const AddTask = () => {
             .then((res) => res.json())
             .then((data) => (data))
     }
+
     const addTask = (location_id) => {
         let newTask = {
-            "user_id": user_id,
+            "user_id": parseInt(user_id),
             "location_id": location_id,
             "task_name": taskName,
             "task_description": taskDesc,
@@ -172,7 +173,7 @@ const AddTask = () => {
             "has_download": taskDownload
         }
 
-        console.log("New task: " + taskName)
+        console.log(newTask)
 
         fetch("http://localhost:3001/tasks",
             {
@@ -245,20 +246,20 @@ const AddTask = () => {
                         <Row>
                             <Col>
                                 <select className="form-control" id="newTaskPriority" onChange={handleTaskPriorityChange}>
-                                    <option value="low">Low</option>
-                                    <option value="medium">Medium</option>
-                                    <option value="high">High</option>
+                                    <option value="Low">Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
                                 </select>
                             </Col>
                         </Row>
                         <Row>
                             <span>
                                 <Form.Label for="mil">Military</Form.Label>
-                                <Form.Check type="radio" name="mil_or_civ" id="mil" value="mil" inline defaultChecked={defaultCheck} onChange={handleTaskMilOrCivChange}></Form.Check>
+                                <Form.Check type="radio" name="mil_or_civ" id="mil" value="Military" inline defaultChecked={defaultCheck} onChange={handleTaskMilOrCivChange}></Form.Check>
                                 <Form.Label for="mil">Civilian</Form.Label>
-                                <Form.Check type="radio" name="mil_or_civ" id="civ" value="civ" inline onChange={handleTaskMilOrCivChange}></Form.Check>
+                                <Form.Check type="radio" name="mil_or_civ" id="civ" value="Civilian" inline onChange={handleTaskMilOrCivChange}></Form.Check>
                                 <Form.Label for="mil">Both</Form.Label>
-                                <Form.Check type="radio" name="mil_or_civ" id="both" value="both" inline onChange={handleTaskMilOrCivChange}></Form.Check>
+                                <Form.Check type="radio" name="mil_or_civ" id="both" value="Both" inline onChange={handleTaskMilOrCivChange}></Form.Check>
                             </span>
                         </Row>
                     </Row>
