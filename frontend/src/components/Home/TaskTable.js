@@ -70,6 +70,7 @@ export const TaskTabs = () => {
 
     const calcProgress = (taskArray) => {
         let count = 0;
+        let total = taskArray.length === 0 ? 1 : taskArray.length;
         if(taskArray.length > 0) {
             for(let i = 0; i < taskArray.length; i++) {
                 if(taskArray[i].status === 'complete') {
@@ -78,7 +79,7 @@ export const TaskTabs = () => {
             }
         }
         
-        return (count / taskArray.length) * 100;
+        return Math.round((count / total) * 100);
     }
 
     return (
@@ -105,7 +106,12 @@ export const TaskTabs = () => {
                 <TabPanel>
                     <div className="panel-content">
                         <div className="p-bar-center">
-                            <ProgressBar className="p-bar" variant="info" now={calcProgress(installationTasks)} label/>
+                            <ProgressBar 
+                                className="p-bar" 
+                                variant={calcProgress(installationTasks) === 100 ? "success" : "info"}
+                                now={calcProgress(installationTasks)} 
+                                label={calcProgress(installationTasks) === 0 ? '' : `${calcProgress(installationTasks)}%`}
+                            />
                         </div>
                         <div className='taskTable-div' style={{ maxWidth: '100%' }}>
                             <BootstrapTable columns={columns} data={installationTasks} rowEvents={rowEvents} keyField='id' />
@@ -116,7 +122,12 @@ export const TaskTabs = () => {
                 <TabPanel >
                     <div className="panel-content">
                         <div className="p-bar-center">
-                            <ProgressBar className="p-bar" variant="info" now={calcProgress(unitTasks)} label/>
+                            <ProgressBar 
+                                className="p-bar" 
+                                variant={calcProgress(unitTasks) === 100 ? "success" : "info"} 
+                                now={calcProgress(unitTasks)} 
+                                label={calcProgress(unitTasks) === 0 ? '' : `${calcProgress(unitTasks)}%`}
+                            />
                         </div>
                         <div className='taskTable-div' style={{ maxWidth: '100%' }}>
                             <BootstrapTable columns={columns} data={unitTasks} rowEvents={rowEvents} keyField='id' />
@@ -127,7 +138,12 @@ export const TaskTabs = () => {
                 <TabPanel>
                     <div className="panel-content">
                         <div className="p-bar-center">
-                            <ProgressBar className="p-bar" variant="info" now={calcProgress(jobTasks)} label/>
+                            <ProgressBar 
+                                className="p-bar" 
+                                variant={calcProgress(jobTasks) === 100 ? "success" : "info"}
+                                now={calcProgress(jobTasks)} 
+                                label={calcProgress(jobTasks) === 0 ? '' : `${calcProgress(jobTasks)}%`}
+                            />
                         </div>
                         <div className='taskTable-div' style={{ maxWidth: '100%' }}>
                             <BootstrapTable columns={columns} data={jobTasks} rowEvents={rowEvents} keyField='id' />
@@ -138,7 +154,12 @@ export const TaskTabs = () => {
                 <TabPanel>
                     <div className="panel-content">
                         <div className="p-bar-center">
-                            <ProgressBar className="p-bar" variant="info" now={calcProgress(personalTasks)}/>
+                            <ProgressBar 
+                                className="p-bar" 
+                                variant={calcProgress(personalTasks) === 100 ? "success" : "info"}
+                                now={calcProgress(personalTasks)} 
+                                label={calcProgress(personalTasks) === 0 ? '' : `${calcProgress(personalTasks)}%`}
+                            />
                         </div>
                         <div className='taskTable-div' style={{ maxWidth: '100%' }}>
                             <BootstrapTable columns={columns} data={personalTasks} rowEvents={rowEvents} keyField='id' />

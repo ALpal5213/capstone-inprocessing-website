@@ -8,7 +8,7 @@ import AppNavBar from '../NavBar/AppNavBar'
 import Map from '../Details/Map'
 import { NotAuthorized } from './NotAuthorized'
 import { DetailsPage } from '../Details/DetailsPage'
-import Footer from '../Home/Footer'
+import {Footer} from '../Footer/Footer'
 
 
 export const AllRoutes = () => {
@@ -20,15 +20,13 @@ export const AllRoutes = () => {
             <Routes>
                 <Route path="/" element={<Navigate to="/login" replace={true} />} />
                 <Route path='/login' element={< Login />}></Route>
-                <Route path='/home' element={<HomePage/>}></Route>
-                <Route path='/details' element={<DetailsPage/>}></Route>
                 <Route path='/create-account' element={<CreateAccount/>}></Route>
-                <Route path='/profile' element={<Profile/>}></Route>
-                {/* <Route element={<ProtectedRoutes />}> */}
-                    {/* <Route path='/home' element={< Home />}></Route>
-                    <Route path='/account' element={< Account />}></Route>
-                    <Route path='/users' element={< Users />}></Route> */}
-                {/* </Route> */}
+                
+                  <Route element={<ProtectedRoutes />}>
+                  <Route path='/home' element={<HomePage/>}></Route>
+                  <Route path='/details' element={<DetailsPage/>}></Route>
+                  <Route path='/profile' element={<Profile/>}></Route>
+                </Route>
                 <Route path='*' element={<NotAuthorized/>}></Route>
             </Routes>
             <Footer/>

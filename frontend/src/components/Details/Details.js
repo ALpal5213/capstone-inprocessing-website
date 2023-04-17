@@ -1,6 +1,7 @@
 import React, { useState, useRef, useContext } from 'react';
 import Container from 'react-bootstrap/Container';
-import { Accordion } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
+import Collapse from 'react-bootstrap/Collapse';
 import Button from 'react-bootstrap/Button';
 import './Details.css'
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -19,6 +20,7 @@ const Details = () => {
     const [editable, setEditable] = useState(false);
     const editRef = useRef({ task_description: task.task_description, address: task.address, hours: task.hours, building: task.building, room: task.room, phone_number: task.phone_number, notes: task.notes, url: task.url });
     const { setReFetch } = useContext(GlobalContext);
+    const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     let editObj = {};
 
@@ -29,19 +31,18 @@ const Details = () => {
 
         fetch(`http://localhost:3001/tasks/${task.id}`, {
             method: 'PATCH',
-            body: JSON.stringify({
-                task_description: editObj.task_description,
-                room: editObj.room
-            }),
+            body: JSON.stringify(editObj
+            ),
             headers: {
                 'Content-type': 'application/json',
             },
         })
             .then((json) => {
+                console.log(editObj)
                 setReFetch(true)
                 navigate('/home')
             });
-   
+
 
     }
 
@@ -51,6 +52,12 @@ const Details = () => {
 
     }
 
+
+    const handleDelete = () => {
+        navigate('/home')
+        setReFetch(true)
+        deleteTask(task)
+    }
     const deleteTask = () => {
         fetch(`http://localhost:3001/tasks/${task.id}`, {
             method: "DELETE",
@@ -69,60 +76,69 @@ const Details = () => {
 
         <>
             <Container>
+                <hr class="solid"></hr>
                 <div><h2>{task.task_name}</h2>
-                    <Button variant="warning" onClick={() => startEdit()} className='detailH1Button'>Edit</Button>{' '}
-                    <Button variant="danger" className='detailH1Button' onClick={() => { deleteTask(task) }}>Delete</Button>
-
+                <hr class="solid"></hr>
                 </div>
                 {(!editable) ?
-                    <div>
+                    <Container className='taskDescriptions'>
+
+                        <Row>
+                            <Col>
                         <div className='status-div'><h5> Status</h5><p>{task.status}</p></div>
                         <div className='status-div'><h5> Due Date</h5><p>{formattedDate}</p></div>
-                        <Accordion>
-                            <Accordion.Item eventKey="0">
-                                <Accordion.Header>Task Description</Accordion.Header>
-                                <Accordion.Body>
-                                    {task.task_description}
-                                </Accordion.Body>
-                            </Accordion.Item>
-                            <Accordion.Item eventKey="1">
-                                <Accordion.Header>Location</Accordion.Header>
-                                <Accordion.Body>
-                                    {task.building && <p>Building: {task.building}</p>}
+                        <div className='status-div'><h5> Task Description</h5><p>{task.task_description}</p></div>
+                        <Button variant="outline-warning" onClick={() => startEdit()} className='detailH1Button'>Edit Task</Button>{' '}
+                        <Button variant="outline-danger" className='detailH1Button' onClick={() => { handleDelete(task) }}>Delete Task</Button>
+                        <br></br>
+                        <FileUpload />
+                        
+                            </Col>
+                            <Col>
+                        <div className='status-div'><h5> Location</h5></div>
+                                    {task.building && <p>{task.building}</p>}
                                     {task.room && <p>Room: {task.room}</p>}
                                     {task.address && <p>Address: {task.address}</p>}
                                     {task.hours && <p>Hours: {task.hours}</p>}
                                     {task.phone_number && <p>Phone Number: {task.phone_number}</p>}
                                     {task.notes && <p>Notes: {task.notes}</p>}
                                     {task.url && <p>Website: {task.url}</p>}
-                                    {task.latitude && task.longitude && <Map selectedLocation={task} />}
-                                </Accordion.Body>
-                            </Accordion.Item>
-                        </Accordion>
-                    </div>
+                            </Col>       
+                        </Row>
+                        <hr class="solid"></hr>
+                        {task.latitude && task.longitude && <Map selectedLocation={task} />}
+                        <br></br>
+                    </Container>
                     :
                     <div>
-                        <Container>
+                        <Container className='taskDescriptions'>
+                            <div className='status-div'> Editing Tasks</div>
                             <Form>
                             <Form.Group className="mb-3" controlId="formDueDate">
-                                    <Form.Label>Status</Form.Label>
-                                    <Form.Control type="text" defaultValue={task.status} onBlur={(e) => editObj["status"] = e.target.value} />
+                            <Form.Label>Status</Form.Label>
+                                    <Form.Select type="text" defaultValue={task.status} onChange={(e) => editObj["status"] = e.target.value}>
+                                        <option>Status</option>
+                                        <option value="incomplete" >Incomplete</option>
+                                        <option value="pending">Pending</option> 
+                                        <option value="complete">Complete</option> 
+                                    </Form.Select>
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="formDueDate">
                                     <Form.Label>Due Date</Form.Label>
-                                    <Form.Control type="date" defaultValue={task.due_date} onBlur={(e) => editObj["due_date"] = e.target.value} />
+                                    <Form.Control type="date" defaultValue={task.due_date} onChange={(e) => editObj["due_date"] = e.target.value} />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="formBasicDescription">
-                                    <Form.Label>Task Description</Form.Label>
-                                    <Form.Control type="text" defaultValue={task.task_description} onBlur={(e) => editObj["task_description"] = e.target.value} />
+                                <Form.Label>Task Description</Form.Label>
+                                    <Form.Control type="text" defaultValue={task.task_description} onChange={(e) => editObj["task_description"] = e.target.value} />
+                            
                                 </Form.Group>
-                                <Button variant="primary" onClick={() => handlePatch()}>Save</Button>
-                                <Button variant="warning" onClick={() => setEditable(false)} className='detailH1Button'>Cancel</Button>
+                                <Button variant="outline-primary" onClick={() => handlePatch()}>Save</Button>
+                                <Button variant="outline-warning" onClick={() => setEditable(false)} className='detailH1Button'>Cancel</Button>
                             </Form>
                         </Container>
                     </div>
                 }
-                <FileUpload />
+                
             </Container>
         </>
     );
