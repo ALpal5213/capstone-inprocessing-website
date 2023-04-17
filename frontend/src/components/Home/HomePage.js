@@ -1,15 +1,20 @@
-import AppNavBar from "../NavBar/AppNavBar"
-import AddTask from "./AddTask"
 import {TaskTabs} from "./TaskTable"
+import Announcements from "./Announcements"
+import {useEffect, useState} from "react"
 
 export const HomePage = () => {
+    const [announcements, setAnnouncements] = useState([]);
+
+    useEffect(() => {
+        fetch(`http://localhost:3001/table/Announcements`)
+            .then(res => res.json())
+            .then(data => setAnnouncements(data))
+    }, [])
 
     return (
         <>
-            {/* <AppNavBar/> */}
-            <AddTask />
-            {/* <ProgressBar /> */}
-            {/* <AddTask /> */}
+            <Announcements annArray={announcements}/>
+
             <TaskTabs />
         </>
     )
