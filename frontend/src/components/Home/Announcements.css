@@ -3,7 +3,7 @@
   list-style: none;
   display: flex;
   scroll-snap-type: x mandatory;
-  margin-top: 30px;
+  margin-top: 5%;
   margin-bottom: 20px;
   padding-right: 100px;
   -webkit-mask-image: linear-gradient(to right, black 80%, transparent);
@@ -21,16 +21,21 @@
 
 .announcement-card {
   border: solid 1px black;
+  filter: drop-shadow(5px 10px 2px black);
   border-radius: 10px;
   background-color: grey;
   height: 120px;
   max-width: 200px;
   display: flex;
-  flex: 0 0 30%;
+  flex: 0 0 40%;
   scroll-snap-align: start;
   transition: all 0.2s;
   margin-right: 10px;
   margin-bottom: 10px;
+}
+
+.announcement-card:hover {
+  max-width: 500px;
 }
 
 .announcement-image {

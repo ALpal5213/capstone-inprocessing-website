@@ -79,7 +79,7 @@ export const TaskTabs = () => {
             }
         }
         
-        return Math.round((count / total) * 100);
+        return taskArray.length === 0 ? 100 : Math.round((count / total) * 100);
     }
 
     return (

@@ -9,8 +9,6 @@ import Cookies from 'js-cookie'
 
 const saltRounds = 10;
 
-
-
 export const Login = () => {
   const navigate = useNavigate();
   const { setUserLogin } = useContext(GlobalContext);
@@ -49,7 +47,6 @@ export const Login = () => {
           Cookies.set('session_id', `${data.session_id}`, { expires: 1, path: '/', sameSite:'strict' });
           Cookies.set('user_id', `${data.user_id}`, { expires: 1, path: '/',  sameSite:'strict' });
           setUserAuth(true)
-          console.log(data)
         })
 
 
@@ -98,8 +95,8 @@ export const Login = () => {
       }).then(res => res.json())
         .then(data => {
           setUserId(data.id)
-          console.log(data)
           setUserLogin('')
+          
 
           bcrypt.compare(document.getElementById('pass').value, data.password, function (err, result) {
             setPassMatch({ id: Date.now(), match: result })
