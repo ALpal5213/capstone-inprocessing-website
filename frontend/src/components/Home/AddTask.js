@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Col, Row, Modal, Button, Form } from "react-bootstrap";
+import { Col, Row, Modal, Button, Form, Dropdown } from "react-bootstrap";
 import './AddTask.css';
 import { GlobalContext } from '../../App';
 import Cookies from 'js-cookie'
@@ -19,8 +19,8 @@ const AddTask = () => {
     const [taskName, setTaskName] = useState("");
     const [taskDesc, setTaskDesc] = useState("");
     const [taskDueDate, setTaskDueDate] = useState("");
-    const [taskPriority, setTaskPriority] = useState("Low");
-    const [mil_or_civ, setMilOrCiv] = useState("Military");
+    const [taskPriority, setTaskPriority] = useState("low");
+    const [mil_or_civ, setMilOrCiv] = useState("military");
     const [loc, setLoc] = useState(1);
     const [locAddress, setLocAddress] = useState("");
     const [locBuilding, setLocBuilding] = useState("");
@@ -112,12 +112,17 @@ const AddTask = () => {
     const submitRequest = () => {
         if (showNewLocation) { //user adding a new location to a task
             //create a new location first
-            addLocation()
+            addLocation();
+            
+            //refresh or something 
+            setReFetch(true);
+
             //then create a new task with the location of the task being the new location id
-            let last_loc = parseInt(locations.length + 1)
-            addTask(last_loc)
+            let last_loc = parseInt(locations.length + 1);
+            addTask(last_loc);
+            
         } else { //user adding an existing location to a task
-            addTask(loc)
+            addTask(loc);
         }
         handleClose();
     }
@@ -173,8 +178,6 @@ const AddTask = () => {
             "has_download": taskDownload
         }
 
-        console.log(newTask)
-
         fetch("http://localhost:3001/tasks",
             {
                 method: "POST",
@@ -193,10 +196,11 @@ const AddTask = () => {
         setShowNewLocation(false);
         setLoc(1);
         setDays([]);
-        setMilOrCiv("Military");
+        setMilOrCiv("military");
         setLocAddress("");
         setLocBuilding("");
         setLocRoom("");
+        setTaskPriority("low");
         setLocAMHours("8");
         setLocPMHours("5");
         setLocPhone("");
@@ -245,28 +249,28 @@ const AddTask = () => {
                         </Row>
                         <Row>
                             <Col>
-                                <select className="form-control" id="newTaskPriority" onChange={handleTaskPriorityChange}>
-                                    <option value="Low">Low</option>
-                                    <option value="Medium">Medium</option>
-                                    <option value="High">High</option>
+                                <select id="newTaskPriority" onChange={handleTaskPriorityChange}>
+                                    <option value="low">Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high">High</option>
                                 </select>
                             </Col>
                         </Row>
                         <Row>
                             <span>
                                 <Form.Label for="mil">Military</Form.Label>
-                                <Form.Check type="radio" name="mil_or_civ" id="mil" value="Military" inline defaultChecked={defaultCheck} onChange={handleTaskMilOrCivChange}></Form.Check>
+                                <Form.Check type="radio" name="mil_or_civ" id="mil" value="military" inline defaultChecked={defaultCheck} onChange={handleTaskMilOrCivChange}></Form.Check>
                                 <Form.Label for="mil">Civilian</Form.Label>
-                                <Form.Check type="radio" name="mil_or_civ" id="civ" value="Civilian" inline onChange={handleTaskMilOrCivChange}></Form.Check>
+                                <Form.Check type="radio" name="mil_or_civ" id="civ" value="civilian" inline onChange={handleTaskMilOrCivChange}></Form.Check>
                                 <Form.Label for="mil">Both</Form.Label>
-                                <Form.Check type="radio" name="mil_or_civ" id="both" value="Both" inline onChange={handleTaskMilOrCivChange}></Form.Check>
+                                <Form.Check type="radio" name="mil_or_civ" id="both" value="both" inline onChange={handleTaskMilOrCivChange}></Form.Check>
                             </span>
                         </Row>
                     </Row>
                     <Row className="form-group">
                         <Form.Label>Location</Form.Label>
                         <Col>
-                            <select className="form-control" id="newTaskPriority" onChange={handleCloseNewLocation}>
+                            <select id="newTaskPriority" onChange={handleCloseNewLocation}>
                                 {
                                     //FIX on change and on select
                                     locations.map((location) => <option value={location.id}>{location.building}</option>)
