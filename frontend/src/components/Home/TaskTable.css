@@ -48,13 +48,14 @@
   text-align: center;
   writing-mode: vertical-rl;
   text-orientation: mixed;
-  /* transform: rotate(-90deg); */
+  padding-top: 10px;
+  padding-right: 10px;
 }
 
 .react-tabs__tab-list {
   display: flex;
   flex-direction: column;
-  width: 60px;
+  width: 50px;
   margin: 0;
   margin-right: 15px;
   padding: 0;
