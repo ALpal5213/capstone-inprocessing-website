@@ -280,7 +280,7 @@ routePath.post("/tasks", (request, response) => {
         let newTask = request.body
         return knex('Tasks')
             .insert(newTask)
-            .then(data => response.status(200).send("Posted"))
+            .then(data => (response.status(200).send("Posted")))
             .catch(error => response.status(405).send("Not posted"))
     } else {
         response.status(404).send('Make sure to send: Task Name, Due_date, priority and description')
