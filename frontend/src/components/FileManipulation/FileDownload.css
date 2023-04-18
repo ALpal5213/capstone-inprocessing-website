@@ -1,0 +1,73 @@
+
+
+div.download-box.container {
+    width: 75%;
+    border-style: solid;
+    box-shadow: 0 0 6px 5px rgba(0, 0, 0, .1);
+    border-color: rgba(244, 239, 239, 0.1);
+    border-radius: 10px;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    transition: all .2s ease;
+}
+
+input#customFile.custom-file-input {
+    display: none;
+}
+
+div.offcanvas.offcanvas-end.show{
+
+    
+    background: rgba(206, 212, 218, .9);
+    box-shadow: 0 0 6px 5px rgba(0, 0, 0, .1);
+    border-radius: 5px;
+    border-style: solid;
+    border-color: #212529;
+    border-width: 1.5px;
+    transition: all .2s ease;
+    
+    
+}
+
+div.offcanvas-title.h5{
+    text-align: center;
+}
+
+div.offcanvas.body{
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+    justify-content: center;
+    overflow-y: scroll;
+}
+
+div.card {
+    width: 7vw;
+    height: 15vh;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    margin-left: 100px;
+    padding:0px;
+    box-shadow: 0 0 6px 5px rgba(0, 0, 0, .1);
+    align-items: center;
+    justify-content: center;
+    transition: all .2s ease;
+}
+
+div.card:hover {
+
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: all .2s ease;
+
+}
+
+div.card-title.h5{
+
+    font-size: x-small;
+
+
+}
+
+
+
+

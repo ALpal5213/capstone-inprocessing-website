@@ -33,7 +33,8 @@ bcrypt.genSalt(saltRounds, (err, salt) => {
       job_id:randomizeJobs(), 
       unit_id: randomizeUnit(),
       session_id:faker.datatype.uuid(),
-      preferredTheme: faker.helpers.arrayElement(['light', 'dark'])
+      preferredTheme: faker.helpers.arrayElement(['light', 'dark']),
+      file_id:faker.datatype.uuid()
     })
   })
 })
@@ -60,7 +61,8 @@ for (let i = 0; i <= 100; i++){
         job_id:randomizeJobs(), 
         unit_id: randomizeUnit(),
         session_id:faker.datatype.uuid(),
-        preferredTheme: faker.helpers.arrayElement(['light', 'dark'])
+        preferredTheme: faker.helpers.arrayElement(['light', 'dark']),
+        file_id:faker.datatype.uuid()
       })
     })
   })

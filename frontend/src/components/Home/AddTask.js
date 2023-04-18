@@ -1,10 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Col, Row, Modal, Button, Form } from "react-bootstrap";
+import { Col, Row, Modal, Button, Form, Dropdown, DropdownButton } from "react-bootstrap";
 import './AddTask.css';
 import { GlobalContext } from '../../App';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 const AddTask = () => {
-    const { setReFetch } = useContext(GlobalContext);
+
+    const navigate = useNavigate();
+
+    const { reFetch, setReFetch } = useContext(GlobalContext);
     const [locations, setLocations] = useState([{
         "id": "",
         "building": "",
@@ -18,8 +23,8 @@ const AddTask = () => {
     const [taskName, setTaskName] = useState("");
     const [taskDesc, setTaskDesc] = useState("");
     const [taskDueDate, setTaskDueDate] = useState("");
-    const [taskPriority, setTaskPriority] = useState("Low");
-    const [mil_or_civ, setMilOrCiv] = useState("Military");
+    const [taskPriority, setTaskPriority] = useState("low");
+    const [mil_or_civ, setMilOrCiv] = useState("military");
     const [loc, setLoc] = useState(1);
     const [locAddress, setLocAddress] = useState("");
     const [locBuilding, setLocBuilding] = useState("");
@@ -50,7 +55,7 @@ const AddTask = () => {
         setTaskDesc(e.target.value);
     }
     const handleTaskPriorityChange = (e) => {
-        setTaskPriority(e.target.value);
+        setTaskPriority(e);
     }
     const handleTaskMilOrCivChange = (e) => {
         setDefaultCheck(false);
@@ -84,13 +89,13 @@ const AddTask = () => {
         setLocPMHours(e.target.value);
     }
     const handleLocDaysChange = (e) => {
-        if(e.target.checked){
+        if (e.target.checked) {
             //add
             setDays([...days, e.target.value]);
-        } else{
+        } else {
             // //remove
             setDays(days.filter(day => day !== e.target.value));
-        }        
+        }
     }
     const handleLocURLChange = (e) => {
         setLocURL(e.target.value);
@@ -98,6 +103,8 @@ const AddTask = () => {
     const handleLocNotesChange = (e) => {
         setLocNotes(e.target.value);
     }
+
+    var user_id = Cookies.get('user_id')
 
     useEffect(() => {
         fetch('http://localhost:3001/table/Locations')
@@ -109,28 +116,26 @@ const AddTask = () => {
     const submitRequest = () => {
         if (showNewLocation) { //user adding a new location to a task
             //create a new location first
-            addLocation()
-            //then create a new task with the location of the task being the new location id
-            const last_loc = locations[locations.length - 1]
-            addTask(last_loc.id + 1)
+            addLocation();
         } else { //user adding an existing location to a task
-            addTask(loc)
+            addTask(loc);
         }
         handleClose();
-        setReFetch(true);
     }
 
     const addLocation = () => {
         let hours = locAMHours + " A.M. to " + locPMHours + " P.M.";
         let daysOfWeek = "";
-        if(days.includes("M") && days.includes("T") && days.includes("W") && days.includes("T") && days.includes("F")){
-            hours = hours + " M-F"
+        if (days.includes("M") && days.includes("T") && days.includes("W") && days.includes("T") && days.includes("F")) {
+            hours = hours + " M-F";
+        } else if (days.length === 0) {
+            hours = "";
         } else {
             for (let i = 0; i < days.length; i++) {
                 const element = days[i];
-                daysOfWeek += element + ", "
+                daysOfWeek += element + ", ";
             }
-            daysOfWeek = daysOfWeek.slice(0, daysOfWeek.length-2);
+            daysOfWeek = daysOfWeek.slice(0, daysOfWeek.length - 2);
             hours = hours + " " + daysOfWeek;
         }
 
@@ -144,20 +149,39 @@ const AddTask = () => {
             "notes": locNotes
         }
 
-        fetch("http://localhost:3001/locations",
-            {
-                method: "POST",
-                headers: {
-                    'Content-Type': "application/json",
-                },
-                body: JSON.stringify(newLocation)
-            })
-            .then((res) => res.json())
-            .then((data) => (data))
+        if (newLocation.building === "" || newLocation.address === "") {
+            //prompt user to enter details
+        } else {
+            fetch("http://localhost:3001/locations",
+                {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': "application/json",
+                    },
+                    body: JSON.stringify(newLocation)
+                })
+                .then((data) => console.log(data))
+                .then(() => {
+                    return fetch('http://localhost:3001/table/Locations')
+                        .then(res => res.json())
+                        .then(data => {
+                            setLocations(data);
+                            return data;
+                        })
+                })
+                .then((data) => {
+                    console.log(data.length);
+                    addTask(data.length);})
+
+        }
+
     }
+
     const addTask = (location_id) => {
-        const newTask = {
-            "user_id": 1,
+        //console.log("Location ID: ")
+        //console.log(location_id)
+        let newTask = {
+            "user_id": parseInt(user_id),
             "location_id": location_id,
             "task_name": taskName,
             "task_description": taskDesc,
@@ -170,28 +194,35 @@ const AddTask = () => {
             "has_download": taskDownload
         }
 
-        fetch("http://localhost:3001/tasks",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(newTask)
-            })
-            .then((res) => res.json())
-            .then((data) => (data))
+        if(newTask.task_name === "" || newTask.task_description === "" || newTask.priority === "" || newTask.location_id === ""){
+            //prompt user to enter details
+        } else {
+            fetch("http://localhost:3001/tasks",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(newTask)
+                })
+                //.then((res) => res.json())
+                .then((data) => console.log(data))
+        }
     }
-
+    
     //states for the Modal
     const handleClose = () => {
+        navigate('/home');
+        setReFetch(!reFetch);
         setDefaultCheck(true);
         setShowNewLocation(false);
         setLoc(1);
         setDays([]);
-        setMilOrCiv("Military");
+        setMilOrCiv("military");
         setLocAddress("");
         setLocBuilding("");
         setLocRoom("");
+        setTaskPriority("low");
         setLocAMHours("8");
         setLocPMHours("5");
         setLocPhone("");
@@ -199,13 +230,15 @@ const AddTask = () => {
         setLocNotes("");
         setTaskUpload(false);
         setTaskDownload(false);
+        console.log("Before: " + reFetch)
         setShow(false);
     };
+    
     const handleShow = () => setShow(true);
 
     const handleCloseNewLocation = (e) => {
-        setLoc(e.target.value);
-        if (e.target.value !== "newLocation") {
+        setLoc(e);
+        if (e !== "Add a new location") {
             setShowNewLocation(false);
         } else {
             setShowNewLocation(true);
@@ -231,7 +264,7 @@ const AddTask = () => {
                     </Row>
                     <Row className="form-group">
                         <Form.Label for="newTaskDueDate">Due Date*</Form.Label>
-                        <input type="date" className="form-control" id="newTaskDueDate" onChange={handleTaskDueDateChange}></input>
+                        <Form.Control type="date" className="form-control" id="newTaskDueDate" onChange={handleTaskDueDateChange}></Form.Control>
                     </Row>
                     <Row className="form-group">
                         <Row>
@@ -239,19 +272,21 @@ const AddTask = () => {
                         </Row>
                         <Row>
                             <Col>
-                                <select className="form-control" id="newTaskPriority" onChange={handleTaskPriorityChange}>
-                                    <option value="low">Low</option>
-                                    <option value="medium">Medium</option>
-                                    <option value="high">High</option>
-                                </select>
+                                <Dropdown>
+                                    <DropdownButton id="newTaskPriority" onSelect={handleTaskPriorityChange} title={taskPriority}>
+                                        <Dropdown.Item eventKey="low">Low</Dropdown.Item>
+                                        <Dropdown.Item eventKey="medium">Medium</Dropdown.Item>
+                                        <Dropdown.Item eventKey="high">High</Dropdown.Item>
+                                    </DropdownButton>
+                                </Dropdown>
                             </Col>
                         </Row>
                         <Row>
                             <span>
                                 <Form.Label for="mil">Military</Form.Label>
-                                <Form.Check type="radio" name="mil_or_civ" id="mil" value="mil" inline defaultChecked={defaultCheck} onChange={handleTaskMilOrCivChange}></Form.Check>
+                                <Form.Check type="radio" name="mil_or_civ" id="mil" value="military" inline defaultChecked={defaultCheck} onChange={handleTaskMilOrCivChange}></Form.Check>
                                 <Form.Label for="mil">Civilian</Form.Label>
-                                <Form.Check type="radio" name="mil_or_civ" id="civ" value="civ" inline onChange={handleTaskMilOrCivChange}></Form.Check>
+                                <Form.Check type="radio" name="mil_or_civ" id="civ" value="civilian" inline onChange={handleTaskMilOrCivChange}></Form.Check>
                                 <Form.Label for="mil">Both</Form.Label>
                                 <Form.Check type="radio" name="mil_or_civ" id="both" value="both" inline onChange={handleTaskMilOrCivChange}></Form.Check>
                             </span>
@@ -260,13 +295,16 @@ const AddTask = () => {
                     <Row className="form-group">
                         <Form.Label>Location</Form.Label>
                         <Col>
-                            <select className="form-control" id="newTaskPriority" onChange={handleCloseNewLocation}>
-                                {
-                                    //FIX on change and on select
-                                    locations.map((location) => <option value={location.id}>{location.building}</option>)
-                                }
-                                <option id="newLocation" value="newLocation">Add Location</option>
-                            </select>
+                            <Dropdown>
+                                <DropdownButton id="newTaskLocation" title={loc !== "Add a new location" ? locations[loc - 1].building : "Add a new location"} onSelect={handleCloseNewLocation}>
+                                    {
+                                        //FIX on select
+                                        locations.map((location) => <Dropdown.Item eventKey={location.id}>{location.building}</Dropdown.Item>)
+                                    }
+                                    <Dropdown.Divider />
+                                    <Dropdown.Item id="newLocation" eventKey="Add a new location">Add Location</Dropdown.Item>
+                                </DropdownButton>
+                            </Dropdown>
                         </Col>
                     </Row>
                     <div id="locationDiv">
@@ -287,7 +325,7 @@ const AddTask = () => {
                                     <Row>
                                         <Form.Label>Hours</Form.Label>
                                         <span>
-                                            <select id="newLocAMHours" onChange={handleLocAMHoursChange}>
+                                            <select id="newLocAMHours" defaultValue={8} onChange={handleLocAMHoursChange}>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
@@ -295,19 +333,19 @@ const AddTask = () => {
                                                 <option value="5">5</option>
                                                 <option value="6">6</option>
                                                 <option value="7">7</option>
-                                                <option value="8" selected>8</option>
+                                                <option value="8">8</option>
                                                 <option value="9">9</option>
                                                 <option value="10">10</option>
                                                 <option value="11">11</option>
                                                 <option value="12">12</option>
                                             </select>
                                             <Form.Label> A.M. to </Form.Label>
-                                            <select id="newLocPMHours" onChange={handleLocPMHoursChange}>
+                                            <select id="newLocPMHours" defaultValue={5} onChange={handleLocPMHoursChange}>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
                                                 <option value="4">4</option>
-                                                <option value="5" selected>5</option>
+                                                <option value="5">5</option>
                                                 <option value="6">6</option>
                                                 <option value="7">7</option>
                                                 <option value="8">8</option>

@@ -19,7 +19,8 @@ exports.up = function (knex) {
         table.integer('unit_id');
         table.foreign('unit_id').references('Units.id').onDelete('CASCADE');
         table.string('session_id');
-        table.enu('preferredTheme', ['light', 'dark']);
+        table.enu('preferredTheme', ['light', 'dark']);;
+        table.string('file_id');
     })
 };
 

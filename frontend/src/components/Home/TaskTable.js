@@ -17,6 +17,7 @@ export const TaskTabs = () => {
     const [personalTasks, setPersonalTasks] = useState([]);
 
     useEffect(() => {
+        console.log("After: " + reFetch)
         fetch(`http://localhost:3001/tasks-locations/${userLogin.id}`)
             .then(res => res.json())
             .then(data => {
