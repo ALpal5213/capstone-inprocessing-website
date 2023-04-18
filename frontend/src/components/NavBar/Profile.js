@@ -23,7 +23,6 @@ const Profile = () => {
             .then(res => res.json())
             .then(data => {
                 setJob(data[0])
-                console.log(data)
             })
 
     }, [userLogin])
