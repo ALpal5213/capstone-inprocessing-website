@@ -60,7 +60,7 @@ routePath.get("/table/:table", (request, response) => {
     let fields 
     
     if (table === 'Users') {
-      fields = ['id', 'fullname', 'username', 'role_id', 'is_admin', 'is_supervisor', 'is_leadership', 'is_military', 'job_id', 'unit_id', 'session_id']
+      fields = ['id', 'fullname', 'username', 'role_id', 'is_admin', 'is_supervisor', 'is_leadership', 'is_military', 'job_id', 'unit_id', 'session_id', 'file_id']
     } else {
       fields = '*'
     }
@@ -78,7 +78,7 @@ routePath.get("/table/:table/:id", (request, response) => {
     let fields 
     
     if (table === 'Users') {
-      fields = ['id', 'fullname', 'username', 'role_id', 'is_admin', 'is_supervisor', 'is_leadership', 'is_military', 'job_id', 'unit_id', 'session_id']
+      fields = ['id', 'fullname', 'username', 'role_id', 'is_admin', 'is_supervisor', 'is_leadership', 'is_military', 'job_id', 'unit_id', 'session_id', 'file_id']
     } else {
       fields = '*'
     }
