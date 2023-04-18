@@ -54,9 +54,9 @@ const Details = () => {
 
 
     const handleDelete = () => {
+        deleteTask(task)
         navigate('/home')
         setReFetch(true)
-        deleteTask(task)
     }
     const deleteTask = () => {
         fetch(`http://localhost:3001/tasks/${task.id}`, {
@@ -64,7 +64,6 @@ const Details = () => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(task)
         })
-            .then(res => res.json())
             .then(data => {
                 setReFetch(true)
                 navigate('/home')
