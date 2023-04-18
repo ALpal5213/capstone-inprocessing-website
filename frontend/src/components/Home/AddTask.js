@@ -2,10 +2,14 @@ import React, { useState, useEffect, useContext } from "react";
 import { Col, Row, Modal, Button, Form, Dropdown, DropdownButton } from "react-bootstrap";
 import './AddTask.css';
 import { GlobalContext } from '../../App';
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 const AddTask = () => {
-    const { setReFetch } = useContext(GlobalContext);
+
+    const navigate = useNavigate();
+
+    const { reFetch, setReFetch } = useContext(GlobalContext);
     const [locations, setLocations] = useState([{
         "id": "",
         "building": "",
@@ -156,19 +160,20 @@ const AddTask = () => {
                     },
                     body: JSON.stringify(newLocation)
                 })
-                .then((res) => res.json())
-                .then((data) => (data))
+                .then((data) => console.log(data))
+                .then(() => {
+                    return fetch('http://localhost:3001/table/Locations')
+                        .then(res => res.json())
+                        .then(data => {
+                            setLocations(data);
+                            return data;
+                        })
+                })
+                .then((data) => {
+                    console.log(data.length);
+                    addTask(data.length);})
 
-            fetch('http://localhost:3001/table/Locations')
-                .then(res => res.json())
-                .then(data => setLocations(data))
-
-            //this needs to refresh
-            setReFetch(true);
-
-            console.log(locations)
         }
-
 
     }
 
@@ -200,13 +205,15 @@ const AddTask = () => {
                     },
                     body: JSON.stringify(newTask)
                 })
-                .then((res) => res.json())
-                .then((data) => (data))
+                //.then((res) => res.json())
+                .then((data) => console.log(data))
         }
     }
-
+    
     //states for the Modal
     const handleClose = () => {
+        navigate('/home');
+        setReFetch(!reFetch);
         setDefaultCheck(true);
         setShowNewLocation(false);
         setLoc(1);
@@ -223,9 +230,10 @@ const AddTask = () => {
         setLocNotes("");
         setTaskUpload(false);
         setTaskDownload(false);
-        setReFetch(true);
+        console.log("Before: " + reFetch)
         setShow(false);
     };
+    
     const handleShow = () => setShow(true);
 
     const handleCloseNewLocation = (e) => {
