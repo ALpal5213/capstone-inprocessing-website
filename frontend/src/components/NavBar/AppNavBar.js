@@ -14,7 +14,7 @@ const AppNavBar = () => {
   useEffect(() => {
     var user_id = Cookies.get('user_id')
     var session_id = Cookies.get('session_id')
-    console.log("enter user useEffect")
+
     if (userLogin) {
       fetch(`http://localhost:3001/Table/Users/${user_id}`)
         .then(res => res.json())
@@ -23,7 +23,7 @@ const AppNavBar = () => {
   }, [reFetch])
 
   useEffect(() => {
-    console.log("enter tasks useEffect")
+
     if (userLogin) {
       fetch(`http://localhost:3001/tasks-locations/${userLogin.id}`)
         .then(res => res.json())
