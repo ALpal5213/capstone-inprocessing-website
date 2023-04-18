@@ -17,7 +17,6 @@ const Details = () => {
     const splitDate = task.due_date.split('T');
     const formattedDate = splitDate[0];
     const [editable, setEditable] = useState(false);
-    const editRef = useRef({ task_description: task.task_description, address: task.address, hours: task.hours, building: task.building, room: task.room, phone_number: task.phone_number, notes: task.notes, url: task.url });
     const { setReFetch } = useContext(GlobalContext);
     const navigate = useNavigate();
     let editObj = {};
@@ -32,8 +31,6 @@ const Details = () => {
 
     const handlePatch = () => {
         setEditable(false);
-        console.log(task.id);
-        console.log(editObj);
 
         fetch(`http://localhost:3001/tasks/${task.id}`, {
             method: 'PATCH',

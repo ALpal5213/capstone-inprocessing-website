@@ -56,7 +56,7 @@ routePath.get("/table/:table", (request, response) => {
     let fields 
     
     if (table === 'Users') {
-      fields = ['id', 'fullname', 'username', 'role_id', 'is_admin', 'is_supervisor', 'is_leadership', 'is_military', 'job_id', 'unit_id', 'session_id']
+      fields = ['id', 'fullname', 'username', 'role_id', 'is_admin', 'is_supervisor', 'is_leadership', 'is_military', 'job_id', 'unit_id', 'session_id', 'preferredTheme']
     } else {
       fields = '*'
     }
@@ -74,7 +74,7 @@ routePath.get("/table/:table/:id", (request, response) => {
     let fields 
     
     if (table === 'Users') {
-      fields = ['id', 'fullname', 'username', 'role_id', 'is_admin', 'is_supervisor', 'is_leadership', 'is_military', 'job_id', 'unit_id', 'session_id']
+      fields = ['id', 'fullname', 'username', 'role_id', 'is_admin', 'is_supervisor', 'is_leadership', 'is_military', 'job_id', 'unit_id', 'session_id', 'preferredTheme']
     } else {
       fields = '*'
     }
@@ -286,6 +286,19 @@ routePath.patch("/tasks/:id", (request, response) => {
     let changes = request.body;
 
     return knex('Tasks')
+        .where({ id: id })
+        .update(changes)
+        .then(data => response.status(200).send("Patched"))
+        .catch(error => response.status(405).send(error))
+});
+
+//Patch User prefferedTheme by User Id
+
+routePath.patch("/table/Users/:id", (request, response) => {
+    let id = request.params.id;
+    let changes = request.body;
+
+    return knex('Users')
         .where({ id: id })
         .update(changes)
         .then(data => response.status(200).send("Patched"))

@@ -18,7 +18,8 @@ exports.up = function (knex) {
         table.foreign('job_id').references('Jobs.id').onDelete('CASCADE');
         table.integer('unit_id');
         table.foreign('unit_id').references('Units.id').onDelete('CASCADE');
-        table.string('session_id')
+        table.string('session_id');
+        table.enu('preferredTheme', ['light', 'dark']);
     })
 };
 

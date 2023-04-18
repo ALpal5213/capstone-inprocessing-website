@@ -13,9 +13,9 @@ const AppNavBar = () => {
 
   useEffect(() => {
     var user_id = Cookies.get('user_id')
-    console.log(user_id)
+    //console.log(user_id)
     var session_id = Cookies.get('session_id')
-    console.log(session_id)
+   // console.log(session_id)
 
     fetch(`http://localhost:3001/Table/Users/${user_id}`)
       .then(res => res.json())

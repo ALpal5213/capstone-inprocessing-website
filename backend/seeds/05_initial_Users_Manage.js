@@ -32,7 +32,8 @@ bcrypt.genSalt(saltRounds, (err, salt) => {
       is_military:faker.datatype.boolean(), 
       job_id:randomizeJobs(), 
       unit_id: randomizeUnit(),
-      session_id:faker.datatype.uuid()
+      session_id:faker.datatype.uuid(),
+      preferredTheme: faker.helpers.arrayElement(['light', 'dark'])
     })
   })
 })
@@ -58,7 +59,8 @@ for (let i = 0; i <= 100; i++){
         is_military:faker.datatype.boolean(), 
         job_id:randomizeJobs(), 
         unit_id: randomizeUnit(),
-        session_id:faker.datatype.uuid()
+        session_id:faker.datatype.uuid(),
+        preferredTheme: faker.helpers.arrayElement(['light', 'dark'])
       })
     })
   })
