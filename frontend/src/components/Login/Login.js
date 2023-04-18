@@ -31,39 +31,41 @@ export const Login = () => {
   )
 
   useEffect(() => {
-    if (passMatch.match === false && username.length > 0) {
-      setFailMessage(failContent)
-    } else if (passMatch.match === true && username.length > 0) {
-      fetch("http://localhost:3001/session", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ "authenticated": true, id: userId })
-      }).then(res => res.json())
-        .then(data => {
-
-          //Set cookies for session Id and User Id
-          Cookies.set('session_id', `${data.session_id}`, { expires: 1, path: '/', sameSite:'strict' });
-          Cookies.set('user_id', `${data.user_id}`, { expires: 1, path: '/',  sameSite:'strict' });
-          setUserAuth(true)
-        })
-
-
-      fetch(`http://localhost:3001/Table/Users/${userId}`)
-        .then(res => res.json())
-        .then(data => {
-          setUserLogin(data[0])
-        })
-      setFailMessage(
-        <div className='newAccountLinkDiv'>
-          <span className='newHereText'>New Here?</span>
-          <Form.Text>
-              <Link to='/create-account' className="formLink">Click Here to create an account.</Link>
-          </Form.Text>
-        </div>
-      )
-      navigate('/home')
+    if (passMatch.match) {
+      if (passMatch.match === false && username.length > 0) {
+        setFailMessage(failContent)
+      } else if (passMatch.match === true && username.length > 0) {
+        fetch("http://localhost:3001/session", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ "authenticated": true, id: userId })
+        }).then(res => res.json())
+          .then(data => {
+  
+            //Set cookies for session Id and User Id
+            Cookies.set('session_id', `${data.session_id}`, { expires: 1, path: '/', sameSite:'strict' });
+            Cookies.set('user_id', `${data.user_id}`, { expires: 1, path: '/',  sameSite:'strict' });
+            setUserAuth(true)
+          })
+  
+  
+        fetch(`http://localhost:3001/Table/Users/${userId}`)
+          .then(res => res.json())
+          .then(data => {
+            setUserLogin(data[0])
+          })
+        setFailMessage(
+          <div className='newAccountLinkDiv'>
+            <span className='newHereText'>New Here?</span>
+            <Form.Text>
+                <Link to='/create-account' className="formLink">Click Here to create an account.</Link>
+            </Form.Text>
+          </div>
+        )
+        navigate('/home')
+      }
     }
   }, [passMatch])
 

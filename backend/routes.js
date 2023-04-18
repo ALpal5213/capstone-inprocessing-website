@@ -110,6 +110,15 @@ routePath.get("/supervisor/:id", (request, response) => {
       .catch(error => response.status(405).send("Could not get"))
 });
 
+//Get that returns a list of all supervisors
+routePath.get("/supervisors", (request, response) => {
+  return knex('Users')
+      .select('id', 'fullname')
+      .where({ is_supervisor: true })
+      .then(data => response.status(200).json(data))
+      .catch(error => response.status(405).send("Could not get"))
+});
+
 //Get join table that returns a list of squadron members based on a passed in commander user id
 routePath.get("/commander/:id", (request, response) => {
   let id = request.params.id;
@@ -118,6 +127,45 @@ routePath.get("/commander/:id", (request, response) => {
       .join('Users', 'Manage.user_id', '=', 'Users.id')
       .select('Manage.id', 'Manage.user_id as unitMemberId', 'Users.fullname', 'Users.unit_id')
       .where({ commander_id: id })
+      .then(data => response.status(200).json(data))
+      .catch(error => response.status(405).send("Could not get"))
+});
+
+//Get that returns a list of all commanders
+routePath.get("/leadership", (request, response) => {
+  return knex('Users')
+      .select('id', 'fullname')
+      .where({ is_leadership: true })
+      .then(data => response.status(200).json(data))
+      .catch(error => response.status(405).send("Could not get"))
+});
+
+//Get that returns a list of all leadership based on a passed in unit
+routePath.get("/leadership/:unit_id", (request, response) => {
+  let unit_id = request.params.unit_id;
+  return knex('Users')
+      .select('id', 'fullname', 'unit_id')
+      .where({ is_leadership: true, unit_id: unit_id})
+      .then(data => response.status(200).json(data))
+      .catch(error => response.status(405).send("Could not get"))
+});
+
+//Get that returns a list of all supervisors based on a passed in unit
+routePath.get("/supervisors/:unit_id", (request, response) => {
+  let unit_id = request.params.unit_id;
+  return knex('Users')
+      .select('id', 'fullname', 'unit_id')
+      .where({ is_supervisor: true, unit_id: unit_id})
+      .then(data => response.status(200).json(data))
+      .catch(error => response.status(405).send("Could not get"))
+});
+
+//get that returns a list of unit members based on a passed in unit
+routePath.get("/members/:unit_id", (request, response) => {
+  let unit_id = request.params.unit_id;
+  return knex('Users')
+      .select('id', 'fullname', 'unit_id')
+      .where({unit_id: unit_id})
       .then(data => response.status(200).json(data))
       .catch(error => response.status(405).send("Could not get"))
 });
@@ -138,14 +186,15 @@ routePath.post("/tasks", (request, response) => {
 
 routePath.post("/Users", (request, response) => {
     var missingKeyCount = 0;
-    const userKeys = ['fullname', 'username', 'password', 'is_admin', 'is_supervisor', 'is_military', 'job_id', 'unit_id']
+    const userKeys = ['fullname', 'username', 'password', 'is_admin', 'is_supervisor', 'is_military', 'job_id', 'unit_id', ]
     userKeys.forEach(key => { if (!Object.keys(request.body).includes(key)) missingKeyCount++ });
 
     if (missingKeyCount === 0) {
         return knex('Users')
             .insert(request.body)
-            .then(() => {
-                response.status(201).send({ response: `added new user` });
+            .returning('id')
+            .then((id) => {
+                response.status(201).send({ response: `added new user`, id: id[0].id });
             })
             .catch((err) => {
                 console.log(err);
@@ -154,6 +203,27 @@ routePath.post("/Users", (request, response) => {
     } else {
         response.send({ response: `error adding new user, missing object properties in request body` })
     }
+});
+
+routePath.post("/Manage", (request, response) => {
+  var missingKeyCount = 0;
+  //user_id, supervisor_id, commander_id
+  const userKeys = ['user_id', 'supervisor_id', 'commander_id']
+  userKeys.forEach(key => { if (!Object.keys(request.body).includes(key)) missingKeyCount++ });
+
+  if (missingKeyCount === 0) {
+      return knex('Manage')
+          .insert(request.body)
+          .then(() => {
+              response.status(201).send({ response: `added new manage entry` });
+          })
+          .catch((err) => {
+              console.log(err);
+              response.send({ response: `error adding new manage entry` })
+          })
+  } else {
+      response.send({ response: `error adding new manage entry, missing object properties in request body` })
+  }
 });
 
 routePath.post("/username", async (request, response) => {
