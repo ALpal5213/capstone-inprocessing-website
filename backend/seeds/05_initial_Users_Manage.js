@@ -6,7 +6,7 @@ const randomizeJobs = () => {
 }
 
 const randomizeUnit = () => {
-  return Math.floor(Math.random() * 3) + 1
+  return Math.floor(Math.random() * 15) + 1
 }
 
 const randomizeRole = () => {

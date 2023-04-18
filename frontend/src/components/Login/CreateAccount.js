@@ -17,11 +17,14 @@ export const CreateAccount = () => {
   const [military, setMilitary] = useState(false)
   const [jobId, setJobId] = useState()
   const [unitId, setUnitId] = useState()
+  const [supervisorId, setSupervisorId] = useState()
+  const [commanderId, setCommanderId] = useState()
   const [jobs, setJobs] = useState([])
   const [units, setUnits] = useState([])
+  const [supervisors, setSupervisors] = useState([{id: '?', fullname: 'Select A Unit', unit_id: '?' }])
   const textItems = ['First_~Name', 'Last_~Name', 'Username_~']
   const checkBoxes = ['Admin', 'Supervisor', 'Military']
-  const comboBoxes = [{name: 'Job', list: jobs, props: ['id', 'job_name']}, {name: 'Unit', list: units, props: ['id', 'unit_name']}]
+  const comboBoxes = [{name: 'Job', list: jobs, props: ['id', 'job_name']}, {name: 'Unit', list: units, props: ['id', 'unit_name']}, {name: 'Supervisor', list: supervisors, props: ['id', 'fullname']}]
 
   useEffect(() => {
     fetch(`http://localhost:3001/Table/Jobs`)
@@ -35,6 +38,26 @@ export const CreateAccount = () => {
         setUnits(unitList)
       })
   },[])
+
+  useEffect(() => {
+    if (unitId) {
+      fetch(`http://localhost:3001/supervisors/${unitId}`)
+      .then(res => res.json())
+      .then(supervisors => {
+        setSupervisors(supervisors)
+      })
+      fetch(`http://localhost:3001/leadership/${unitId}`)
+      .then(res => res.json())
+      .then(leadership => {
+        setCommanderId(leadership[0].id)
+      })
+    }
+  },[unitId])
+
+  useEffect(() => {
+    document.getElementById('Supervisor').innerHTML = 'Supervisor'
+    setSupervisorId()
+  },[supervisors])
 
   const CustomMenu = React.forwardRef(
     ({ children, style, className, 'aria-labelledby': labeledBy }, ref) => {
@@ -74,6 +97,9 @@ export const CreateAccount = () => {
     }
     if (idDataArr[2] === 'Unit') {
       setUnitId(idDataArr[0])
+    }
+    if (idDataArr[2] === 'Supervisor') {
+      setSupervisorId(idDataArr[0])
     }
     document.getElementById(idDataArr[2]).innerHTML = idDataArr[1].length < 19 ? idDataArr[1] : `${idDataArr[1].substring(0,19)}...`
   }
@@ -173,8 +199,19 @@ export const CreateAccount = () => {
             },
             body: JSON.stringify({fullname: fullName, username: username, password: hash, is_admin: admin, is_supervisor: supervisor, is_military: military, job_id: jobId, unit_id: unitId})
           })
+          .then(res => res.json())
+          .then(res => {
+            fetch("http://localhost:3001/Manage", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({user_id: res.id, supervisor_id: supervisorId, commander_id: commanderId})
+            })
+          })
         })
       })
+      //user_id, supervisor_id, commander_id
       navigate('/login')
     }
   }
@@ -183,23 +220,10 @@ export const CreateAccount = () => {
     <>
       <div className='backDiv' />
       <div className='menuDiv createDiv'>
-        <h1 className='divItem'>Create Account</h1>
+        <h1 className='createFormHead'>Create Account</h1>
         {jobs ?
           <Form>
-            <div className='errDiv'>
-            </div>
-            <div className='formRowDiv'>
-              {checkBoxes.map((checkBox, index) => {
-                return(
-                  <React.Fragment key={index}>
-                    <Form.Group className="mb-3 formRowItem" controlId={`${checkBox}Checkbox`} onChange={(event) => checkBoxControl(event)}>
-                      <Form.Check type="checkbox" label={checkBox} />
-                    </Form.Group>
-                    {index < checkBoxes.length - 1 ? <div className="vr colSplit"></div> : ''}
-                  </React.Fragment>
-                )
-              })}
-            </div>
+            
             <div className='errDiv'>
               <span id='dropdownErr' className='errMsg'></span>
             </div>
@@ -226,20 +250,35 @@ export const CreateAccount = () => {
             {textItems.map((textItem, index) => {
               var textArr = textItem.split('_~')
               return(
-                <Form.Group key={index} className="mb-3 divItem" controlId={`${textArr[0]}`}>
+                <Form.Group key={index} className="mb-3 createDivItem" controlId={`${textArr[0]}`}>
                   <Form.Label>{textArr.length > 1 ? `${textArr[0]} ${textArr[1]}` : textArr[0] }</Form.Label><span id={`${textArr[0]}Err`} className='errMsg'></span>
                   <Form.Control type="text" placeholder={textArr.length > 1 ? `${textArr[0]} ${textArr[1]}` : textArr[0]} onChange={(event) => textBoxControl(event)}/>
                 </Form.Group>
               )
             })}
-            <Form.Group className="mb-3 divItem" controlId="pass">
+            <Form.Group className="mb-3 createDivItem" controlId="pass">
               <Form.Label>Password</Form.Label><span id='passErr' className='errMsg'></span>
               <Form.Control type="password" placeholder="Password" />
             </Form.Group>
-            <Form.Group className="mb-3 divItem" controlId="passConfirm">
+            <Form.Group className="mb-3 createDivItem" controlId="passConfirm">
               <Form.Label>Password Confirmation</Form.Label><span id='passConfirmErr' className='errMsg'></span>
               <Form.Control type="password" placeholder="Password Confirmation" />
             </Form.Group>
+            <div className='errDiv'>
+            </div>
+            <div className='formRowDiv'>
+              {checkBoxes.map((checkBox, index) => {
+                return(
+                  <React.Fragment key={index}>
+                    <Form.Group className="mb-3 formRowItem" controlId={`${checkBox}Checkbox`} onChange={(event) => checkBoxControl(event)}>
+                      <Form.Check type="checkbox" label={checkBox} />
+                    </Form.Group>
+                    {index < checkBoxes.length - 1 ? <div className="vr colSplit"></div> : ''}
+                  </React.Fragment>
+                )
+              })}
+              
+            </div>
             <Button variant="dark formButtonStyle" onClick={() => navigate('/login')}>Cancel</Button>
             <Button variant="dark formButtonStyle" onClick={() => createUser()}>Create</Button>
           </Form> : ''

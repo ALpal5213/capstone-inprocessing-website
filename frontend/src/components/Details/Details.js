@@ -89,6 +89,7 @@ const Details = () => {
                         <Row>
                             <Col>
                         <div className='status-div'><h5> Status</h5><p>{task.status}</p></div>
+                        <div className='status-div'><h5> Priority</h5><p>{task.priority}</p></div>
                         <div className='status-div'><h5> Due Date</h5><p>{formattedDate}</p></div>
                         <div className='status-div'><h5> Task Description</h5><p>{task.task_description}</p></div>
                         {editButton}
@@ -114,10 +115,14 @@ const Details = () => {
                     :
                     <div>
                         <Container className='taskDescriptions'>
-                            <div className='status-div'> Editing Tasks</div>
+                            <div className='status-div'><h3>Edit Task</h3></div>
                             <Form>
-                            <Form.Group className="mb-3" controlId="formDueDate">
-                            <Form.Label>Status</Form.Label>
+                                <Form.Group className="mb-3" controlId="formTaskName">
+                                    <Form.Label>Task Name</Form.Label>
+                                    <Form.Control type="text" defaultValue={task.task_name} onChange={(e) => editObj["task_name"] = e.target.value} />
+                                </Form.Group>
+                                <Form.Group className="mb-3" controlId="formDueDate">
+                                <Form.Label>Status</Form.Label>
                                     <Form.Select type="text" defaultValue={task.status} onChange={(e) => editObj["status"] = e.target.value}>
                                         <option>Status</option>
                                         <option value="incomplete" >Incomplete</option>
@@ -125,14 +130,17 @@ const Details = () => {
                                         <option value="complete">Complete</option> 
                                     </Form.Select>
                                 </Form.Group>
+                                <Form.Group className="mb-3" controlId="formPriority">
+                                    <Form.Label>Priority</Form.Label>
+                                    <Form.Control type="text" defaultValue={task.priority} onChange={(e) => editObj["priority"] = e.target.value} />
+                                </Form.Group>
                                 <Form.Group className="mb-3" controlId="formDueDate">
                                     <Form.Label>Due Date</Form.Label>
                                     <Form.Control type="date" defaultValue={task.due_date} onChange={(e) => editObj["due_date"] = e.target.value} />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="formBasicDescription">
-                                <Form.Label>Task Description</Form.Label>
+                                    <Form.Label>Task Description</Form.Label>
                                     <Form.Control type="text" defaultValue={task.task_description} onChange={(e) => editObj["task_description"] = e.target.value} />
-                            
                                 </Form.Group>
                                 <Button variant="outline-primary" onClick={() => handlePatch()}>Save</Button>
                                 <Button variant="outline-warning" onClick={() => setEditable(false)} className='detailH1Button'>Cancel</Button>
