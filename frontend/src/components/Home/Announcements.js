@@ -4,6 +4,7 @@ import './Announcements.css'
 const Announcements = ({ annArray }) => {
   return (  
     <Container>
+      <h4 className="announcement-align">Announcements</h4>
       <div className="announcement-row">
         {annArray.map((announcement, id) => {
           return <div className="announcement-card" key={`${id}`}>

@@ -1,9 +1,14 @@
+.announcement-align {
+  text-align: center;
+  margin-top: 5%;
+}
+
 .announcement-row {
   overflow-x: auto;
   list-style: none;
   display: flex;
   scroll-snap-type: x mandatory;
-  margin-top: 5%;
+  
   margin-bottom: 20px;
   padding-right: 100px;
   -webkit-mask-image: linear-gradient(to right, black 80%, transparent);
