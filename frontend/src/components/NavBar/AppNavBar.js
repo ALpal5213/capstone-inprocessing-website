@@ -15,27 +15,22 @@ const AppNavBar = () => {
     var user_id = Cookies.get('user_id')
     var session_id = Cookies.get('session_id')
 
-    if (userLogin) {
-      fetch(`http://localhost:3001/Table/Users/${user_id}`)
-        .then(res => res.json())
-        .then(data => setUserLogin(data[0]))
-    }
-  }, [reFetch])
+    fetch(`http://localhost:3001/Table/Users/${user_id}`)
+      .then(res => res.json())
+      .then(data => setUserLogin(data[0]))
+  }, [])
 
   useEffect(() => {
-
-    if (userLogin) {
-      fetch(`http://localhost:3001/tasks-locations/${userLogin.id}`)
-        .then(res => res.json())
-        .then(data => {
-          let tasks = data.filter((task) => {
-            let today = Math.floor(Date.now() / 86400000);
-            let dueDate = Math.floor(Date.parse(task.due_date) / 86400000);
-            return dueDate < today + DATE_RANGE && (task.status === "incomplete" || task.status === "pending");
-          })
-          setTaskList(tasks)
+    fetch(`http://localhost:3001/tasks-locations/${userLogin.id}`)
+      .then(res => res.json())
+      .then(data => {
+        let tasks = data.filter((task) => {
+          let today = Math.floor(Date.now() / 86400000);
+          let dueDate = Math.floor(Date.parse(task.due_date) / 86400000);
+          return dueDate < today + DATE_RANGE && (task.status === "incomplete" || task.status === "pending");
         })
-    }
+        setTaskList(tasks)
+      })
   }, [userLogin, reFetch])
 
   const userLogout = () => {
