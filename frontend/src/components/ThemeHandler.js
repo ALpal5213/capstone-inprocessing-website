@@ -21,6 +21,7 @@ export const ThemeHandler =()=> {
       .then(res => console.log(userLogin.preferredTheme))
   }
 
+  
     return(
         <>
                 <MDBSwitch defaultChecked id='flexSwitchCheckChecked' label='Switch Theme' onClick={toggleTheme} />
