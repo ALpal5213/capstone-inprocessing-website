@@ -10,7 +10,7 @@ exports.up = function(knex) {
         table.integer('location_id');
         table.foreign('location_id').references('Locations.id').onDelete('CASCADE');
         table.string('task_name');
-        table.string('task_description');
+        table.text('task_description');
         table.string('priority')
         table.string('task_type'); 
         table.string('mil_or_civ');

@@ -40,16 +40,16 @@ const Profile = () => {
                             <strong>Information</strong><br></br><br></br>
                             <div className="table-responsive">
                                 <table className="table table-user-information">
-                                    <tbody>
-                                        <tr>
-                                            <td>
+                                    <tbody className="Profile-List">
+                                        <tr className="Profile-Lists-row noHover">
+                                            <td className="Profile-data ">
                                                 <strong>ID </strong>
                                             </td>
                                             <td>
                                                 <div> {userLogin.id} </div>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr className='Profile-Lists-row noHover'>
                                             <td>
                                                 <strong>Full Name</strong>
                                             </td>
@@ -57,7 +57,7 @@ const Profile = () => {
                                                 <div>{userLogin.fullname} </div>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr className='Profile-Lists-row noHover'>
                                             <td>
                                                 <strong>Username</strong>
                                             </td>
@@ -65,7 +65,7 @@ const Profile = () => {
                                                 <div>{userLogin.username}</div>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr className='Profile-Lists-row noHover'>
                                             <td>
                                                 <strong>Admin</strong>
                                             </td>
@@ -73,7 +73,7 @@ const Profile = () => {
                                                 <div>{`${userLogin.is_admin}`}</div>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr className='Profile-Lists-row noHover'>
                                             <td>
                                                 <strong>Supervisor</strong>
                                             </td>
@@ -81,7 +81,7 @@ const Profile = () => {
                                                 <div>{`${userLogin.is_supervisor}`}</div>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr className='Profile-Lists-row noHover'>
                                             <td>
                                                 <strong>Is Military</strong>
                                             </td>
@@ -89,7 +89,7 @@ const Profile = () => {
                                                 <div>{`${userLogin.is_military}`}</div>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr className='Profile-Lists-row noHover'>
                                             <td>
                                                 <strong>Job Name: </strong>
                                             </td>
@@ -97,7 +97,7 @@ const Profile = () => {
                                                 <div>{job.job_name}</div>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr className='Profile-Lists-row noHover'>
                                             <td>
                                                 <strong>Unit Name: </strong>
                                             </td>
@@ -105,7 +105,7 @@ const Profile = () => {
                                                 <div>{unit.unit_name}</div>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr className='Profile-Lists-row email noHover'>
                                             <td>
                                                 <strong>Email</strong>
                                             </td>

@@ -1,7 +1,6 @@
 import React, { useState, useRef, useContext } from 'react';
 import Container from 'react-bootstrap/Container';
 import { Row, Col } from "react-bootstrap";
-import Collapse from 'react-bootstrap/Collapse';
 import Button from 'react-bootstrap/Button';
 import './Details.css'
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -20,9 +19,16 @@ const Details = () => {
     const [editable, setEditable] = useState(false);
     const editRef = useRef({ task_description: task.task_description, address: task.address, hours: task.hours, building: task.building, room: task.room, phone_number: task.phone_number, notes: task.notes, url: task.url });
     const { setReFetch } = useContext(GlobalContext);
-    const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     let editObj = {};
+    let editButton = '';
+    let delButton = '';
+
+
+    if (task.task_type == 'personal') {
+        editButton = <Button variant="outline-warning" onClick={() => startEdit()} className='detailH1Button'>Edit Task</Button>
+        delButton = <Button variant="outline-danger" className='detailH1Button' onClick={() => { handleDelete(task) }}>Delete Task</Button>
+    }
 
     const handlePatch = () => {
         setEditable(false);
@@ -88,21 +94,20 @@ const Details = () => {
                         <div className='status-div'><h5> Status</h5><p>{task.status}</p></div>
                         <div className='status-div'><h5> Due Date</h5><p>{formattedDate}</p></div>
                         <div className='status-div'><h5> Task Description</h5><p>{task.task_description}</p></div>
-                        <Button variant="outline-warning" onClick={() => startEdit()} className='detailH1Button'>Edit Task</Button>{' '}
-                        <Button variant="outline-danger" className='detailH1Button' onClick={() => { handleDelete(task) }}>Delete Task</Button>
+                        {editButton}
+                        {delButton}
                         <br></br>
                         <FileUpload />
                         
                             </Col>
                             <Col>
-                        <div className='status-div'><h5> Location</h5></div>
-                                    {task.building && <p>{task.building}</p>}
+                                    {task.building && <div className='status-div'><h5>{task.building}</h5></div>}
                                     {task.room && <p>Room: {task.room}</p>}
-                                    {task.address && <p>Address: {task.address}</p>}
-                                    {task.hours && <p>Hours: {task.hours}</p>}
-                                    {task.phone_number && <p>Phone Number: {task.phone_number}</p>}
+                                    {task.address && <p>{task.address}</p>}
+                                    {task.hours && <p> {task.hours}</p>}
+                                    {task.phone_number && <p>{task.phone_number}</p>}
                                     {task.notes && <p>Notes: {task.notes}</p>}
-                                    {task.url && <p>Website: {task.url}</p>}
+                                    {task.url && <p>{task.url}</p>}
                             </Col>       
                         </Row>
                         <hr class="solid"></hr>

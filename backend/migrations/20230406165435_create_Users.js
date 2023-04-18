@@ -8,8 +8,11 @@ exports.up = function (knex) {
         table.string('fullname');
         table.string('username');
         table.string('password');
+        table.integer('role_id');
+        table.foreign('role_id').references('Role.id').onDelete('CASCADE');
         table.boolean('is_admin');
         table.boolean('is_supervisor');
+        table.boolean('is_leadership');
         table.boolean('is_military');
         table.integer('job_id');
         table.foreign('job_id').references('Jobs.id').onDelete('CASCADE');
@@ -25,6 +28,7 @@ exports.up = function (knex) {
  */
 exports.down = function (knex) {
     return knex.schema.alterTable('Users', table => {
+      table.dropForeign('role_id');
         table.dropForeign('job_id');
         table.dropForeign('unit_id');
     })

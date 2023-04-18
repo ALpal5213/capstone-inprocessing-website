@@ -1,5 +1,39 @@
+.table-responsive {
+    border-radius: 10px;
+    width: 400px;
+    height: 550px;
+    background-color: rgba(206, 212, 218, .5);
+    display: flex; 
+    
+    padding: 0px;
+    margin-bottom: 20%;
+    margin-top:5%;
+}
+
+.noHover {
+    pointer-events: none;
+}
+.email {
+    border-bottom: solid rgba(206, 212, 218, .5) 0px !important;
+    height: 10px;
+}
+.Profile-Lists-row  {
+    color: #4f4f4f;
+    
+}
+
+  td {
+    border-bottom: solid black 0px !important;
+    border-right: none !important;
+    border-left: none !important;
+    border-top: solid black 1px !important;
+    
+  }
+
 .inf-content{
     border:1px solid #DDDDDD;
+    padding-left: 20px;
+    padding-top: 20px;
     -webkit-border-radius:10px;
     -moz-border-radius:10px;
     border-radius:10px;
