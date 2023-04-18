@@ -2,7 +2,8 @@
 import Details from './components/Details/Details.js';
 import React, { useState, createContext } from 'react';
 import { AllRoutes } from './components/Routes/AllRoutes.js';
-import { MDBSwitch } from 'mdb-react-ui-kit';
+import { ThemeHandler } from './components/ThemeHandler.js';
+
 
 //Styling Imports
 import './App.css';
@@ -20,26 +21,13 @@ function App() {
   const [currentUser, setCurrentUser] = useState({ user_id: "12345", user_name: "Ricky" });
   const [userLogin, setUserLogin] = useState(false);
   const [userAuth, setUserAuth] = useState(false);
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState('');
   const [reFetch, setReFetch] = useState(false);
 
-  //Switches Theme when toggled and patches DB with preferred theme.
-  const toggleTheme = () => {
-    theme === 'dark' ? setTheme('light') : setTheme('dark')
-    fetch(`http://localhost:3001/table/Users/${userLogin.id}`, {
-      method: 'PATCH',
-      body: JSON.stringify({ preferredTheme: theme }),
-      headers: {
-        'Content-type': 'application/json',
-      },
-    })
-      .then(res => console.log(userLogin.preferredTheme))
-  }
-
   return (
-    <GlobalContext.Provider value={{ theme, selectedTask, setSelectedTask, selectedLocation, setSelectedLocation, currentUser, setCurrentUser, userLogin, setUserLogin, userAuth, setUserAuth, reFetch, setReFetch }}>
-      <div className={theme === 'dark' ? 'dark-theme' : 'light-theme'}>
-        <MDBSwitch defaultChecked id='flexSwitchCheckChecked' label='Switch Theme' onClick={toggleTheme} />
+    <GlobalContext.Provider value={{ theme, setTheme, selectedTask, setSelectedTask, selectedLocation, setSelectedLocation, currentUser, setCurrentUser, userLogin, setUserLogin, userAuth, setUserAuth, reFetch, setReFetch }}>
+      <div className={(theme === 'dark' ) ? 'dark-theme' : 'light-theme'}>
+      <ThemeHandler/>
         <AllRoutes />
       </div>
     </GlobalContext.Provider>

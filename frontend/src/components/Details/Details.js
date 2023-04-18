@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import Container from 'react-bootstrap/Container';
 import { Row, Col } from "react-bootstrap";
 import Button from 'react-bootstrap/Button';
@@ -24,7 +24,7 @@ const Details = () => {
     let delButton = '';
 
 
-    if (task.task_type == 'personal') {
+    if (task.task_type === 'personal') {
         editButton = <Button variant="outline-warning" onClick={() => startEdit()} className='detailH1Button'>Edit Task</Button>
         delButton = <Button variant="outline-danger" className='detailH1Button' onClick={() => { handleDelete(task) }}>Delete Task</Button>
     }
