@@ -3,7 +3,7 @@
   list-style: none;
   display: flex;
   scroll-snap-type: x mandatory;
-  margin-top: 30px;
+  margin-top: 5%;
   margin-bottom: 20px;
   padding-right: 100px;
   -webkit-mask-image: linear-gradient(to right, black 80%, transparent);
@@ -17,20 +17,27 @@
 .announcement-row::-webkit-scrollbar-thumb {
   background: green;
   border-radius: 1vh;
+  cursor: grab;
+  /* cursor: grabbing; */
 }
 
 .announcement-card {
   border: solid 1px black;
+  filter: drop-shadow(5px 10px 2px black);
   border-radius: 10px;
-  background-color: grey;
+  background-color: rgba(206, 212, 218, .5);
   height: 120px;
   max-width: 200px;
   display: flex;
-  flex: 0 0 30%;
+  flex: 0 0 40%;
   scroll-snap-align: start;
   transition: all 0.2s;
   margin-right: 10px;
   margin-bottom: 10px;
+}
+
+.announcement-card:hover {
+  max-width: 500px;
 }
 
 .announcement-image {
@@ -49,7 +56,7 @@
   width: 10px;
 }
 
-.announcement-text::-webkit-scrollbar-thumb {
+.announcement-text:hover::-webkit-scrollbar-thumb {
   background: green;
   border-radius: 15px;
 }

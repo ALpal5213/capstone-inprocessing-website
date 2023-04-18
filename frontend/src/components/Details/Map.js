@@ -77,7 +77,7 @@ const Map = ({ selectedLocation }) => {
       </Row>
       <Row>
         <Col>
-          <Button onClick={changeStyle} variant='primary' className='style-btn'>Change Theme</Button>
+          <Button onClick={changeStyle} variant='outline-success' className='style-btn'>Change Theme</Button>
         </Col>
       </Row>
     </Container>
