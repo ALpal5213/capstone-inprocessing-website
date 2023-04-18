@@ -85,13 +85,13 @@ const AddTask = () => {
         setLocPMHours(e.target.value);
     }
     const handleLocDaysChange = (e) => {
-        if(e.target.checked){
+        if (e.target.checked) {
             //add
             setDays([...days, e.target.value]);
-        } else{
+        } else {
             // //remove
             setDays(days.filter(day => day !== e.target.value));
-        }        
+        }
     }
     const handleLocURLChange = (e) => {
         setLocURL(e.target.value);
@@ -112,7 +112,7 @@ const AddTask = () => {
     const submitRequest = () => {
         if (showNewLocation) { //user adding a new location to a task
             //create a new location first
-            addLocation();      
+            addLocation();
         } else { //user adding an existing location to a task
             addTask(loc);
         }
@@ -122,14 +122,16 @@ const AddTask = () => {
     const addLocation = () => {
         let hours = locAMHours + " A.M. to " + locPMHours + " P.M.";
         let daysOfWeek = "";
-        if(days.includes("M") && days.includes("T") && days.includes("W") && days.includes("T") && days.includes("F")){
-            hours = hours + " M-F"
+        if (days.includes("M") && days.includes("T") && days.includes("W") && days.includes("T") && days.includes("F")) {
+            hours = hours + " M-F";
+        } else if (days.length === 0) {
+            hours = "";
         } else {
             for (let i = 0; i < days.length; i++) {
                 const element = days[i];
-                daysOfWeek += element + ", "
+                daysOfWeek += element + ", ";
             }
-            daysOfWeek = daysOfWeek.slice(0, daysOfWeek.length-2);
+            daysOfWeek = daysOfWeek.slice(0, daysOfWeek.length - 2);
             hours = hours + " " + daysOfWeek;
         }
 
@@ -143,20 +145,31 @@ const AddTask = () => {
             "notes": locNotes
         }
 
-        fetch("http://localhost:3001/locations",
-            {
-                method: "POST",
-                headers: {
-                    'Content-Type': "application/json",
-                },
-                body: JSON.stringify(newLocation)
-            })
-            .then((res) => res.json())
-            .then((data) => (data))
-                // fetch('http://localhost:3001/table/Locations')
-                //     .then(res => res.json())
-                //     .then(data => setLocations(data))
-                //     .then(newData => console.log(newData)))
+        if (newLocation.building === "" || newLocation.address === "") {
+            //prompt user to enter details
+        } else {
+            fetch("http://localhost:3001/locations",
+                {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': "application/json",
+                    },
+                    body: JSON.stringify(newLocation)
+                })
+                .then((res) => res.json())
+                .then((data) => (data))
+
+            fetch('http://localhost:3001/table/Locations')
+                .then(res => res.json())
+                .then(data => setLocations(data))
+
+            //this needs to refresh
+            setReFetch(true);
+
+            console.log(locations)
+        }
+
+
     }
 
     const addTask = (location_id) => {
@@ -176,16 +189,20 @@ const AddTask = () => {
             "has_download": taskDownload
         }
 
-        fetch("http://localhost:3001/tasks",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(newTask)
-            })
-            .then((res) => res.json())
-            .then((data) => (data))
+        if(newTask.task_name === "" || newTask.task_description === "" || newTask.priority === "" || newTask.location_id === ""){
+            //prompt user to enter details
+        } else {
+            fetch("http://localhost:3001/tasks",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(newTask)
+                })
+                .then((res) => res.json())
+                .then((data) => (data))
+        }
     }
 
     //states for the Modal
@@ -271,7 +288,7 @@ const AddTask = () => {
                         <Form.Label>Location</Form.Label>
                         <Col>
                             <Dropdown>
-                            <DropdownButton id="newTaskLocation" title={ loc !== "Add a new location" ? locations[loc-1].building : "Add a new location"} onSelect={handleCloseNewLocation}>
+                                <DropdownButton id="newTaskLocation" title={loc !== "Add a new location" ? locations[loc - 1].building : "Add a new location"} onSelect={handleCloseNewLocation}>
                                     {
                                         //FIX on select
                                         locations.map((location) => <Dropdown.Item eventKey={location.id}>{location.building}</Dropdown.Item>)
