@@ -21,9 +21,19 @@ function App() {
   const [userAuth, setUserAuth] = useState(false);
   const [theme, setTheme] = useState(true);
   const [reFetch, setReFetch] = useState(false);
+ //File Manipulation Global States
+ const [PDF, setPDF] = useState({"files":[]})
+ const [CSV, setCSV] = useState({"files":[]})
+ const [IMAGE, setIMAGE] = useState({"files":[]})
+ const [workingFolder, setWorkingFolder] = useState({"files":[]})
+ const [fileIO, setfileIO] = useState('downloads');
+ const [fileType, setFileType] = useState('pdf');
+ const [checkAgain, setCheckAgain] = useState(false);
+
+
   
   return (
-    <GlobalContext.Provider value={{ selectedTask, setSelectedTask, selectedLocation, setSelectedLocation, currentUser, setCurrentUser, userLogin, setUserLogin, userAuth, setUserAuth, reFetch, setReFetch }}>
+    <GlobalContext.Provider value={{ selectedTask, setSelectedTask, selectedLocation, setSelectedLocation, currentUser, setCurrentUser, userLogin, setUserLogin, userAuth, setUserAuth, reFetch, setReFetch, PDF, setPDF, CSV, setCSV, IMAGE, setIMAGE, workingFolder, setWorkingFolder, fileIO, setfileIO, fileType, setFileType, checkAgain, setCheckAgain  }}>
       <div className={theme ? 'dark-theme' : 'light-theme'}>
         <AllRoutes />
       </div>

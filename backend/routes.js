@@ -7,12 +7,16 @@ const fileUpload = require('express-fileupload');
 const routePath = express();
 const bcrypt = require('bcryptjs');
 
+//CSV Downloading
+const { attachToStreamCSV } = require('knex-to-csv');
+attachToStreamCSV();
+const fs = require('fs')
+
 //Middleware
 routePath.use(express.json())
 routePath.use(cors());
 routePath.use(fileUpload());
-routePath.use(express.static('uploads'))
-
+routePath.use(express.static('user_files'))
 //Session 
 routePath.use(session({
     secret: 'sessionsecret',
@@ -169,6 +173,105 @@ routePath.get("/members/:unit_id", (request, response) => {
       .then(data => response.status(200).json(data))
       .catch(error => response.status(405).send("Could not get"))
 });
+
+
+
+//Download CSV of a Table to backend directory
+routePath.get("/csv/:session_id", async (request, response) => {
+    
+    let sid = request.params.session_id
+    
+    const path = `./downloads/csv/${sid}`;
+    
+    fs.access(path, (error) => {
+        
+        // To check if the given directory 
+        // already exists or not
+        if (error) {
+            // If current directory does not exist
+            // then create it
+            fs.mkdir(path, { recursive: true }, (error) => {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log("New Directory created successfully !!");
+                }    
+            });    
+        } else {
+            console.log("Given Directory already exists !!");
+        }    
+    }).then(() => {
+        csvWriter = fs.createWriteStream(path)
+        knex.select().from('Users').toStreamCSV(csvWriter)
+        .then(() => {
+            console.log('CSV exported successfully!');
+        })    
+        .catch(e => {
+            console.log(e);
+        })    
+    });        
+    
+    
+})    
+
+
+
+
+
+
+//Get Downloads Directory Information pertaining to user
+routePath.get("/downloads/:user_id/:file_id/:filetype", async (request, response) => {
+    if (request.params.user_id !== undefined && request.params.file_id !== undefined && request.params.filetype !== undefined) {
+        let filetype = request.params.filetype
+        let user_id = request.params.user_id
+        let file_id = request.params.file_id
+        
+        const testFolder = `./user_files/downloads/${user_id}_${file_id}/${filetype}`;
+        
+        
+        
+        fs.readdir(testFolder, (err, files) => {
+            let fileNames = [];
+            
+            files.forEach(file => {
+                fileNames.push(file);
+            });    
+            response.status(202).json({ "files": fileNames })
+        });    
+    } else { response.status(404).json({ "message": "Not Found" }) }    
+    
+})    
+
+
+//Actually Download a file.
+routePath.get("/force-download/:user_id/:file_id/:filetype/:filename", async (request, response) => {
+    if (request.params.user_id !== undefined && request.params.file_id !== undefined && request.params.filetype !== undefined && request.params.filename !== undefined) {
+
+        let filetype = request.params.filetype
+        let user_id = request.params.user_id
+        let file_id = request.params.file_id
+        let filename = request.params.filename
+      
+        const file = `./user_files/downloads/${user_id}_${file_id}/${filetype}/${filename}`;
+        response.download(file); // Set disposition and send it.
+
+    }
+
+}
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* POST *********************************************************************/
 
@@ -346,6 +449,36 @@ routePath.get("/sessionId/:sid", async (request, response) => {
         .then(data => response.status(200).json({"message": "true"}))
         .catch(error => response.status(405).json({"message": "false"}))
 });
+
+
+
+
+// Upload Endpoint
+routePath.post('/upload/:user_id/:file_id/:filetype/:fileName', (req, res) => {
+
+    if (req.files === null) {
+        return res.status(400).json({ msg: 'No file uploaded' });
+    }
+    console.log(req.files)
+    let user_id = req.params.user_id
+    let file_id = req.params.file_id
+    let filetype = req.params.filetype
+    let fileName = req.params.fileName
+
+    const file = req.files.file;
+
+    file.mv(`${__dirname}/user_files/downloads/${user_id}_${file_id}/${filetype}/${fileName}`, err => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send(err);
+        }
+
+        res.json({ fileName: file.name, filePath: `http://localhost:3001/downloads/${user_id}_${file_id}/${filetype}/${fileName}` });
+
+    });
+});
+
+
 
 
 /* PATCH ********************************************************************/
