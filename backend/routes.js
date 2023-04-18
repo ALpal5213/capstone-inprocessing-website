@@ -7,12 +7,16 @@ const fileUpload = require('express-fileupload');
 const routePath = express();
 const bcrypt = require('bcryptjs');
 
+//CSV Downloading
+const { attachToStreamCSV } = require('knex-to-csv');
+attachToStreamCSV();
+const fs = require('fs')
+
 //Middleware
 routePath.use(express.json())
 routePath.use(cors());
 routePath.use(fileUpload());
-routePath.use(express.static('uploads'))
-
+routePath.use(express.static('user_files'))
 //Session 
 routePath.use(session({
     secret: 'sessionsecret',
@@ -56,7 +60,7 @@ routePath.get("/table/:table", (request, response) => {
     let fields 
     
     if (table === 'Users') {
-      fields = ['id', 'fullname', 'username', 'role_id', 'is_admin', 'is_supervisor', 'is_leadership', 'is_military', 'job_id', 'unit_id', 'session_id']
+      fields = ['id', 'fullname', 'username', 'role_id', 'is_admin', 'is_supervisor', 'is_leadership', 'is_military', 'job_id', 'unit_id', 'session_id', 'file_id']
     } else {
       fields = '*'
     }
@@ -74,7 +78,7 @@ routePath.get("/table/:table/:id", (request, response) => {
     let fields 
     
     if (table === 'Users') {
-      fields = ['id', 'fullname', 'username', 'role_id', 'is_admin', 'is_supervisor', 'is_leadership', 'is_military', 'job_id', 'unit_id', 'session_id']
+      fields = ['id', 'fullname', 'username', 'role_id', 'is_admin', 'is_supervisor', 'is_leadership', 'is_military', 'job_id', 'unit_id', 'session_id', 'file_id']
     } else {
       fields = '*'
     }
@@ -110,6 +114,15 @@ routePath.get("/supervisor/:id", (request, response) => {
       .catch(error => response.status(405).send("Could not get"))
 });
 
+//Get that returns a list of all supervisors
+routePath.get("/supervisors", (request, response) => {
+  return knex('Users')
+      .select('id', 'fullname')
+      .where({ is_supervisor: true })
+      .then(data => response.status(200).json(data))
+      .catch(error => response.status(405).send("Could not get"))
+});
+
 //Get join table that returns a list of squadron members based on a passed in commander user id
 routePath.get("/commander/:id", (request, response) => {
   let id = request.params.id;
@@ -121,6 +134,144 @@ routePath.get("/commander/:id", (request, response) => {
       .then(data => response.status(200).json(data))
       .catch(error => response.status(405).send("Could not get"))
 });
+
+//Get that returns a list of all commanders
+routePath.get("/leadership", (request, response) => {
+  return knex('Users')
+      .select('id', 'fullname')
+      .where({ is_leadership: true })
+      .then(data => response.status(200).json(data))
+      .catch(error => response.status(405).send("Could not get"))
+});
+
+//Get that returns a list of all leadership based on a passed in unit
+routePath.get("/leadership/:unit_id", (request, response) => {
+  let unit_id = request.params.unit_id;
+  return knex('Users')
+      .select('id', 'fullname', 'unit_id')
+      .where({ is_leadership: true, unit_id: unit_id})
+      .then(data => response.status(200).json(data))
+      .catch(error => response.status(405).send("Could not get"))
+});
+
+//Get that returns a list of all supervisors based on a passed in unit
+routePath.get("/supervisors/:unit_id", (request, response) => {
+  let unit_id = request.params.unit_id;
+  return knex('Users')
+      .select('id', 'fullname', 'unit_id')
+      .where({ is_supervisor: true, unit_id: unit_id})
+      .then(data => response.status(200).json(data))
+      .catch(error => response.status(405).send("Could not get"))
+});
+
+//get that returns a list of unit members based on a passed in unit
+routePath.get("/members/:unit_id", (request, response) => {
+  let unit_id = request.params.unit_id;
+  return knex('Users')
+      .select('id', 'fullname', 'unit_id')
+      .where({unit_id: unit_id})
+      .then(data => response.status(200).json(data))
+      .catch(error => response.status(405).send("Could not get"))
+});
+
+
+
+//Download CSV of a Table to backend directory
+routePath.get("/csv/:session_id", async (request, response) => {
+    
+    let sid = request.params.session_id
+    
+    const path = `./downloads/csv/${sid}`;
+    
+    fs.access(path, (error) => {
+        
+        // To check if the given directory 
+        // already exists or not
+        if (error) {
+            // If current directory does not exist
+            // then create it
+            fs.mkdir(path, { recursive: true }, (error) => {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log("New Directory created successfully !!");
+                }    
+            });    
+        } else {
+            console.log("Given Directory already exists !!");
+        }    
+    }).then(() => {
+        csvWriter = fs.createWriteStream(path)
+        knex.select().from('Users').toStreamCSV(csvWriter)
+        .then(() => {
+            console.log('CSV exported successfully!');
+        })    
+        .catch(e => {
+            console.log(e);
+        })    
+    });        
+    
+    
+})    
+
+
+
+
+
+
+//Get Downloads Directory Information pertaining to user
+routePath.get("/downloads/:user_id/:file_id/:filetype", async (request, response) => {
+    if (request.params.user_id !== undefined && request.params.file_id !== undefined && request.params.filetype !== undefined) {
+        let filetype = request.params.filetype
+        let user_id = request.params.user_id
+        let file_id = request.params.file_id
+        
+        const testFolder = `./user_files/downloads/${user_id}_${file_id}/${filetype}`;
+        
+        
+        
+        fs.readdir(testFolder, (err, files) => {
+            let fileNames = [];
+            
+            files.forEach(file => {
+                fileNames.push(file);
+            });    
+            response.status(202).json({ "files": fileNames })
+        });    
+    } else { response.status(404).json({ "message": "Not Found" }) }    
+    
+})    
+
+
+//Actually Download a file.
+routePath.get("/force-download/:user_id/:file_id/:filetype/:filename", async (request, response) => {
+    if (request.params.user_id !== undefined && request.params.file_id !== undefined && request.params.filetype !== undefined && request.params.filename !== undefined) {
+
+        let filetype = request.params.filetype
+        let user_id = request.params.user_id
+        let file_id = request.params.file_id
+        let filename = request.params.filename
+      
+        const file = `./user_files/downloads/${user_id}_${file_id}/${filetype}/${filename}`;
+        response.download(file); // Set disposition and send it.
+
+    }
+
+}
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* POST *********************************************************************/
 
@@ -138,14 +289,15 @@ routePath.post("/tasks", (request, response) => {
 
 routePath.post("/Users", (request, response) => {
     var missingKeyCount = 0;
-    const userKeys = ['fullname', 'username', 'password', 'is_admin', 'is_supervisor', 'is_military', 'job_id', 'unit_id']
+    const userKeys = ['fullname', 'username', 'password', 'is_admin', 'is_supervisor', 'is_military', 'job_id', 'unit_id', ]
     userKeys.forEach(key => { if (!Object.keys(request.body).includes(key)) missingKeyCount++ });
 
     if (missingKeyCount === 0) {
         return knex('Users')
             .insert(request.body)
-            .then(() => {
-                response.status(201).send({ response: `added new user` });
+            .returning('id')
+            .then((id) => {
+                response.status(201).send({ response: `added new user`, id: id[0].id });
             })
             .catch((err) => {
                 console.log(err);
@@ -154,6 +306,27 @@ routePath.post("/Users", (request, response) => {
     } else {
         response.send({ response: `error adding new user, missing object properties in request body` })
     }
+});
+
+routePath.post("/Manage", (request, response) => {
+  var missingKeyCount = 0;
+  //user_id, supervisor_id, commander_id
+  const userKeys = ['user_id', 'supervisor_id', 'commander_id']
+  userKeys.forEach(key => { if (!Object.keys(request.body).includes(key)) missingKeyCount++ });
+
+  if (missingKeyCount === 0) {
+      return knex('Manage')
+          .insert(request.body)
+          .then(() => {
+              response.status(201).send({ response: `added new manage entry` });
+          })
+          .catch((err) => {
+              console.log(err);
+              response.send({ response: `error adding new manage entry` })
+          })
+  } else {
+      response.send({ response: `error adding new manage entry, missing object properties in request body` })
+  }
 });
 
 routePath.post("/username", async (request, response) => {
@@ -276,6 +449,36 @@ routePath.get("/sessionId/:sid", async (request, response) => {
         .then(data => response.status(200).json({"message": "true"}))
         .catch(error => response.status(405).json({"message": "false"}))
 });
+
+
+
+
+// Upload Endpoint
+routePath.post('/upload/:user_id/:file_id/:filetype/:fileName', (req, res) => {
+
+    if (req.files === null) {
+        return res.status(400).json({ msg: 'No file uploaded' });
+    }
+    console.log(req.files)
+    let user_id = req.params.user_id
+    let file_id = req.params.file_id
+    let filetype = req.params.filetype
+    let fileName = req.params.fileName
+
+    const file = req.files.file;
+
+    file.mv(`${__dirname}/user_files/downloads/${user_id}_${file_id}/${filetype}/${fileName}`, err => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send(err);
+        }
+
+        res.json({ fileName: file.name, filePath: `http://localhost:3001/downloads/${user_id}_${file_id}/${filetype}/${fileName}` });
+
+    });
+});
+
+
 
 
 /* PATCH ********************************************************************/

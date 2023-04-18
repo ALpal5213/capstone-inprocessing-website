@@ -11,7 +11,6 @@
   background: rgba(206, 212, 218, .5);
   top: 50%;
   left: 50%;
-  margin-left: -250px;
   border-radius: 5px;
   border-style: solid;
   border-color: #212529;
@@ -22,18 +21,26 @@
   width: 500px;
   height: 325px;
   margin-top: -162.5px;
+  margin-left: -250px;
 }
 
 .createDiv {
-  width: 500px;
+  width: 800px;
   height: 820px;
   margin-top: -410px;
+  margin-left: -400px;
 }
 
 .divItem {
   margin-top: 20px;
   margin-left: 20px;
   margin-right: 20px;
+}
+
+.createDivItem {
+  margin-top: 20px;
+  margin-left: 150px;
+  margin-right: 150px;
 }
 
 .formButtonStyle {
@@ -84,6 +91,7 @@
 
 .newHereText {
   color: white;
+  margin-right: 5px;
 }
 
 .formLink {
@@ -96,4 +104,9 @@
 
 .divButton {
   margin-top: 3px;
+}
+
+.createFormHead {
+  text-align: center;
+  margin-top: 20px;
 }
