@@ -1,0 +1,31 @@
+.authbackDiv {
+    background: url('../../images/darkbg.png');
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: #343a40;
+  }
+  
+  .authmenuDiv {
+    position: absolute;
+    background: rgba(206, 212, 218, .5);
+    top: 50%;
+    left: 50%;
+    margin-left: -250px;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: #212529;
+    border-width: 1.5px;
+    text-align: center;
+    justify-content: center;
+  
+  }
+
+  .error-Header{
+    margin-top: 5vh;
+  }
+  .btn-goBack{
+    margin-top: 10vh;
+  }
+  
+  
