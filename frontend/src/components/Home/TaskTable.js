@@ -6,13 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import BootstrapTable from 'react-bootstrap-table-next'
 import { GlobalContext } from '../../App';
 import AddTask from "./AddTask"
-// import ProgressBar from "./ProgressBar"
-import {Container, Row, Col, ProgressBar} from 'react-bootstrap'
+import {ProgressBar} from 'react-bootstrap'
 
 export const TaskTabs = () => {
     const navigate = useNavigate();
-    const { userLogin,reFetch,setReFetch } = useContext(GlobalContext);
-
+    const { userLogin,reFetch } = useContext(GlobalContext);
     const [installationTasks, setInstallationTasks] = useState([]);
     const [unitTasks, setUnitTasks] = useState([]);
     const [jobTasks, setJobTasks] = useState([]);
@@ -30,6 +28,8 @@ export const TaskTabs = () => {
             })
     }, [userLogin, reFetch])
 
+
+    //Replaces status categories with corresponding icons
     const statusFormatter =(cell,row,formatExtraData)=>{
       if(cell === 'pending')
         return(
@@ -44,6 +44,7 @@ export const TaskTabs = () => {
       )
     }
 
+    //Formats Date Columns to take off Time
     const dateFormatter =(cell, row, formatExtraData)=>{
         let split = cell.split('T')
         cell = split[0]
@@ -52,6 +53,7 @@ export const TaskTabs = () => {
           )
     }
 
+    //Create Columns for Table
     const columns = [
         { text: 'Name', dataField: 'task_name' },
         { text: 'Priority', dataField: 'priority', sort: true },
@@ -60,15 +62,17 @@ export const TaskTabs = () => {
         sort: true},
         { text: 'status', dataField: 'status', 
         formatter: statusFormatter,
-           sort: true }
+            sort: true }
     ];
 
+    //Navigate to details Table helper Functions
     const rowEvents = {
         onClick: (row, cell) => {
             navigate('/details/', { state: cell })
         }
     }
 
+    //Progress Bar Calculator Function
     const calcProgress = (taskArray) => {
         let count = 0;
         let total = taskArray.length === 0 ? 1 : taskArray.length;
@@ -79,15 +83,12 @@ export const TaskTabs = () => {
                 }
             }
         }
-        
         return taskArray.length === 0 ? 100 : Math.round((count / total) * 100);
     }
 
     return (
         <div className="table-wrapper">
-            
         <div className="Task-Tabs-Div">
-            
             <Tabs>
                 <TabList>
                     <Tab>

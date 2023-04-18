@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import Container from 'react-bootstrap/Container';
 import { Row, Col } from "react-bootstrap";
 import Button from 'react-bootstrap/Button';
@@ -17,7 +17,6 @@ const Details = () => {
     const splitDate = task.due_date.split('T');
     const formattedDate = splitDate[0];
     const [editable, setEditable] = useState(false);
-    const editRef = useRef({ task_description: task.task_description, address: task.address, hours: task.hours, building: task.building, room: task.room, phone_number: task.phone_number, notes: task.notes, url: task.url });
     const { setReFetch } = useContext(GlobalContext);
     const navigate = useNavigate();
     let editObj = {};
@@ -25,7 +24,7 @@ const Details = () => {
     let delButton = '';
 
 
-    if (task.task_type == 'personal') {
+    if (task.task_type === 'personal') {
         editButton = <Button variant="outline-warning" onClick={() => startEdit()} className='detailH1Button'>Edit Task</Button>
         delButton = <Button variant="outline-danger" className='detailH1Button' onClick={() => { handleDelete(task) }}>Delete Task</Button>
     }
