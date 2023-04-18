@@ -32,8 +32,6 @@ const Details = () => {
 
     const handlePatch = () => {
         setEditable(false);
-        console.log(task.id);
-        console.log(editObj);
 
         fetch(`http://localhost:3001/tasks/${task.id}`, {
             method: 'PATCH',
@@ -44,7 +42,6 @@ const Details = () => {
             },
         })
             .then((json) => {
-                console.log(editObj)
                 setReFetch(true)
                 navigate('/home')
             });
@@ -54,8 +51,6 @@ const Details = () => {
 
     const startEdit = () => {
         setEditable(true);
-        console.log('made it')
-
     }
 
 
