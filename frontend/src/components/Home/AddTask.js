@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Col, Row, Modal, Button, Form, Dropdown } from "react-bootstrap";
+import { Col, Row, Modal, Button, Form, Dropdown, DropdownButton } from "react-bootstrap";
 import './AddTask.css';
 import { GlobalContext } from '../../App';
 import Cookies from 'js-cookie'
@@ -51,7 +51,7 @@ const AddTask = () => {
         setTaskDesc(e.target.value);
     }
     const handleTaskPriorityChange = (e) => {
-        setTaskPriority(e.target.value);
+        setTaskPriority(e);
     }
     const handleTaskMilOrCivChange = (e) => {
         setDefaultCheck(false);
@@ -112,15 +112,7 @@ const AddTask = () => {
     const submitRequest = () => {
         if (showNewLocation) { //user adding a new location to a task
             //create a new location first
-            addLocation();
-            
-            //refresh or something 
-            setReFetch(true);
-
-            //then create a new task with the location of the task being the new location id
-            let last_loc = parseInt(locations.length + 1);
-            addTask(last_loc);
-            
+            addLocation();      
         } else { //user adding an existing location to a task
             addTask(loc);
         }
@@ -161,9 +153,15 @@ const AddTask = () => {
             })
             .then((res) => res.json())
             .then((data) => (data))
+                // fetch('http://localhost:3001/table/Locations')
+                //     .then(res => res.json())
+                //     .then(data => setLocations(data))
+                //     .then(newData => console.log(newData)))
     }
 
     const addTask = (location_id) => {
+        //console.log("Location ID: ")
+        //console.log(location_id)
         let newTask = {
             "user_id": parseInt(user_id),
             "location_id": location_id,
@@ -214,8 +212,8 @@ const AddTask = () => {
     const handleShow = () => setShow(true);
 
     const handleCloseNewLocation = (e) => {
-        setLoc(e.target.value);
-        if (e.target.value !== "newLocation") {
+        setLoc(e);
+        if (e !== "Add a new location") {
             setShowNewLocation(false);
         } else {
             setShowNewLocation(true);
@@ -241,7 +239,7 @@ const AddTask = () => {
                     </Row>
                     <Row className="form-group">
                         <Form.Label for="newTaskDueDate">Due Date*</Form.Label>
-                        <input type="date" className="form-control" id="newTaskDueDate" onChange={handleTaskDueDateChange}></input>
+                        <Form.Control type="date" className="form-control" id="newTaskDueDate" onChange={handleTaskDueDateChange}></Form.Control>
                     </Row>
                     <Row className="form-group">
                         <Row>
@@ -249,11 +247,13 @@ const AddTask = () => {
                         </Row>
                         <Row>
                             <Col>
-                                <select id="newTaskPriority" onChange={handleTaskPriorityChange}>
-                                    <option value="low">Low</option>
-                                    <option value="medium">Medium</option>
-                                    <option value="high">High</option>
-                                </select>
+                                <Dropdown>
+                                    <DropdownButton id="newTaskPriority" onSelect={handleTaskPriorityChange} title={taskPriority}>
+                                        <Dropdown.Item eventKey="low">Low</Dropdown.Item>
+                                        <Dropdown.Item eventKey="medium">Medium</Dropdown.Item>
+                                        <Dropdown.Item eventKey="high">High</Dropdown.Item>
+                                    </DropdownButton>
+                                </Dropdown>
                             </Col>
                         </Row>
                         <Row>
@@ -270,13 +270,16 @@ const AddTask = () => {
                     <Row className="form-group">
                         <Form.Label>Location</Form.Label>
                         <Col>
-                            <select id="newTaskPriority" onChange={handleCloseNewLocation}>
-                                {
-                                    //FIX on change and on select
-                                    locations.map((location) => <option value={location.id}>{location.building}</option>)
-                                }
-                                <option id="newLocation" value="newLocation">Add Location</option>
-                            </select>
+                            <Dropdown>
+                            <DropdownButton id="newTaskLocation" title={ loc !== "Add a new location" ? locations[loc-1].building : "Add a new location"} onSelect={handleCloseNewLocation}>
+                                    {
+                                        //FIX on select
+                                        locations.map((location) => <Dropdown.Item eventKey={location.id}>{location.building}</Dropdown.Item>)
+                                    }
+                                    <Dropdown.Divider />
+                                    <Dropdown.Item id="newLocation" eventKey="Add a new location">Add Location</Dropdown.Item>
+                                </DropdownButton>
+                            </Dropdown>
                         </Col>
                     </Row>
                     <div id="locationDiv">
@@ -297,7 +300,7 @@ const AddTask = () => {
                                     <Row>
                                         <Form.Label>Hours</Form.Label>
                                         <span>
-                                            <select id="newLocAMHours" onChange={handleLocAMHoursChange}>
+                                            <select id="newLocAMHours" defaultValue={8} onChange={handleLocAMHoursChange}>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
@@ -305,19 +308,19 @@ const AddTask = () => {
                                                 <option value="5">5</option>
                                                 <option value="6">6</option>
                                                 <option value="7">7</option>
-                                                <option value="8" selected>8</option>
+                                                <option value="8">8</option>
                                                 <option value="9">9</option>
                                                 <option value="10">10</option>
                                                 <option value="11">11</option>
                                                 <option value="12">12</option>
                                             </select>
                                             <Form.Label> A.M. to </Form.Label>
-                                            <select id="newLocPMHours" onChange={handleLocPMHoursChange}>
+                                            <select id="newLocPMHours" defaultValue={5} onChange={handleLocPMHoursChange}>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
                                                 <option value="4">4</option>
-                                                <option value="5" selected>5</option>
+                                                <option value="5">5</option>
                                                 <option value="6">6</option>
                                                 <option value="7">7</option>
                                                 <option value="8">8</option>
