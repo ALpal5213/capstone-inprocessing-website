@@ -1,5 +1,4 @@
 const express = require("express");
-const knex = require('knex')(require('./knexfile.js')[process.env.NODE_ENV || 'development']);
 const cors = require("cors");
 const session = require('express-session')
 const fileUpload = require('express-fileupload');
@@ -8,6 +7,11 @@ const routePath = express();
 const bcrypt = require('bcryptjs');
 
 //CSV Downloading
+const { promisify } = require('util');
+const stream = require('stream');
+const copyFrom = require('pg-copy-streams').from;
+const pipeline = promisify(stream.pipeline);
+const knex = require('knex')(require('./knexfile.js')[process.env.NODE_ENV || 'development']);
 const { attachToStreamCSV } = require('knex-to-csv');
 attachToStreamCSV();
 const fs = require('fs')
@@ -24,30 +28,6 @@ routePath.use(session({
     saveUninitialized: false
 }))
 
-
-// Upload Endpoint 
-// Sends file to a cloud storage service (Google Drive or something else)
-// Sends URL of service location to update the file location
-routePath.patch('/tasks/upload/:id', (req, res) => {
-    // upload to task ID
-    let id = req.params.id;
-
-    if (req.files === null) {
-        return res.status(400).json({ msg: 'No file uploaded' });
-    }
-
-    const file = req.files.file;
-    console.log(file)
-
-    return knex('Tasks')
-        .where({ id: id })
-        .update({
-            my_file: file
-        })
-        .then(data => response.status(200).send("Patched"))
-        .catch(error => response.status(405).send("Not patched"))
-});
-
 /* GET *******************************************************************/
 
 routePath.get("/", (request, response) => {
@@ -57,17 +37,17 @@ routePath.get("/", (request, response) => {
 //Get by table
 routePath.get("/table/:table", (request, response) => {
     let table = request.params.table
-    let fields 
-    
+    let fields
+
     if (table === 'Users') {
-      fields = ['id', 'fullname', 'username', 'role_id', 'is_admin', 'is_supervisor', 'is_leadership', 'is_military', 'job_id', 'unit_id', 'session_id', 'file_id', 'preferredTheme']
+        fields = ['id', 'fullname', 'username', 'role_id', 'is_admin', 'is_supervisor', 'is_leadership', 'is_military', 'job_id', 'unit_id', 'session_id', 'file_id', 'preferredTheme']
     } else {
-      fields = '*'
+        fields = '*'
     }
     return knex(table)
-      .select(fields)
-      .then(data => response.status(200).json(data))
-      .catch(error => response.status(405).send("Not a table.\n Select from 'Users', 'Locations', 'Jobs', 'Units', or 'Tasks'"))
+        .select(fields)
+        .then(data => response.status(200).json(data))
+        .catch(error => response.status(405).send("Not a table.\n Select from 'Users', 'Locations', 'Jobs', 'Units', or 'Tasks'"))
 });
 
 //Get Table by id
@@ -75,19 +55,19 @@ routePath.get("/table/:table/:id", (request, response) => {
     let table = request.params.table;
     let id = request.params.id;
 
-    let fields 
-    
+    let fields
+
     if (table === 'Users') {
-      fields = ['id', 'fullname', 'username', 'role_id', 'is_admin', 'is_supervisor', 'is_leadership', 'is_military', 'job_id', 'unit_id', 'session_id', 'file_id', 'preferredTheme']
+        fields = ['id', 'fullname', 'username', 'role_id', 'is_admin', 'is_supervisor', 'is_leadership', 'is_military', 'job_id', 'unit_id', 'session_id', 'file_id', 'preferredTheme']
     } else {
-      fields = '*'
+        fields = '*'
     }
 
     return knex(table)
-      .select(fields)
-      .where({ id: id })
-      .then(data => response.status(200).json(data))
-      .catch(error => response.status(405).send("Not a table or Id does not exist.\n Select from 'Users', 'Locations', 'Jobs', 'Units', or 'Tasks'"))
+        .select(fields)
+        .where({ id: id })
+        .then(data => response.status(200).json(data))
+        .catch(error => response.status(405).send("Not a table or Id does not exist.\n Select from 'Users', 'Locations', 'Jobs', 'Units', or 'Tasks'"))
 });
 
 //Get join table and allow order by and limit (optional)
@@ -104,115 +84,106 @@ routePath.get("/tasks-locations/:userID", (request, response) => {
 
 //Get join table that returns a list of subordinate based on a passed in supervisor user id
 routePath.get("/supervisor/:id", (request, response) => {
-  let id = request.params.id;
+    let id = request.params.id;
 
-  return knex('Manage')
-      .join('Users', 'Manage.user_id', '=', 'Users.id')
-      .select('Manage.id', 'Manage.user_id as subordinate_id', 'Users.fullname')
-      .where({ supervisor_id: id })
-      .then(data => response.status(200).json(data))
-      .catch(error => response.status(405).send("Could not get"))
+    return knex('Manage')
+        .join('Users', 'Manage.user_id', '=', 'Users.id')
+        .select('Manage.id', 'Manage.user_id as subordinate_id', 'Users.fullname')
+        .where({ supervisor_id: id })
+        .then(data => response.status(200).json(data))
+        .catch(error => response.status(405).send("Could not get"))
 });
 
 //Get that returns a list of all supervisors
 routePath.get("/supervisors", (request, response) => {
-  return knex('Users')
-      .select('id', 'fullname')
-      .where({ is_supervisor: true })
-      .then(data => response.status(200).json(data))
-      .catch(error => response.status(405).send("Could not get"))
+    return knex('Users')
+        .select('id', 'fullname')
+        .where({ is_supervisor: true })
+        .then(data => response.status(200).json(data))
+        .catch(error => response.status(405).send("Could not get"))
 });
 
 //Get join table that returns a list of squadron members based on a passed in commander user id
 routePath.get("/commander/:id", (request, response) => {
-  let id = request.params.id;
+    let id = request.params.id;
 
-  return knex('Manage')
-      .join('Users', 'Manage.user_id', '=', 'Users.id')
-      .select('Manage.id', 'Manage.user_id as unitMemberId', 'Users.fullname', 'Users.unit_id')
-      .where({ commander_id: id })
-      .then(data => response.status(200).json(data))
-      .catch(error => response.status(405).send("Could not get"))
+    return knex('Manage')
+        .join('Users', 'Manage.user_id', '=', 'Users.id')
+        .select('Manage.id', 'Manage.user_id as unitMemberId', 'Users.fullname', 'Users.unit_id')
+        .where({ commander_id: id })
+        .then(data => response.status(200).json(data))
+        .catch(error => response.status(405).send("Could not get"))
 });
 
 //Get that returns a list of all commanders
 routePath.get("/leadership", (request, response) => {
-  return knex('Users')
-      .select('id', 'fullname')
-      .where({ is_leadership: true })
-      .then(data => response.status(200).json(data))
-      .catch(error => response.status(405).send("Could not get"))
+    return knex('Users')
+        .select('id', 'fullname')
+        .where({ is_leadership: true })
+        .then(data => response.status(200).json(data))
+        .catch(error => response.status(405).send("Could not get"))
 });
 
 //Get that returns a list of all leadership based on a passed in unit
 routePath.get("/leadership/:unit_id", (request, response) => {
-  let unit_id = request.params.unit_id;
-  return knex('Users')
-      .select('id', 'fullname', 'unit_id')
-      .where({ is_leadership: true, unit_id: unit_id})
-      .then(data => response.status(200).json(data))
-      .catch(error => response.status(405).send("Could not get"))
+    let unit_id = request.params.unit_id;
+    return knex('Users')
+        .select('id', 'fullname', 'unit_id')
+        .where({ is_leadership: true, unit_id: unit_id })
+        .then(data => response.status(200).json(data))
+        .catch(error => response.status(405).send("Could not get"))
 });
 
 //Get that returns a list of all supervisors based on a passed in unit
 routePath.get("/supervisors/:unit_id", (request, response) => {
-  let unit_id = request.params.unit_id;
-  return knex('Users')
-      .select('id', 'fullname', 'unit_id')
-      .where({ is_supervisor: true, unit_id: unit_id})
-      .then(data => response.status(200).json(data))
-      .catch(error => response.status(405).send("Could not get"))
+    let unit_id = request.params.unit_id;
+    return knex('Users')
+        .select('id', 'fullname', 'unit_id')
+        .where({ is_supervisor: true, unit_id: unit_id })
+        .then(data => response.status(200).json(data))
+        .catch(error => response.status(405).send("Could not get"))
 });
 
 //get that returns a list of unit members based on a passed in unit
 routePath.get("/members/:unit_id", (request, response) => {
-  let unit_id = request.params.unit_id;
-  return knex('Users')
-      .select('id', 'fullname', 'unit_id')
-      .where({unit_id: unit_id})
-      .then(data => response.status(200).json(data))
-      .catch(error => response.status(405).send("Could not get"))
+    let unit_id = request.params.unit_id;
+    return knex('Users')
+        .select('id', 'fullname', 'unit_id')
+        .where({ unit_id: unit_id })
+        .then(data => response.status(200).json(data))
+        .catch(error => response.status(405).send("Could not get"))
 });
 
 
 
 //Download CSV of a Table to backend directory
-routePath.get("/csv/:session_id", async (request, response) => {
-    
-    let sid = request.params.session_id
-    
-    const path = `./downloads/csv/${sid}`;
-    
-    fs.access(path, (error) => {
-        
-        // To check if the given directory 
-        // already exists or not
-        if (error) {
-            // If current directory does not exist
-            // then create it
-            fs.mkdir(path, { recursive: true }, (error) => {
-                if (error) {
-                    console.log(error);
-                } else {
-                    console.log("New Directory created successfully !!");
-                }    
-            });    
-        } else {
-            console.log("Given Directory already exists !!");
-        }    
-    }).then(() => {
-        csvWriter = fs.createWriteStream(path)
-        knex.select().from('Users').toStreamCSV(csvWriter)
-        .then(() => {
-            console.log('CSV exported successfully!');
-        })    
-        .catch(e => {
-            console.log(e);
-        })    
-    });        
-    
-    
-})    
+routePath.get("/export/csv/:table/:user_id/:file_id", async (request, response) => {
+
+    if (request.params.table && request.params.file_id && request.params.user_id) {
+
+        let fid = request.params.file_id
+        let uid = request.params.user_id
+        let table = request.params.table
+
+
+        const path = `./user_files/downloads/${uid}_${fid}/csv/${table}_export.csv`;
+
+
+        csvWriter = fs.createWriteStream(path);
+        knex.select().from(table).toStreamCSV(csvWriter)
+            .then(() => {
+                response.status(202).send('Table exported!')
+            })
+            .catch(e => {
+                response.status(404).send('Not Table')
+            })
+
+    } else {
+
+        response.status(404).send('Not Valid Parameters')
+    }
+
+})
 
 
 
@@ -225,25 +196,27 @@ routePath.get("/downloads/:user_id/:file_id/:filetype", async (request, response
         let filetype = request.params.filetype
         let user_id = request.params.user_id
         let file_id = request.params.file_id
-        
+
         const testFolder = `./user_files/downloads/${user_id}_${file_id}/${filetype}`;
-        
-        
-        
+
+
+
         fs.readdir(testFolder, (err, files) => {
-            let fileNames = [];
-            
-            files.forEach(file => {
-                fileNames.push(file);
-            });    
-            response.status(202).json({ "files": fileNames })
-        });    
-    } else { response.status(404).json({ "message": "Not Found" }) }    
-    
-})    
+            // let fileNames = [];
+
+            // files.forEach(file => {
+            //     fileNames.push(file);
+            // });    
+            response.status(202).json({ "files": files })
+        });
 
 
-//Actually Download a file.
+    } else { response.status(404).json({ "message": "Not Found" }) }
+
+})
+
+
+//Download a file.
 routePath.get("/force-download/:user_id/:file_id/:filetype/:filename", async (request, response) => {
     if (request.params.user_id !== undefined && request.params.file_id !== undefined && request.params.filetype !== undefined && request.params.filename !== undefined) {
 
@@ -251,7 +224,7 @@ routePath.get("/force-download/:user_id/:file_id/:filetype/:filename", async (re
         let user_id = request.params.user_id
         let file_id = request.params.file_id
         let filename = request.params.filename
-      
+
         const file = `./user_files/downloads/${user_id}_${file_id}/${filetype}/${filename}`;
         response.download(file); // Set disposition and send it.
 
@@ -260,10 +233,88 @@ routePath.get("/force-download/:user_id/:file_id/:filetype/:filename", async (re
 }
 )
 
+//Import a CSV table
+routePath.get("/force-import/:session_id", async (request, response) => {
+    let session_id = request.params.session_id
+    let filetype = request.params.filetype
+    let user_id = request.params.user_id
+    let file_id = request.params.file_id
+    let filename = request.params.filename
+    let data = await knex("Users")
+        .where({ session_id: session_id, is_admin: true }).then(data => {
+            if (data.length === 0) {
+                response.status(404).send("Invalid Admin Credentials")
+            } else {
+
+                return data[0]
+            }
+        })
+   
+    if (data.is_admin === true) {
 
 
 
 
+
+        // await knex
+        //     .client
+        //     .pool
+        //     .acquire()
+        //     .promise
+        //     .then(client => {
+        //         function done(err) {
+        //             if (err) {
+        //                 console.log(err)
+        //             }
+        //             else {
+        //                 console.log('success')
+        //             }
+        //             knex.client.pool.release(client)
+        //         }
+
+        //         const stream = client.query(copyFrom(`COPY "Users" FROM STDIN WITH (FORMAT csv)`))
+        //         const fileStream = fs.createReadStream("./user_files/downloads/1_240a1ee7-af0b-408f-bde3-65aaa1d2530e/csv/Users_export.csv")
+
+
+        //         fileStream.on('error', done)
+        //         stream.on('error', done)
+        //         stream.on('end', done)
+        //         fileStream.pipe(stream)
+        //     }).then(response.send('Table Injected'))
+
+
+
+
+
+        async function copyToTable(txOrKnex, tableName, readableStream) {
+            const client = await (txOrKnex.trxClient || txOrKnex.client).acquireConnection();
+            await pipeline(
+                readableStream,
+                client.query(copyFrom(`COPY "${tableName}" FROM STDIN WITH (FORMAT csv)`)),
+            );
+        }
+
+        knex.transaction(async (tx) => {
+            const fileStream = fs.createReadStream("./user_files/downloads/1_240a1ee7-af0b-408f-bde3-65aaa1d2530e/csv/Users_export.csv");
+            await copyToTable(tx, 'Users', fileStream);
+
+            // const stringStream = stream.Readable.from(stringContainingCsvData);
+            // await copyToTable(tx, 'Users', stringStream);
+
+
+
+        }).then(()=> response.status(202).json({"message":'CSV Addition Successful'}).catch(response.status(404).json({"message":'There was an issue with CSV file you tried to merge'})));
+
+
+    }
+
+
+
+
+
+
+
+})
 
 
 
@@ -289,7 +340,7 @@ routePath.post("/tasks", (request, response) => {
 
 routePath.post("/Users", (request, response) => {
     var missingKeyCount = 0;
-    const userKeys = ['fullname', 'username', 'password', 'is_admin', 'is_supervisor', 'is_military', 'job_id', 'unit_id', ]
+    const userKeys = ['fullname', 'username', 'password', 'is_admin', 'is_supervisor', 'is_military', 'job_id', 'unit_id',]
     userKeys.forEach(key => { if (!Object.keys(request.body).includes(key)) missingKeyCount++ });
 
     if (missingKeyCount === 0) {
@@ -309,24 +360,24 @@ routePath.post("/Users", (request, response) => {
 });
 
 routePath.post("/Manage", (request, response) => {
-  var missingKeyCount = 0;
-  //user_id, supervisor_id, commander_id
-  const userKeys = ['user_id', 'supervisor_id', 'commander_id']
-  userKeys.forEach(key => { if (!Object.keys(request.body).includes(key)) missingKeyCount++ });
+    var missingKeyCount = 0;
+    //user_id, supervisor_id, commander_id
+    const userKeys = ['user_id', 'supervisor_id', 'commander_id']
+    userKeys.forEach(key => { if (!Object.keys(request.body).includes(key)) missingKeyCount++ });
 
-  if (missingKeyCount === 0) {
-      return knex('Manage')
-          .insert(request.body)
-          .then(() => {
-              response.status(201).send({ response: `added new manage entry` });
-          })
-          .catch((err) => {
-              console.log(err);
-              response.send({ response: `error adding new manage entry` })
-          })
-  } else {
-      response.send({ response: `error adding new manage entry, missing object properties in request body` })
-  }
+    if (missingKeyCount === 0) {
+        return knex('Manage')
+            .insert(request.body)
+            .then(() => {
+                response.status(201).send({ response: `added new manage entry` });
+            })
+            .catch((err) => {
+                console.log(err);
+                response.send({ response: `error adding new manage entry` })
+            })
+    } else {
+        response.send({ response: `error adding new manage entry, missing object properties in request body` })
+    }
 });
 
 routePath.post("/username", async (request, response) => {
@@ -406,11 +457,11 @@ routePath.post("/session", async function (req, res) {
         req.session.session_id = req.sessionID
         let sid = req.sessionID
         knex('Users')
-        .where({id: req.body.id})
-        .modify((queryBuilder) => queryBuilder.update({session_id:sid})).then(data => {
-console.log(`Session_id for user of id ${req.body.id} has been changed to:  ${sid}`)
-            return res.status(202).json({"message":"Session Id Modified at database!","user_id":req.body.id, ...req.session})
-        })
+            .where({ id: req.body.id })
+            .modify((queryBuilder) => queryBuilder.update({ session_id: sid })).then(data => {
+                console.log(`Session_id for user of id ${req.body.id} has been changed to:  ${sid}`)
+                return res.status(202).json({ "message": "Session Id Modified at database!", "user_id": req.body.id, ...req.session })
+            })
     }
     else {
         req.session.destroy();
@@ -441,13 +492,13 @@ routePath.post('/upload', (req, res) => {
 
 //Session Id Authentication 
 routePath.get("/sessionId/:sid", async (request, response) => {
-    let sid  = request.params.sid
+    let sid = request.params.sid
     console.log(sid)
     return await knex.select('session_id')
         .from('Users')
-        .where({session_id:sid})
-        .then(data => response.status(200).json({"message": "true"}))
-        .catch(error => response.status(405).json({"message": "false"}))
+        .where({ session_id: sid })
+        .then(data => response.status(200).json({ "message": "true" }))
+        .catch(error => response.status(405).json({ "message": "false" }))
 });
 
 
