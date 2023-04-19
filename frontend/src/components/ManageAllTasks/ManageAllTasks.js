@@ -21,6 +21,12 @@ export const ManageAllTasks = () => {
   const [tablePage, setTablePage] = useState(1);
   const [pageIndex, setPageIndex] = useState();
   
+  const [idSort, setIdSort] = useState('a');
+  const [idSortIcon, setIdSortIcon] = useState(
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" classNmae="bi bi-chevron-down" viewBox="0 0 16 16">
+      <path fillRule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+    </svg>
+)
   const pageButtons = (
     <div className='pageCtrlDiv'>
       <button className='pageCtrlBtn pageCtrlBtnLeft' onClick={() => firstPageControl()}>
@@ -144,8 +150,12 @@ export const ManageAllTasks = () => {
     console.log(tablePage + 1)
 
     if (pageIndex < filteredTasks.length - 30) {
+      if (pageIndex < 0) {
+        setPageIndex(0 + 30)
+      } else {
+        setPageIndex(pageIndex + 30)
+      }
       setTablePage(tablePage + 1)
-      setPageIndex(pageIndex + 30)
     }
   }
 
@@ -167,17 +177,35 @@ export const ManageAllTasks = () => {
     setPageIndex(filteredTasks.length - lastPageSize)
   }
 
-  const sortById = () => {
-    console.log(filteredTasks)
-    var idSortedTasks = filteredTasks
-    idSortedTasks.sort((a, b) => b.id - a.id);
-    console.log(idSortedTasks)
-    lastPageControl()
-
+  const sortById = (event) => {
+    var idSortedTasks;
+    if (idSort === 'a') {
+      setIdSortIcon(
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-up" viewBox="0 0 16 16">
+          <path fillRule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+        </svg>
+      )
+      idSortedTasks = filteredTasks.sort((a, b) => {return b.task_id - a.task_id});
+      setIdSort('d')
+    } else {
+      setIdSortIcon(
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" classNmae="bi bi-chevron-down" viewBox="0 0 16 16">
+          <path fillRule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+        </svg>
+      )
+      idSortedTasks = filteredTasks.sort((a, b) => {return a.task_id - b.task_id});
+      setIdSort('a')
+    }
+    if (pageIndex > 0) {
+      setPageIndex(0)
+    } else {
+      setPageIndex(pageIndex - 1)
+    }
+    setTablePage(1)
   }
 
- 
 
+ 
 
   //Navigate to details Table helper Functions
 
@@ -217,5 +245,6 @@ export const ManageAllTasks = () => {
       </div>
       <TaskModify />
     </>
+
   )
 }
