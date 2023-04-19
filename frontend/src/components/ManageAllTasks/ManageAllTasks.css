@@ -1,0 +1,62 @@
+.allTaskTableDiv {
+  position: relative;
+  left: 50%;
+  margin-left: -650px;
+  background: rgba(206, 212, 218, .5);
+  width: 1300px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.taskTable {
+  background: rgba(153, 157, 161, 0.5);
+}
+
+.pageNumArea {
+  position: relative;
+  padding: 7px;
+  background-color: white;
+  color: black;
+  display: inline-block;
+  text-align: center;
+  width: 100px;
+  height: 40px;
+
+}
+
+.pageCtrlBtn {
+  height: 40px;
+  width: 100px;
+  border: none;
+  background-color: #ced4da;
+}
+
+.pageCtrlBtn:hover {
+  background-color: #adb5bd;
+}
+
+.pageCtrlBtnLeft {
+  border-radius: 7px 0px 0px 7px; 
+}
+
+.pageCtrlBtnRight {
+  border-radius: 0px 7px 7px 0px;
+}
+
+.pageCtrlDiv {
+  position: relative;
+  left: 50%;
+  margin-bottom: 10px;
+  margin-left: -250px;
+}
+
+.tableCol {
+  text-align: center;
+}
+
+.sortButton {
+  border: none;
+  background-color: rgba(153, 157, 161, 0);
+}

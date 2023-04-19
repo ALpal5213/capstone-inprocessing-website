@@ -10,37 +10,35 @@ import {ProgressBar} from 'react-bootstrap'
 
 export const TaskTabs = () => {
     const navigate = useNavigate();
-    const { userLogin,reFetch } = useContext(GlobalContext);
+    const { userLogin, reFetch, setReFetch } = useContext(GlobalContext);
     const [installationTasks, setInstallationTasks] = useState([]);
     const [unitTasks, setUnitTasks] = useState([]);
     const [jobTasks, setJobTasks] = useState([]);
     const [personalTasks, setPersonalTasks] = useState([]);
+    const [completedTasks, setCompletedTasks] = useState([]);
+    const [pendingTasks, setPendingTasks] = useState([]);
 
     useEffect(() => {
-        fetch(`http://localhost:3001/tasks-locations/${userLogin.id}`)
+        if (userLogin) {
+          fetch(`http://localhost:3001/tasks-locations/${userLogin.id}`)
             .then(res => res.json())
             .then(data => {
                 setInstallationTasks(data.filter((task) => task.task_type === 'installation'))
                 setJobTasks(data.filter((task) => task.task_type === 'job'))
                 setUnitTasks(data.filter((task) => task.task_type === 'unit'))
                 setPersonalTasks(data.filter((task) => task.task_type === 'personal'))
+                setCompletedTasks(data.filter((task) => task.status === 'complete'))
+                setPendingTasks(data.filter((task) => task.status === 'pending'))
             })
+        }
     }, [userLogin, reFetch])
 
 
     //Replaces status categories with corresponding icons
     const statusFormatter =(cell,row,formatExtraData)=>{
-      if(cell === 'pending')
-        return(
-        <span><Icon.HourglassSplit size={25} /></span>
-      )
-      else if(cell ==='complete')
-      return(
-        <span><Icon.PatchCheckFill color="green" size={25}/></span>
-      )
-      else return(
-        <span><Icon.XSquareFill color="red" size={25}/></span>
-      )
+      if(cell === 'pending') return <span><Icon.HourglassSplit size={25} /></span>
+      else if(cell ==='complete') return <span><Icon.PatchCheckFill color="green" size={25}/></span>
+      else return <span><Icon.XSquareFill color="red" size={25}/></span>
     }
 
     //Formats Date Columns to take off Time
@@ -49,17 +47,17 @@ export const TaskTabs = () => {
         cell = split[0]
         return(
             <span>{cell}</span>
-          )
+        )
     }
 
     //Create Columns for Table
     const columns = [
-        { text: 'Name', dataField: 'task_name' },
+        { text: 'Name', dataField: 'task_name', sort: true },
         { text: 'Priority', dataField: 'priority', sort: true },
         { text: 'Due Date', dataField: 'due_date',
         formatter: dateFormatter,
         sort: true},
-        { text: 'status', dataField: 'status', 
+        { text: 'Status', dataField: 'status', 
         formatter: statusFormatter,
             sort: true }
     ];
@@ -70,6 +68,75 @@ export const TaskTabs = () => {
             navigate('/details', { state: cell })
         }
     }
+
+    //these tasks are the ones completed and will not be selectable
+    const getCompletedTasks = () => {
+
+        let arr = [];
+
+        for(let task of completedTasks){
+            arr.push(task.id)
+        }
+
+        return arr;
+    }
+
+    //these tasks will be checked on load
+    const getCheckedTasks = () => {
+        let arr = [];
+
+        for(let task of completedTasks){
+            arr.push(task.id);
+        }
+
+        for(let task of pendingTasks){
+            arr.push(task.id);
+        }
+
+        return arr;
+    }
+
+    const selectRow = {
+        mode: 'checkbox',
+        //clickToSelect: true,
+        classes: 'selection-row',
+        hideSelectAll: true,
+        selected: getCheckedTasks(),
+        nonSelectable: getCompletedTasks(),
+        onSelect: (row, isSelect, rowIndex, e) => {
+            if (row.status === "incomplete") {
+                fetch(`http://localhost:3001/tasks/${row.id}`, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ status: "pending" })
+                })
+                    .then(() => {
+                        setPendingTasks([...pendingTasks, row])
+                        setReFetch(!reFetch);
+                    })
+                //change to pending
+                //check the box
+                //patch the task
+                //change the icon
+            } else if (row.status === "pending"){
+                fetch(`http://localhost:3001/tasks/${row.id}`, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ status: "incomplete" })
+                })
+                    .then(() => {
+                        setPendingTasks(pendingTasks.filter(task => task !== row));
+                        setReFetch(!reFetch);
+                    })
+            } else{
+                return false;
+            }
+          }
+    };
 
     //Progress Bar Calculator Function
     const calcProgress = (taskArray) => {
@@ -103,7 +170,6 @@ export const TaskTabs = () => {
                         <p>Personal</p>
                     </Tab>
                 </TabList>
-
                 <TabPanel>
                     <div className="panel-content">
                         <div>
@@ -118,7 +184,7 @@ export const TaskTabs = () => {
                             </div>
                         </div>
                         <div className='taskTable-div' style={{ maxWidth: '100%' }}>
-                            <BootstrapTable columns={columns} data={installationTasks} rowEvents={rowEvents} keyField='id' />
+                            <BootstrapTable columns={columns} data={installationTasks} selectRow={selectRow} rowEvents={rowEvents} keyField='id' />
                         </div>
                     </div>
                 </TabPanel>
@@ -137,7 +203,7 @@ export const TaskTabs = () => {
                             </div>
                         </div>
                         <div className='taskTable-div' style={{ maxWidth: '100%' }}>
-                            <BootstrapTable columns={columns} data={unitTasks} rowEvents={rowEvents} keyField='id' />
+                            <BootstrapTable columns={columns} data={unitTasks} selectRow={selectRow} rowEvents={rowEvents} keyField='id' />
                         </div>
                     </div>
                 </TabPanel>
@@ -156,7 +222,7 @@ export const TaskTabs = () => {
                             </div>
                         </div>
                         <div className='taskTable-div' style={{ maxWidth: '100%' }}>
-                            <BootstrapTable columns={columns} data={jobTasks} rowEvents={rowEvents} keyField='id' />
+                            <BootstrapTable columns={columns} data={jobTasks} selectRow={selectRow} rowEvents={rowEvents} keyField='id' />
                         </div>
                     </div>
                 </TabPanel>
@@ -175,7 +241,7 @@ export const TaskTabs = () => {
                             </div>
                         </div>
                         <div className='taskTable-div' style={{ maxWidth: '100%' }}>
-                            <BootstrapTable columns={columns} data={personalTasks} rowEvents={rowEvents} keyField='id' />
+                            <BootstrapTable columns={columns} data={personalTasks} selectRow={selectRow} rowEvents={rowEvents} keyField='id' />
                         </div>
                     </div>
                     <AddTask />

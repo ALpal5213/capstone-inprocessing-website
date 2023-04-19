@@ -82,6 +82,17 @@ routePath.get("/tasks-locations/:userID", (request, response) => {
         .catch(error => response.status(405).send("Could not get"))
 });
 
+//Get join table and allow order by and limit (optional)
+routePath.get("/tasks-users", (request, response) => {
+  let id = request.params.userID;
+
+  return knex('Tasks')
+      .join('Users', 'Tasks.user_id', '=', 'Users.id')
+      .select('Tasks.id as task_id', 'Tasks.user_id', 'Users.fullname', 'Tasks.task_name', 'Tasks.task_description', 'Tasks.priority', 'Tasks.task_type', 'Tasks.mil_or_civ', 'Tasks.due_date', 'Tasks.status', 'Tasks.task_url', 'Tasks.has_upload', 'Tasks.has_download')
+      .then(data => response.status(200).json(data))
+      .catch(error => response.status(405).send("Could not get"))
+});
+
 //Get join table that returns a list of subordinate based on a passed in supervisor user id
 routePath.get("/supervisor/:id", (request, response) => {
     let id = request.params.id;
@@ -460,7 +471,16 @@ routePath.post("/session", async function (req, res) {
             .where({ id: req.body.id })
             .modify((queryBuilder) => queryBuilder.update({ session_id: sid })).then(data => {
                 console.log(`Session_id for user of id ${req.body.id} has been changed to:  ${sid}`)
-                return res.status(202).json({ "message": "Session Id Modified at database!", "user_id": req.body.id, ...req.session })
+            }).then(() => {
+                return knex.select('is_admin')
+                    .from('Users')
+                    .where({ id: req.body.id }).then(data => {
+
+                        return data[0]
+                    }).then(data => {
+                        console.log(data);
+                        return res.status(202).json({ "message": "Session Id Modified at database!", "user_id": req.body.id, "is_admin": data.is_admin, ...req.session })
+                    })
             })
     }
     else {
@@ -469,6 +489,7 @@ routePath.post("/session", async function (req, res) {
     }
 
 })
+
 
 
 // Upload Endpoint

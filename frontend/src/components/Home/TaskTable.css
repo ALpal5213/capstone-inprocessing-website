@@ -102,6 +102,12 @@
 
 th {
   border: none !important;
+  font-weight: bolder !important;
+}
+
+.sortable {
+  cursor: url('../../images/sort.png'), pointer !important;
+  width: 120px;
 }
 
 tr {

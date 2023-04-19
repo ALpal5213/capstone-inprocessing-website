@@ -47,6 +47,7 @@ export const Login = () => {
             //Set cookies for session Id and User Id
             Cookies.set('session_id', `${data.session_id}`, { expires: 1, path: '/', sameSite:'strict' });
             Cookies.set('user_id', `${data.user_id}`, { expires: 1, path: '/',  sameSite:'strict' });
+            Cookies.set('is_admin', `${data.is_admin}`, { expires: 1, path: '/', sameSite: 'strict' });
             setUserAuth(true)
           })
   
@@ -67,6 +68,7 @@ export const Login = () => {
         navigate('/home')
       }
     }
+
   }, [passMatch])
 
   const findUser = () => {
