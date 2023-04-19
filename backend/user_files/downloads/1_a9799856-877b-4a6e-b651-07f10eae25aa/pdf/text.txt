@@ -1,4 +1,0 @@
-task-location
-
-Table tabs
-progressbar
