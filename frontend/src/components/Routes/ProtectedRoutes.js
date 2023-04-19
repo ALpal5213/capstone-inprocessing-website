@@ -3,6 +3,7 @@ import { Navigate, Outlet } from "react-router-dom"
 import { NotAuthorized } from "./NotAuthorized"
 import { GlobalContext } from "../../App"
 import Cookies from 'js-cookie'
+import { Login } from "../Login/Login"
 
 
 
@@ -24,7 +25,7 @@ export const ProtectedRoutes = () => {
     }
 
 
-    return userAuth ? <Outlet /> : <NotAuthorized />
+    return userAuth ? <Outlet /> : <Login />
 
 
 

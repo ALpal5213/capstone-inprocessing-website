@@ -34,7 +34,7 @@ export const NotAuthorized = () => {
                                 <h1>401 Error / Unauthorized!</h1>
                             </div>
                             <div className="btn-goBack">
-                                <Button onClick={() => navigate('/')} variant="success">
+                                <Button onClick={() => navigate('/home')} variant="success">
                                     Back To Home
                                 </Button>
                             </div>
