@@ -10,12 +10,13 @@ import {ProgressBar} from 'react-bootstrap'
 
 export const TaskTabs = () => {
     const navigate = useNavigate();
-    const { userLogin,reFetch } = useContext(GlobalContext);
+    const { userLogin, reFetch, setReFetch } = useContext(GlobalContext);
     const [installationTasks, setInstallationTasks] = useState([]);
     const [unitTasks, setUnitTasks] = useState([]);
     const [jobTasks, setJobTasks] = useState([]);
     const [personalTasks, setPersonalTasks] = useState([]);
     const [completedTasks, setCompletedTasks] = useState([]);
+    const [pendingTasks, setPendingTasks] = useState([]);
 
     useEffect(() => {
         fetch(`http://localhost:3001/tasks-locations/${userLogin.id}`)
@@ -26,6 +27,7 @@ export const TaskTabs = () => {
                 setUnitTasks(data.filter((task) => task.task_type === 'unit'))
                 setPersonalTasks(data.filter((task) => task.task_type === 'personal'))
                 setCompletedTasks(data.filter((task) => task.status === 'complete'))
+                setPendingTasks(data.filter((task) => task.status === 'pending'))
             })
             
     }, [userLogin, reFetch])
@@ -74,6 +76,7 @@ export const TaskTabs = () => {
         }
     }
 
+    //these tasks are the ones completed and will not be selectable
     const getCompletedTasks = () => {
 
         let arr = [];
@@ -85,12 +88,61 @@ export const TaskTabs = () => {
         return arr;
     }
 
+    //these tasks will be checked on load
+    const getCheckedTasks = () => {
+        let arr = [];
+
+        for(let task of completedTasks){
+            arr.push(task.id);
+        }
+
+        for(let task of pendingTasks){
+            arr.push(task.id);
+        }
+
+        return arr;
+    }
+
     const selectRow = {
         mode: 'checkbox',
         //clickToSelect: true,
         classes: 'selection-row',
-        selected: getCompletedTasks(),
-        nonSelectable: getCompletedTasks()
+        hideSelectAll: true,
+        selected: getCheckedTasks(),
+        nonSelectable: getCompletedTasks(),
+        onSelect: (row, isSelect, rowIndex, e) => {
+            if (row.status === "incomplete") {
+                fetch(`http://localhost:3001/tasks/${row.id}`, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ status: "pending" })
+                })
+                    .then(() => {
+                        setPendingTasks([...pendingTasks, row])
+                        setReFetch(!reFetch);
+                    })
+                //change to pending
+                //check the box
+                //patch the task
+                //change the icon
+            } else if (row.status === "pending"){
+                fetch(`http://localhost:3001/tasks/${row.id}`, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ status: "incomplete" })
+                })
+                    .then(() => {
+                        setPendingTasks(pendingTasks.filter(task => task !== row));
+                        setReFetch(!reFetch);
+                    })
+            } else{
+                return false;
+            }
+          }
     };
 
     //Progress Bar Calculator Function
