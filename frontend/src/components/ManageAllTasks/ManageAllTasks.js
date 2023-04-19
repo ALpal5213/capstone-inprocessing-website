@@ -7,10 +7,12 @@ import Table from 'react-bootstrap/Table';
 import './ManageAllTasks.css'
 import { TaskModify } from '../TaskModify/TaskModify'
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { GlobalContext } from '../../App';
 
 export const ManageAllTasks = () => {
 
-
+  const { modifyTableShow, setModifyTableShow,  modifyTableQuery, setmodifyTableQuery } = useContext(GlobalContext)
   const navigate = useNavigate();
   const [allTasks, setAllTasks] = useState();
   const [filteredTasks, setFilteredTasks] = useState();
@@ -18,6 +20,7 @@ export const ManageAllTasks = () => {
   const [newTableData, setNewTableData] = useState();
   const [tablePage, setTablePage] = useState(1);
   const [pageIndex, setPageIndex] = useState();
+  
   const [idSort, setIdSort] = useState('a');
   const [idSortIcon, setIdSortIcon] = useState(
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" classNmae="bi bi-chevron-down" viewBox="0 0 16 16">
@@ -79,19 +82,18 @@ export const ManageAllTasks = () => {
     }]
   };
 
+  
   useEffect(() => {
     fetch(`http://localhost:3001/tasks-users`)
-      .then(res => res.json())
-      .then(tasks => {
-        setAllTasks(tasks)
-        setFilteredTasks(tasks)
-      })
+    .then(res => res.json())
+    .then(tasks => {
+      setAllTasks(tasks)
+      setFilteredTasks(tasks)
+    })
   }, [])
-
+  
   useEffect(() => {
     if (filteredTasks) {
-<<<<<<< HEAD
-=======
       setTableData(
         <div className='allTaskTableDiv'>
           <BootstrapTable
@@ -101,43 +103,22 @@ export const ManageAllTasks = () => {
             pagination={paginationFactory(options)} />
         </div>
       )
->>>>>>> 7098f4c0a9ee2af41f85148c928f0ea56e936bec
       setPageIndex(0)
     }
   }, [filteredTasks])
-
+  
+  const handleModifyShow = (e) => {
+    setmodifyTableQuery(e.target.parentElement.id)
+    setModifyTableShow(true)
+  }
   useEffect(() => {
     if (pageIndex !== undefined) {
       setNewTableData(
         filteredTasks.map((task, i) => {
           return (
             i > pageIndex - 1 ?
-<<<<<<< HEAD
-              i < pageIndex + 30 ? 
-              <tr className="task tableCol" key={i} id={task.id}>
-                <td>
-                  {task.task_id}
-                </td>
-                <td>
-                  {task.task_name}
-                </td>
-                <td>
-                  {task.task_type}
-                </td>
-                <td>
-                  {task.fullname}
-                </td>
-                <td>
-                  {task.due_date}
-                </td>
-                <td>
-                  {task.status}
-                </td>
-              </tr> :
-              '' :
-=======
               i < pageIndex + 30 ?
-                <tr className="task tableCol" key={i} id={task.id}>
+                <tr className="task tableCol" key={i} id={task.id} onClick={handleModifyShow}>
                   <td>
                     {task.id}
                   </td>
@@ -158,7 +139,6 @@ export const ManageAllTasks = () => {
                   </td>
                 </tr> :
                 '' :
->>>>>>> 7098f4c0a9ee2af41f85148c928f0ea56e936bec
               ''
           )
         })
@@ -224,48 +204,10 @@ export const ManageAllTasks = () => {
     setTablePage(1)
   }
 
-<<<<<<< HEAD
-  return(
-    <div className='allTaskTableDiv'>
-      {pageButtons}
-      <Table hover className="taskTable">
-        <thead>
-          <tr className='tableCol'>
-            <th>
-              Task Id
-              <button id='sortIdButton' className='sortButton' onClick={(event) => sortById(event)}>{idSortIcon}</button>
-            </th>
-            <th>
-              Task
-            </th>
-            <th>
-              Type
-            </th>
-            <th>
-              User
-            </th>
-            <th>
-              Due
-            </th>
-            <th>
-              Status
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {newTableData}
-        </tbody>
-      </Table>
-      {pageButtons}
-    </div>
-=======
+
+ 
 
   //Navigate to details Table helper Functions
-  const rowEvents = {
-    onClick: (row, cell) => {
-      navigate('/details', { state: cell })
-    }
-  }
 
   return (
     <>
@@ -295,7 +237,7 @@ export const ManageAllTasks = () => {
               </th>
             </tr>
           </thead>
-          <tbody onClick={rowEvents}>
+          <tbody >
             {newTableData}
           </tbody>
         </Table>
@@ -303,6 +245,6 @@ export const ManageAllTasks = () => {
       </div>
       <TaskModify />
     </>
->>>>>>> 7098f4c0a9ee2af41f85148c928f0ea56e936bec
+
   )
 }
