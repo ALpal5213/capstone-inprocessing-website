@@ -7,10 +7,12 @@ import Table from 'react-bootstrap/Table';
 import './ManageAllTasks.css'
 import { TaskModify } from '../TaskModify/TaskModify'
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { GlobalContext } from '../../App';
 
 export const ManageAllTasks = () => {
 
-
+  const { modifyTableShow, setModifyTableShow,  modifyTableQuery, setmodifyTableQuery } = useContext(GlobalContext)
   const navigate = useNavigate();
   const [allTasks, setAllTasks] = useState();
   const [filteredTasks, setFilteredTasks] = useState();
@@ -18,6 +20,7 @@ export const ManageAllTasks = () => {
   const [newTableData, setNewTableData] = useState();
   const [tablePage, setTablePage] = useState(1);
   const [pageIndex, setPageIndex] = useState();
+  
   const pageButtons = (
     <div className='pageCtrlDiv'>
       <button className='pageCtrlBtn pageCtrlBtnLeft' onClick={() => firstPageControl()}>
@@ -73,15 +76,16 @@ export const ManageAllTasks = () => {
     }]
   };
 
+  
   useEffect(() => {
     fetch(`http://localhost:3001/tasks-users`)
-      .then(res => res.json())
-      .then(tasks => {
-        setAllTasks(tasks)
-        setFilteredTasks(tasks)
-      })
+    .then(res => res.json())
+    .then(tasks => {
+      setAllTasks(tasks)
+      setFilteredTasks(tasks)
+    })
   }, [])
-
+  
   useEffect(() => {
     if (filteredTasks) {
       setTableData(
@@ -96,7 +100,11 @@ export const ManageAllTasks = () => {
       setPageIndex(0)
     }
   }, [filteredTasks])
-
+  
+  const handleModifyShow = (e) => {
+    setmodifyTableQuery(e.target.parentElement.id)
+    setModifyTableShow(true)
+  }
   useEffect(() => {
     if (pageIndex !== undefined) {
       setNewTableData(
@@ -104,7 +112,7 @@ export const ManageAllTasks = () => {
           return (
             i > pageIndex - 1 ?
               i < pageIndex + 30 ?
-                <tr className="task tableCol" key={i} id={task.id}>
+                <tr className="task tableCol" key={i} id={task.id} onClick={handleModifyShow}>
                   <td>
                     {task.id}
                   </td>
@@ -168,13 +176,10 @@ export const ManageAllTasks = () => {
 
   }
 
+ 
+
 
   //Navigate to details Table helper Functions
-  const rowEvents = {
-    onClick: (row, cell) => {
-      navigate('/details', { state: cell })
-    }
-  }
 
   return (
     <>
@@ -204,7 +209,7 @@ export const ManageAllTasks = () => {
               </th>
             </tr>
           </thead>
-          <tbody onClick={rowEvents}>
+          <tbody >
             {newTableData}
           </tbody>
         </Table>
