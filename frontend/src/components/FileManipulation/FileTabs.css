@@ -1,0 +1,17 @@
+div.tab-content {
+
+
+    color: aliceblue;
+    background: rgba(206, 212, 218, .1);
+    border-radius: 5px;
+    border-style: solid;
+    border-color: #212529;
+    border-width: 1.5px;
+    transition: all .2s ease;
+
+}
+
+div.tabs.container{
+    padding:0px;
+    transition: all .2s ease;
+}

@@ -123,6 +123,13 @@ export const Login = () => {
     setUsername(inputUser)
   }
 
+  //Press Enter handler Function
+  const handleKeypress = e => {
+      //it triggers by pressing the enter key
+    if (e.keyCode === 13) {
+      passHashCk();
+    }
+  };
 
   return (
     <>
@@ -136,7 +143,7 @@ export const Login = () => {
           </Form.Group>
           <Form.Group className="mb-3 divItem" controlId="pass">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" onChange={() => setFailMessage(
+            <Form.Control type="password" placeholder="Password" onKeyDown={handleKeypress} onChange={() => setFailMessage(
               <div className='newAccountLinkDiv'>
                 <span className='newHereText'>New Here?</span>
                 <Form.Text>

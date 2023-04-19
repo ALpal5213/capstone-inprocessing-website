@@ -7,6 +7,49 @@
 .linkTextDiv {
   padding: 5px;
 }
+
+.icon-style {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  color: white;
+}
+
+.icon-style:hover {
+  background-color: transparent !important;
+  /* color: rgb(196, 196, 196); */
+}
+
+.manage-icon {
+  padding-left: 6px !important;
+  text-transform: capitalize !important;
+  font-size: 14px !important;
+  color: #bbbbbb !important;
+}
+
+.manage-list {
+  margin-left: -180px !important;
+  margin-top: -30px !important;
+}
+
+.bi-list {
+  margin-top: -3px;
+}
+
+.notification-badge {
+  background-color: red;
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  border-radius: 50%;
+  z-index: 10;
+  margin-left: 15%;
+  margin-top: -7px;
+}
+
+.dropdown-toggle::after {
+  display: none !important; 
+}
+
 .linkTextDiv:hover {
   color: rgb(196, 196, 196);
 
