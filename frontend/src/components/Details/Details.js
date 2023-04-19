@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import Container from 'react-bootstrap/Container';
 import { Row, Col } from "react-bootstrap";
 import Button from 'react-bootstrap/Button';
@@ -17,7 +17,6 @@ const Details = () => {
     const splitDate = task.due_date.split('T');
     const formattedDate = splitDate[0];
     const [editable, setEditable] = useState(false);
-    const editRef = useRef({ task_description: task.task_description, address: task.address, hours: task.hours, building: task.building, room: task.room, phone_number: task.phone_number, notes: task.notes, url: task.url });
     const { setReFetch } = useContext(GlobalContext);
     const navigate = useNavigate();
     let editObj = {};
@@ -25,7 +24,7 @@ const Details = () => {
     let delButton = '';
 
 
-    if (task.task_type == 'personal') {
+    if (task.task_type === 'personal') {
         editButton = <Button variant="outline-warning" onClick={() => startEdit()} className='detailH1Button'>Edit Task</Button>
         delButton = <Button variant="outline-danger" className='detailH1Button' onClick={() => { handleDelete(task) }}>Delete Task</Button>
     }
@@ -55,9 +54,9 @@ const Details = () => {
 
 
     const handleDelete = () => {
+        deleteTask(task)
         navigate('/home')
         setReFetch(true)
-        deleteTask(task)
     }
     const deleteTask = () => {
         fetch(`http://localhost:3001/tasks/${task.id}`, {
@@ -65,7 +64,6 @@ const Details = () => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(task)
         })
-            .then(res => res.json())
             .then(data => {
                 setReFetch(true)
                 navigate('/home')
@@ -77,9 +75,9 @@ const Details = () => {
 
         <>
             <Container>
-                <hr class="solid"></hr>
+                <hr className="solid"></hr>
                 <div><h2>{task.task_name}</h2>
-                    <hr class="solid"></hr>
+                    <hr className="solid"></hr>
                 </div>
                 {(!editable) ?
                     <Container className='taskDescriptions'>
@@ -108,7 +106,7 @@ const Details = () => {
                         </Row>
                         <br></br>
                         <h2>Task Location</h2>
-                        <hr class="solid"></hr>
+                        <hr className="solid"></hr>
                         {task.latitude && task.longitude && <Map selectedLocation={task} />}
                         <br></br>
                     </Container>

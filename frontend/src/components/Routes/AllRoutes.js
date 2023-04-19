@@ -21,12 +21,11 @@ export const AllRoutes = () => {
                 <Route path="/" element={<Navigate to="/login" replace={true} />} />
                 <Route path='/login' element={< Login />}></Route>
                 <Route path='/create-account' element={<CreateAccount/>}></Route>
-                
-                  <Route element={<ProtectedRoutes />}>
-                  <Route path='/home' element={<HomePage/>}></Route>
-                  <Route path='/details' element={<DetailsPage/>}></Route>
-                  <Route path='/profile' element={<Profile/>}></Route>
-                </Route>
+                {/* <Route element={<ProtectedRoutes />}> */}
+                    <Route path='/home' element={<HomePage/>}></Route>
+                    <Route path='/details' element={<DetailsPage/>}></Route>
+                    <Route path='/profile' element={<Profile/>}></Route>
+                {/* </Route> */}
                 <Route path='*' element={<NotAuthorized/>}></Route>
             </Routes>
             <Footer/>
