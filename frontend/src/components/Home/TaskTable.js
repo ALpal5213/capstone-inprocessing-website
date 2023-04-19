@@ -30,17 +30,9 @@ export const TaskTabs = () => {
 
     //Replaces status categories with corresponding icons
     const statusFormatter =(cell,row,formatExtraData)=>{
-      if(cell === 'pending')
-        return(
-        <span><Icon.HourglassSplit size={25} /></span>
-      )
-      else if(cell ==='complete')
-      return(
-        <span><Icon.PatchCheckFill color="green" size={25}/></span>
-      )
-      else return(
-        <span><Icon.XSquareFill color="red" size={25}/></span>
-      )
+      if(cell === 'pending') return <span><Icon.HourglassSplit size={25} /></span>
+      else if(cell ==='complete') return <span><Icon.PatchCheckFill color="green" size={25}/></span>
+      else return <span><Icon.XSquareFill color="red" size={25}/></span>
     }
 
     //Formats Date Columns to take off Time
@@ -49,19 +41,15 @@ export const TaskTabs = () => {
         cell = split[0]
         return(
             <span>{cell}</span>
-          )
+        )
     }
 
     //Create Columns for Table
     const columns = [
-        { text: 'Name', dataField: 'task_name' },
+        { text: 'Name', dataField: 'task_name', sort: true },
         { text: 'Priority', dataField: 'priority', sort: true },
-        { text: 'Due Date', dataField: 'due_date',
-        formatter: dateFormatter,
-        sort: true},
-        { text: 'status', dataField: 'status', 
-        formatter: statusFormatter,
-            sort: true }
+        { text: 'Due Date', dataField: 'due_date', formatter: dateFormatter, sort: true},
+        { text: 'Status', dataField: 'status', formatter: statusFormatter, sort: true }
     ];
 
     //Navigate to details Table helper Functions
