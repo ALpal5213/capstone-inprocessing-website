@@ -154,6 +154,15 @@ export const ManageAllTasks = () => {
     setPageIndex(filteredTasks.length - lastPageSize)
   }
 
+  const sortById = () => {
+    console.log(filteredTasks)
+    var idSortedTasks = filteredTasks
+    idSortedTasks.sort((a, b) => b.id - a.id);
+    console.log(idSortedTasks)
+    lastPageControl()
+
+  }
+
   return(
     <div className='allTaskTableDiv'>
       {pageButtons}
@@ -162,6 +171,7 @@ export const ManageAllTasks = () => {
           <tr className='tableCol'>
             <th>
               Task Id
+              <button onClick={() => sortById()}>sort</button>
             </th>
             <th>
               Task
