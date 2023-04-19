@@ -53,12 +53,13 @@ export const TaskTabs = () => {
     }
 
     const columns = [
+        { text: '', dataField: 'checkbox'},
         { text: 'Name', dataField: 'task_name' },
         { text: 'Priority', dataField: 'priority', sort: true },
         { text: 'Due Date', dataField: 'due_date',
         formatter: dateFormatter,
         sort: true},
-        { text: 'status', dataField: 'status', 
+        { text: 'Status', dataField: 'status', 
         formatter: statusFormatter,
            sort: true }
     ];
