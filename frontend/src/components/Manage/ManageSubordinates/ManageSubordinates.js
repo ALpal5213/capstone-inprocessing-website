@@ -9,7 +9,9 @@ import { GlobalContext } from '../../../App';
 
 const ManageSubordinates = () => {
   const { reFetch, setReFetch, userLogin } = useContext(GlobalContext);
-  const [members, setMembers] = useState();
+  const [members, setMembers] = useState([]);
+  // const [tableData, setTableData] = useState();
+
     console.log(userLogin);
   useEffect(() => {
     fetch(`http://localhost:3001/members/${userLogin.id}`)
@@ -17,18 +19,26 @@ const ManageSubordinates = () => {
       .then(data => setMembers(data))
   }, [])
 
+  const tableData = members.map((member) => {
+    return (
+      <tr>
+        <td>{member.fullname}</td>
+      </tr>
+    )
+  })
+
   return ( 
     <div className='user-table-wrapper'>
-      <Table hover className="userTable">
+      <Table>
         <thead>
-          <tr className='tableCol'>
+          <tr>
             <th>Name</th>
             <th>Unit</th>
             <th>Military/Civilian</th>
           </tr>
         </thead>
         <tbody>
-          {/* {newTableData} */}
+          {tableData}
         </tbody>
       </Table>
     </div>
