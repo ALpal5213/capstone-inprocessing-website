@@ -12,7 +12,7 @@ import { GlobalContext } from '../../App';
 
 export const ManageAllTasks = () => {
 
-  const { modifyTableShow, setModifyTableShow,  modifyTableQuery, setmodifyTableQuery } = useContext(GlobalContext)
+  const { modifyTableShow, setModifyTableShow, modifyTableQuery, setmodifyTableQuery, reFetch, setReFetch, } = useContext(GlobalContext)
   const navigate = useNavigate();
   const [allTasks, setAllTasks] = useState();
   const [filteredTasks, setFilteredTasks] = useState();
@@ -20,13 +20,13 @@ export const ManageAllTasks = () => {
   const [newTableData, setNewTableData] = useState();
   const [tablePage, setTablePage] = useState(1);
   const [pageIndex, setPageIndex] = useState();
-  
+
   const [idSort, setIdSort] = useState('a');
   const [idSortIcon, setIdSortIcon] = useState(
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" classNmae="bi bi-chevron-down" viewBox="0 0 16 16">
-      <path fillRule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+      <path fillRule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
     </svg>
-)
+  )
   const pageButtons = (
     <div className='pageCtrlDiv'>
       <button className='pageCtrlBtn pageCtrlBtnLeft' onClick={() => firstPageControl()}>
@@ -82,34 +82,37 @@ export const ManageAllTasks = () => {
     }]
   };
 
-  
+
   useEffect(() => {
     fetch(`http://localhost:3001/tasks-users`)
-    .then(res => res.json())
-    .then(tasks => {
-      setAllTasks(tasks)
-      setFilteredTasks(tasks)
-    })
+      .then(res => res.json())
+      .then(tasks => {
+        setAllTasks(tasks)
+        setFilteredTasks(tasks)
+      })
   }, [])
-  
+
   useEffect(() => {
     if (filteredTasks) {
       setPageIndex(0)
     }
   }, [filteredTasks])
-  
+
   const handleModifyShow = (e) => {
+    console.log(e)
     setmodifyTableQuery(e.target.parentElement.id)
+    setReFetch()
     setModifyTableShow(true)
   }
   useEffect(() => {
     if (pageIndex !== undefined) {
       setNewTableData(
         filteredTasks.map((task, i) => {
+          console.log(task)
           return (
             i > pageIndex - 1 ?
               i < pageIndex + 30 ?
-                <tr className="task tableCol" key={i} id={task.id} onClick={handleModifyShow}>
+                <tr className="task tableCol" key={i} id={task.task_id} onClick={handleModifyShow}>
                   <td>
                     {task.task_id}
                   </td>
@@ -135,7 +138,7 @@ export const ManageAllTasks = () => {
         })
       )
     }
-  }, [pageIndex])
+  }, [pageIndex, reFetch])
 
   const nextPageControl = () => {
     console.log(tablePage + 1)
@@ -173,18 +176,18 @@ export const ManageAllTasks = () => {
     if (idSort === 'a') {
       setIdSortIcon(
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-up" viewBox="0 0 16 16">
-          <path fillRule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+          <path fillRule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
         </svg>
       )
-      idSortedTasks = filteredTasks.sort((a, b) => {return b.task_id - a.task_id});
+      idSortedTasks = filteredTasks.sort((a, b) => { return b.task_id - a.task_id });
       setIdSort('d')
     } else {
       setIdSortIcon(
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" classNmae="bi bi-chevron-down" viewBox="0 0 16 16">
-          <path fillRule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+          <path fillRule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
         </svg>
       )
-      idSortedTasks = filteredTasks.sort((a, b) => {return a.task_id - b.task_id});
+      idSortedTasks = filteredTasks.sort((a, b) => { return a.task_id - b.task_id });
       setIdSort('a')
     }
     if (pageIndex > 0) {
@@ -199,7 +202,7 @@ export const ManageAllTasks = () => {
     setTablePage(1)
   }
 
-  return(
+  return (
     <>
       <div className='allTaskTableDiv'>
         {pageButtons}
@@ -235,6 +238,6 @@ export const ManageAllTasks = () => {
       </div>
       <TaskModify />
     </>
-    
+
   )
 }
