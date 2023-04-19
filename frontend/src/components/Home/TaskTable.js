@@ -15,6 +15,7 @@ export const TaskTabs = () => {
     const [unitTasks, setUnitTasks] = useState([]);
     const [jobTasks, setJobTasks] = useState([]);
     const [personalTasks, setPersonalTasks] = useState([]);
+    const [completedTasks, setCompletedTasks] = useState([]);
 
     useEffect(() => {
         fetch(`http://localhost:3001/tasks-locations/${userLogin.id}`)
@@ -24,7 +25,9 @@ export const TaskTabs = () => {
                 setJobTasks(data.filter((task) => task.task_type === 'job'))
                 setUnitTasks(data.filter((task) => task.task_type === 'unit'))
                 setPersonalTasks(data.filter((task) => task.task_type === 'personal'))
+                setCompletedTasks(data.filter((task) => task.status === 'complete'))
             })
+            
     }, [userLogin, reFetch])
 
 
@@ -54,7 +57,6 @@ export const TaskTabs = () => {
 
     //Create Columns for Table
     const columns = [
-        { text: '', dataField: 'checkbox'},
         { text: 'Name', dataField: 'task_name' },
         { text: 'Priority', dataField: 'priority', sort: true },
         { text: 'Due Date', dataField: 'due_date',
@@ -71,6 +73,25 @@ export const TaskTabs = () => {
             navigate('/details', { state: cell })
         }
     }
+
+    const getCompletedTasks = () => {
+
+        let arr = [];
+
+        for(let task of completedTasks){
+            arr.push(task.id)
+        }
+
+        return arr;
+    }
+
+    const selectRow = {
+        mode: 'checkbox',
+        //clickToSelect: true,
+        classes: 'selection-row',
+        selected: getCompletedTasks(),
+        nonSelectable: getCompletedTasks()
+    };
 
     //Progress Bar Calculator Function
     const calcProgress = (taskArray) => {
@@ -104,7 +125,6 @@ export const TaskTabs = () => {
                         <p>Personal</p>
                     </Tab>
                 </TabList>
-
                 <TabPanel>
                     <div className="panel-content">
                         <div>
@@ -119,7 +139,7 @@ export const TaskTabs = () => {
                             </div>
                         </div>
                         <div className='taskTable-div' style={{ maxWidth: '100%' }}>
-                            <BootstrapTable columns={columns} data={installationTasks} rowEvents={rowEvents} keyField='id' />
+                            <BootstrapTable columns={columns} data={installationTasks} selectRow={selectRow} rowEvents={rowEvents} keyField='id' />
                         </div>
                     </div>
                 </TabPanel>
@@ -138,7 +158,7 @@ export const TaskTabs = () => {
                             </div>
                         </div>
                         <div className='taskTable-div' style={{ maxWidth: '100%' }}>
-                            <BootstrapTable columns={columns} data={unitTasks} rowEvents={rowEvents} keyField='id' />
+                            <BootstrapTable columns={columns} data={unitTasks} selectRow={selectRow} rowEvents={rowEvents} keyField='id' />
                         </div>
                     </div>
                 </TabPanel>
@@ -157,7 +177,7 @@ export const TaskTabs = () => {
                             </div>
                         </div>
                         <div className='taskTable-div' style={{ maxWidth: '100%' }}>
-                            <BootstrapTable columns={columns} data={jobTasks} rowEvents={rowEvents} keyField='id' />
+                            <BootstrapTable columns={columns} data={jobTasks} selectRow={selectRow} rowEvents={rowEvents} keyField='id' />
                         </div>
                     </div>
                 </TabPanel>
@@ -176,7 +196,7 @@ export const TaskTabs = () => {
                             </div>
                         </div>
                         <div className='taskTable-div' style={{ maxWidth: '100%' }}>
-                            <BootstrapTable columns={columns} data={personalTasks} rowEvents={rowEvents} keyField='id' />
+                            <BootstrapTable columns={columns} data={personalTasks} selectRow={selectRow} rowEvents={rowEvents} keyField='id' />
                         </div>
                     </div>
                     <AddTask />
