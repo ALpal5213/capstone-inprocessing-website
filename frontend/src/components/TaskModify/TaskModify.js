@@ -251,9 +251,9 @@ export const TaskModify = () => {
         if (newTask.task_name === "" || newTask.task_description === "" || newTask.priority === "" || newTask.location_id === "") {
             //prompt user to enter details
         } else {
-            fetch("http://localhost:3001/tasks",
+            fetch(`http://localhost:3001/tasks/${oldTasks.id}`,
                 {
-                    method: "POST",
+                    method: "PATCH",
                     headers: {
                         "Content-Type": "application/json",
                     },
