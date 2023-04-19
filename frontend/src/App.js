@@ -21,7 +21,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState({ user_id: "12345", user_name: "Ricky" });
   const [userLogin, setUserLogin] = useState(false);
   const [userAuth, setUserAuth] = useState(false);
-  const [theme, setTheme] = useState('');
+  const [theme, setTheme] = useState('dark');
   const [reFetch, setReFetch] = useState(false);
  //File Manipulation Global States
  const [PDF, setPDF] = useState({"files":[]})
@@ -35,9 +35,24 @@ function App() {
 
   
   return (
-    <GlobalContext.Provider value={{ theme, setTheme, selectedTask, setSelectedTask, selectedLocation, setSelectedLocation, currentUser, setCurrentUser, userLogin, setUserLogin, userAuth, setUserAuth, reFetch, setReFetch, PDF, setPDF, CSV, setCSV, IMAGE, setIMAGE, workingFolder, setWorkingFolder, fileIO, setfileIO, fileType, setFileType, checkAgain, setCheckAgain  }}>
+    <GlobalContext.Provider value={{ 
+      theme, setTheme, 
+      selectedTask, setSelectedTask, 
+      selectedLocation, setSelectedLocation, 
+      currentUser, setCurrentUser, 
+      userLogin, setUserLogin, 
+      userAuth, setUserAuth, 
+      reFetch, setReFetch, 
+      PDF, setPDF, 
+      CSV, setCSV, 
+      IMAGE, setIMAGE, 
+      workingFolder, setWorkingFolder, 
+      fileIO, setfileIO, 
+      fileType, setFileType, 
+      checkAgain, setCheckAgain  
+    }}>
       <div className={(theme === 'dark' ) ? 'dark-theme' : 'light-theme'}>
-      <ThemeHandler/>
+        <ThemeHandler/>
         <AllRoutes />
       </div>
     </GlobalContext.Provider>
