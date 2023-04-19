@@ -98,6 +98,17 @@ routePath.get("/tasks-locations/:userID", (request, response) => {
         .catch(error => response.status(405).send("Could not get"))
 });
 
+//Get join table and allow order by and limit (optional)
+routePath.get("/tasks-users", (request, response) => {
+  let id = request.params.userID;
+
+  return knex('Tasks')
+      .join('Users', 'Tasks.user_id', '=', 'Users.id')
+      .select('*')
+      .then(data => response.status(200).json(data))
+      .catch(error => response.status(405).send("Could not get"))
+});
+
 //Get join table that returns a list of subordinate based on a passed in supervisor user id
 routePath.get("/supervisor/:id", (request, response) => {
   let id = request.params.id;
