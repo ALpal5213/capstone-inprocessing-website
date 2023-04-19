@@ -471,7 +471,16 @@ routePath.post("/session", async function (req, res) {
             .where({ id: req.body.id })
             .modify((queryBuilder) => queryBuilder.update({ session_id: sid })).then(data => {
                 console.log(`Session_id for user of id ${req.body.id} has been changed to:  ${sid}`)
-                return res.status(202).json({ "message": "Session Id Modified at database!", "user_id": req.body.id, ...req.session })
+            }).then(() => {
+                return knex.select('is_admin')
+                    .from('Users')
+                    .where({ id: req.body.id }).then(data => {
+
+                        return data[0]
+                    }).then(data => {
+                        console.log(data);
+                        return res.status(202).json({ "message": "Session Id Modified at database!", "user_id": req.body.id, "is_admin": data.is_admin, ...req.session })
+                    })
             })
     }
     else {
@@ -480,6 +489,7 @@ routePath.post("/session", async function (req, res) {
     }
 
 })
+
 
 
 // Upload Endpoint

@@ -1,12 +1,17 @@
 
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import BootstrapTable from 'react-bootstrap-table-next'
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import Table from 'react-bootstrap/Table';
 import './ManageAllTasks.css'
+import { TaskModify } from '../TaskModify/TaskModify'
+import { useNavigate } from 'react-router-dom';
 
 export const ManageAllTasks = () => {
+
+
+  const navigate = useNavigate();
   const [allTasks, setAllTasks] = useState();
   const [filteredTasks, setFilteredTasks] = useState();
   const [tableData, setTableData] = useState();
@@ -17,13 +22,13 @@ export const ManageAllTasks = () => {
     <div className='pageCtrlDiv'>
       <button className='pageCtrlBtn pageCtrlBtnLeft' onClick={() => firstPageControl()}>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-double-left" viewBox="0 0 16 16">
-          <path fillRule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
-          <path fillRule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+          <path fillRule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+          <path fillRule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
         </svg>
       </button>
       <button className='pageCtrlBtn' onClick={() => backPageControl()}>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-left" viewBox="0 0 16 16">
-          <path fillRule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+          <path fillRule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
         </svg>
       </button>
       <div className='pageNumArea'>
@@ -31,21 +36,21 @@ export const ManageAllTasks = () => {
       </div>
       <button className='pageCtrlBtn' onClick={() => nextPageControl()}>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-right" viewBox="0 0 16 16">
-          <path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+          <path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
         </svg>
       </button>
       <button className='pageCtrlBtn pageCtrlBtnRight' onClick={() => lastPageControl()}>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-double-right" viewBox="0 0 16 16">
-          <path fillRule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
-          <path fillRule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
+          <path fillRule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z" />
+          <path fillRule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z" />
         </svg>
       </button>
     </div>
   )
 
   const columns = [
-    {dataField: 'task_name', text: '1'}, 
-    {dataField: 'task_description', text: '2'}
+    { dataField: 'task_name', text: '1' },
+    { dataField: 'task_description', text: '2' }
   ];
 
   const options = {
@@ -75,22 +80,22 @@ export const ManageAllTasks = () => {
         setAllTasks(tasks)
         setFilteredTasks(tasks)
       })
-  },[])
+  }, [])
 
   useEffect(() => {
     if (filteredTasks) {
       setTableData(
         <div className='allTaskTableDiv'>
-          <BootstrapTable 
-          keyField='rowNumber' 
-          data={ filteredTasks } 
-          columns={ columns } 
-          pagination={ paginationFactory(options) } />
+          <BootstrapTable
+            keyField='rowNumber'
+            data={filteredTasks}
+            columns={columns}
+            pagination={paginationFactory(options)} />
         </div>
       )
       setPageIndex(0)
     }
-  },[filteredTasks])
+  }, [filteredTasks])
 
   useEffect(() => {
     if (pageIndex !== undefined) {
@@ -98,38 +103,38 @@ export const ManageAllTasks = () => {
         filteredTasks.map((task, i) => {
           return (
             i > pageIndex - 1 ?
-              i < pageIndex + 30 ? 
-              <tr className="task tableCol" key={i} id={task.id}>
-                <td>
-                  {task.id}
-                </td>
-                <td>
-                  {task.task_name}
-                </td>
-                <td>
-                  {task.task_type}
-                </td>
-                <td>
-                  {task.fullname}
-                </td>
-                <td>
-                  {task.due_date}
-                </td>
-                <td>
-                  {task.status}
-                </td>
-              </tr> :
-              '' :
+              i < pageIndex + 30 ?
+                <tr className="task tableCol" key={i} id={task.id}>
+                  <td>
+                    {task.id}
+                  </td>
+                  <td>
+                    {task.task_name}
+                  </td>
+                  <td>
+                    {task.task_type}
+                  </td>
+                  <td>
+                    {task.fullname}
+                  </td>
+                  <td>
+                    {task.due_date}
+                  </td>
+                  <td>
+                    {task.status}
+                  </td>
+                </tr> :
+                '' :
               ''
           )
         })
       )
     }
-  },[pageIndex])
+  }, [pageIndex])
 
   const nextPageControl = () => {
     console.log(tablePage + 1)
-    
+
     if (pageIndex < filteredTasks.length - 30) {
       setTablePage(tablePage + 1)
       setPageIndex(pageIndex + 30)
@@ -149,8 +154,8 @@ export const ManageAllTasks = () => {
   }
 
   const lastPageControl = () => {
-    setTablePage(Math.floor(filteredTasks.length / 30 ) + 1)
-    let lastPageSize = filteredTasks.length - ((Math.floor(filteredTasks.length / 30 )) * 30)
+    setTablePage(Math.floor(filteredTasks.length / 30) + 1)
+    let lastPageSize = filteredTasks.length - ((Math.floor(filteredTasks.length / 30)) * 30)
     setPageIndex(filteredTasks.length - lastPageSize)
   }
 
@@ -163,38 +168,49 @@ export const ManageAllTasks = () => {
 
   }
 
-  return(
-    <div className='allTaskTableDiv'>
-      {pageButtons}
-      <Table hover className="taskTable">
-        <thead>
-          <tr className='tableCol'>
-            <th>
-              Task Id
-              <button onClick={() => sortById()}>sort</button>
-            </th>
-            <th>
-              Task
-            </th>
-            <th>
-              Type
-            </th>
-            <th>
-              User
-            </th>
-            <th>
-              Due
-            </th>
-            <th>
-              Status
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {newTableData}
-        </tbody>
-      </Table>
-      {pageButtons}
-    </div>
+
+  //Navigate to details Table helper Functions
+  const rowEvents = {
+    onClick: (row, cell) => {
+      navigate('/details', { state: cell })
+    }
+  }
+
+  return (
+    <>
+      <div className='allTaskTableDiv'>
+        {pageButtons}
+        <Table hover className="taskTable">
+          <thead>
+            <tr className='tableCol'>
+              <th>
+                Task Id
+                <button onClick={() => sortById()}>sort</button>
+              </th>
+              <th>
+                Task
+              </th>
+              <th>
+                Type
+              </th>
+              <th>
+                User
+              </th>
+              <th>
+                Due
+              </th>
+              <th>
+                Status
+              </th>
+            </tr>
+          </thead>
+          <tbody onClick={rowEvents}>
+            {newTableData}
+          </tbody>
+        </Table>
+        {pageButtons}
+      </div>
+      <TaskModify />
+    </>
   )
 }
