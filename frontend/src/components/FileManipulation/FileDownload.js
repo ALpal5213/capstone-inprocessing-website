@@ -48,10 +48,9 @@ export const FileDownload = () => {
         e.preventDefault();
 
         let index = e.target.id
-        console.log(PDF.files[index])
-        let filename = PDF.files[index]
+        let filename = workingFolder.files[index]
 
-        const res = await fetch(`http://localhost:3001/force-download/${userLogin.id}/${userLogin.file_id}/pdf/${filename}`);
+        const res = await fetch(`http://localhost:3001/force-download/${userLogin.id}/${userLogin.file_id}/${fileType}/${filename}`);
         const blob = await res.blob();
         download(blob);
 
@@ -75,6 +74,7 @@ export const FileDownload = () => {
             fetch(`http://localhost:3001/${fileIO}/${userLogin.id}/${userLogin.file_id}/csv`).then(data => { if (data.ok) { return data.json() } else { return null } }).then(json => {
 
                 setCSV(json);
+                
             })
         }
 
@@ -106,6 +106,7 @@ export const FileDownload = () => {
     return (
 
         <>
+      
             <br></br>
             <div style={{ textAlign: 'center' }}>
                 <h5> Download {fileType.toUpperCase()}</h5>
@@ -181,7 +182,7 @@ export const FileDownload = () => {
                                                     null
                                         }
                                         <Card.Body>
-                                            <Card.Title>{file.slice(0, 10)}...`</Card.Title>
+                                            <Card.Title>{file.slice(0, 15)}...`</Card.Title>
 
                                             <Button id={index} onClick={onDownloadFile} size="sm" variant="success">Download</Button>
                                         </Card.Body>

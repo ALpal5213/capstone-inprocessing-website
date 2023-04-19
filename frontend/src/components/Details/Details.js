@@ -54,9 +54,9 @@ const Details = () => {
 
 
     const handleDelete = () => {
+        deleteTask(task)
         navigate('/home')
         setReFetch(true)
-        deleteTask(task)
     }
     const deleteTask = () => {
         fetch(`http://localhost:3001/tasks/${task.id}`, {
@@ -64,7 +64,6 @@ const Details = () => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(task)
         })
-            .then(res => res.json())
             .then(data => {
                 setReFetch(true)
                 navigate('/home')
@@ -76,9 +75,9 @@ const Details = () => {
 
         <>
             <Container>
-                <hr class="solid"></hr>
+                <hr className="solid"></hr>
                 <div><h2>{task.task_name}</h2>
-                    <hr class="solid"></hr>
+                    <hr className="solid"></hr>
                 </div>
                 {(!editable) ?
                     <Container className='taskDescriptions'>
@@ -107,7 +106,7 @@ const Details = () => {
                         </Row>
                         <br></br>
                         <h2>Task Location</h2>
-                        <hr class="solid"></hr>
+                        <hr className="solid"></hr>
                         {task.latitude && task.longitude && <Map selectedLocation={task} />}
                         <br></br>
                     </Container>

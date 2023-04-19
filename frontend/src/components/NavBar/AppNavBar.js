@@ -16,7 +16,7 @@ const AppNavBar = () => {
     var user_id = Cookies.get('user_id')
     var session_id = Cookies.get('session_id')
 
-    fetch(`http://localhost:3001/Table/Users/${user_id}`)
+    fetch(`http://localhost:3001/table/Users/${user_id}`)
       .then(res => res.json())
       .then(data => setUserLogin(data[0]))
   }, [])
@@ -52,7 +52,6 @@ const AppNavBar = () => {
               <Navbar.Brand className='linkTextDiv brandLink' onClick={() => window.open("https://www.wpafb.af.mil")}>Welcome to Wright-Patterson AFB</Navbar.Brand>
             </div>
             <Nav>
-              {/* Notifications nav item */}
               <Nav.Item >
                 <Nav.Link>
                   <Dropdown>
