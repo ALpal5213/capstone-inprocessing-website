@@ -311,8 +311,6 @@ export const TaskModify = () => {
 
     return (
         <>
-            <Button className="btn btn-primary" onClick={handleShow}>Add task</Button>
-
             <Modal show={modifyTableShow} onHide={handleClose}>
                 <Modal.Header>
                     <Modal.Title><h3 id="modal-title">Modifying Task of ID {oldTasks.id}</h3></Modal.Title>

@@ -94,15 +94,6 @@ export const ManageAllTasks = () => {
   
   useEffect(() => {
     if (filteredTasks) {
-      setTableData(
-        <div className='allTaskTableDiv'>
-          <BootstrapTable
-            keyField='rowNumber'
-            data={filteredTasks}
-            columns={columns}
-            pagination={paginationFactory(options)} />
-        </div>
-      )
       setPageIndex(0)
     }
   }, [filteredTasks])
@@ -120,7 +111,7 @@ export const ManageAllTasks = () => {
               i < pageIndex + 30 ?
                 <tr className="task tableCol" key={i} id={task.id} onClick={handleModifyShow}>
                   <td>
-                    {task.id}
+                    {task.task_id}
                   </td>
                   <td>
                     {task.task_name}
@@ -199,17 +190,16 @@ export const ManageAllTasks = () => {
     if (pageIndex > 0) {
       setPageIndex(0)
     } else {
-      setPageIndex(pageIndex - 1)
+      if (pageIndex === -.1) {
+        setPageIndex(0)
+      } else {
+        setPageIndex(-.1)
+      }
     }
     setTablePage(1)
   }
 
-
- 
-
-  //Navigate to details Table helper Functions
-
-  return (
+  return(
     <>
       <div className='allTaskTableDiv'>
         {pageButtons}
@@ -218,7 +208,7 @@ export const ManageAllTasks = () => {
             <tr className='tableCol'>
               <th>
                 Task Id
-                <button onClick={() => sortById()}>sort</button>
+                <button id='sortIdButton' className='sortButton' onClick={(event) => sortById(event)}>{idSortIcon}</button>
               </th>
               <th>
                 Task
@@ -237,7 +227,7 @@ export const ManageAllTasks = () => {
               </th>
             </tr>
           </thead>
-          <tbody >
+          <tbody>
             {newTableData}
           </tbody>
         </Table>
@@ -245,6 +235,6 @@ export const ManageAllTasks = () => {
       </div>
       <TaskModify />
     </>
-
+    
   )
 }
