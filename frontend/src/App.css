@@ -10,10 +10,12 @@
 }
 
 .light-theme {
-  background: url('./images/lightbg.png');
+  background-image: 
+    linear-gradient(to bottom, transparent, grey),
+    url('./images/lightbg.png');
   height: 100%;
   background-repeat: no-repeat;
   background-position: center center;
-  background-color: #dddddd!important;
+  background-color: #eeeeee !important;
   color: black;
 }
