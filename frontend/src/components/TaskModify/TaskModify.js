@@ -9,7 +9,7 @@ export const TaskModify = () => {
 
     const navigate = useNavigate();
 
-    const { reFetch, setReFetch, userLogin } = useContext(GlobalContext);
+    const { reFetch, setReFetch, userLogin, modifyTableShow, setModifyTableShow,  modifyTableQuery, setmodifyTableQuery } = useContext(GlobalContext);
     const [locations, setLocations] = useState([{
         "id": "",
         "building": "",
@@ -38,45 +38,47 @@ export const TaskModify = () => {
     const [taskUpload, setTaskUpload] = useState(false);
     const [taskDownload, setTaskDownload] = useState(false);
 
-    const [oldTasks, setOldTasks] = useState({"due_date"
-        : 
-        "2023-11-05T10:16:52.552-07:00",
+    const [oldTasks, setOldTasks] = useState({
+        "due_date"
+            :
+            "2023-11-05T10:16:52.552-07:00",
         "has_download"
-        : 
-        false,
+            :
+            false,
         "has_upload"
-        : 
-        false,
-       "id"
-        : 
-        1,
+            :
+            false,
+        "id"
+            :
+            1,
         "location_id"
-        : 
-        4,
+            :
+            4,
         mil_or_civ
-        : 
-        "both",
+            :
+            "both",
         "priority"
-        : 
-        "high",
+            :
+            "high",
         "status"
-        : 
-        "complete",
+            :
+            "complete",
         "task_description"
-        : 
-        "The beautiful range of Apple Naturalé that has an exciting mix of natural ingredients. With the Goodness of 100% Natural Ingredients",
+            :
+            "The beautiful range of Apple Naturalé that has an exciting mix of natural ingredients. With the Goodness of 100% Natural Ingredients",
         "task_name"
-        : 
-        "Configuration",
+            :
+            "Configuration",
         "task_type"
-        : 
-        "unit",
+            :
+            "unit",
         "task_url"
-        : 
-        "https://stupendous-injury.info",
+            :
+            "https://stupendous-injury.info",
         "user_id"
-        : 
-        61});
+            :
+            61
+    });
 
 
     //Modal Show
@@ -154,13 +156,13 @@ export const TaskModify = () => {
     }, [])
 
     useEffect(() => {
-        fetch('http://localhost:3001/table/Tasks/1')
+        fetch(`http://localhost:3001/table/Tasks/${modifyTableQuery}`)
             .then(res => res.json())
             .then(data => {
                 console.log(data[0]);
                 setOldTasks(data[0])
             })
-    }, [])
+    }, [modifyTableQuery])
 
 
     //add new location first
@@ -262,9 +264,12 @@ export const TaskModify = () => {
         }
     }
 
+
+
+
     //states for the Modal
     const handleClose = () => {
-      
+        setModifyTableShow(false)
         setReFetch(!reFetch);
         setDefaultCheck(true);
         setShowNewLocation(false);
@@ -286,6 +291,13 @@ export const TaskModify = () => {
         setShow(false);
     };
 
+
+
+
+
+
+
+
     const handleShow = () => setShow(true);
 
     const handleCloseNewLocation = (e) => {
@@ -299,9 +311,7 @@ export const TaskModify = () => {
 
     return (
         <>
-            <Button className="btn btn-primary" onClick={handleShow}>Add task</Button>
-
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={modifyTableShow} onHide={handleClose}>
                 <Modal.Header>
                     <Modal.Title><h3 id="modal-title">Modifying Task of ID {oldTasks.id}</h3></Modal.Title>
                 </Modal.Header>
@@ -361,7 +371,7 @@ export const TaskModify = () => {
                     </Row>
                     <br></br>
                     <Row className="form-group">
-                    <hr className="solid"></hr>
+                        <hr className="solid"></hr>
                         <Form.Label>Location</Form.Label>
                         <br></br>
                         <Col>
@@ -448,7 +458,7 @@ export const TaskModify = () => {
                                     </Row>
                                     <Row>
                                         <textarea id="newTaskNotes" rows="4" cols="50" placeholder="Notes" onBlur={handleLocNotesChange}></textarea>
-                                      
+
                                     </Row>
                                 </>
 
@@ -459,7 +469,7 @@ export const TaskModify = () => {
                         <br></br>
                         <hr className="solid"></hr>
                         <Col>
-                            <Form.Label style={{marginLeft:'10px'}} for="newTaskUpload">File Upload?</Form.Label>
+                            <Form.Label style={{ marginLeft: '10px' }} for="newTaskUpload">File Upload?</Form.Label>
                             <input type="checkbox" id="newTaskUpload" onChange={handleTaskUploadChange}></input>
                         </Col>
                         <Col>
