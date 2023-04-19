@@ -17,7 +17,8 @@ export const TaskTabs = () => {
     const [personalTasks, setPersonalTasks] = useState([]);
 
     useEffect(() => {
-        fetch(`http://localhost:3001/tasks-locations/${userLogin.id}`)
+        if (userLogin) {
+          fetch(`http://localhost:3001/tasks-locations/${userLogin.id}`)
             .then(res => res.json())
             .then(data => {
                 setInstallationTasks(data.filter((task) => task.task_type === 'installation'))
@@ -25,6 +26,7 @@ export const TaskTabs = () => {
                 setUnitTasks(data.filter((task) => task.task_type === 'unit'))
                 setPersonalTasks(data.filter((task) => task.task_type === 'personal'))
             })
+        }
     }, [userLogin, reFetch])
 
 
