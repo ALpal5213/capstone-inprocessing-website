@@ -17,7 +17,7 @@ const Details = () => {
     const splitDate = task.due_date.split('T');
     const formattedDate = splitDate[0];
     const [editable, setEditable] = useState(false);
-    const { setReFetch } = useContext(GlobalContext);
+    const { setReFetch, reFetch } = useContext(GlobalContext);
     const navigate = useNavigate();
     let editObj = {};
     let editButton = '';
@@ -41,7 +41,7 @@ const Details = () => {
             },
         })
             .then((json) => {
-                setReFetch(true)
+                setReFetch(!reFetch)
                 navigate('/home')
             });
 
@@ -56,7 +56,7 @@ const Details = () => {
     const handleDelete = () => {
         deleteTask(task)
         navigate('/home')
-        setReFetch(true)
+        setReFetch(!reFetch)
     }
     const deleteTask = () => {
         fetch(`http://localhost:3001/tasks/${task.id}`, {
@@ -65,7 +65,7 @@ const Details = () => {
             body: JSON.stringify(task)
         })
             .then(data => {
-                setReFetch(true)
+                setReFetch(!reFetch)
                 navigate('/home')
             })
             .catch(err => console.log(err))
