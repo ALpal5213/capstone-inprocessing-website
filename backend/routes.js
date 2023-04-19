@@ -24,30 +24,6 @@ routePath.use(session({
     saveUninitialized: false
 }))
 
-
-// Upload Endpoint 
-// Sends file to a cloud storage service (Google Drive or something else)
-// Sends URL of service location to update the file location
-routePath.patch('/tasks/upload/:id', (req, res) => {
-    // upload to task ID
-    let id = req.params.id;
-
-    if (req.files === null) {
-        return res.status(400).json({ msg: 'No file uploaded' });
-    }
-
-    const file = req.files.file;
-    console.log(file)
-
-    return knex('Tasks')
-        .where({ id: id })
-        .update({
-            my_file: file
-        })
-        .then(data => response.status(200).send("Patched"))
-        .catch(error => response.status(405).send("Not patched"))
-});
-
 /* GET *******************************************************************/
 
 routePath.get("/", (request, response) => {
@@ -230,14 +206,14 @@ routePath.get("/downloads/:user_id/:file_id/:filetype", async (request, response
         
         
         
-        fs.readdir(testFolder, (err, files) => {
-            let fileNames = [];
+        // fs.readdir(testFolder, (err, files) => {
+        //     // let fileNames = [];
             
-            files.forEach(file => {
-                fileNames.push(file);
-            });    
-            response.status(202).json({ "files": fileNames })
-        });    
+        //     // files.forEach(file => {
+        //     //     fileNames.push(file);
+        //     // });    
+        //     response.status(202).json({ "files": files })
+        // });    
     } else { response.status(404).json({ "message": "Not Found" }) }    
     
 })    
@@ -259,19 +235,6 @@ routePath.get("/force-download/:user_id/:file_id/:filetype/:filename", async (re
 
 }
 )
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /* POST *********************************************************************/
 

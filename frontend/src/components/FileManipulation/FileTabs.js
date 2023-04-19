@@ -36,9 +36,12 @@ export const FileTabs = () => {
     //Get PDF files
     useEffect(() => {
         if (userLogin.id && userLogin.file_id) {
-            fetch(`http://localhost:3001/${fileIO}/${userLogin.id}/${userLogin.file_id}/pdf`).then(data => { if (data.ok) { return data.json() } else { return null } }).then(json => {
-                setPDF(json);
-            })
+            fetch(`http://localhost:3001/${fileIO}/${userLogin.id}/${userLogin.file_id}/pdf`)
+                .then(data => { console.log(data); if (data.ok) { return data.json() } else { return null } })
+                .then(json => {
+                    console.log(json)
+                    setPDF(json);
+                })
         }
 
     }, [userLogin])
@@ -46,10 +49,11 @@ export const FileTabs = () => {
     //Get CSV files
     useEffect(() => {
         if (userLogin.id && userLogin.file_id) {
-            fetch(`http://localhost:3001/${fileIO}/${userLogin.id}/${userLogin.file_id}/csv`).then(data => { if (data.ok) { return data.json() } else { return null } }).then(json => {
-
-                setCSV(json);
-            })
+            fetch(`http://localhost:3001/${fileIO}/${userLogin.id}/${userLogin.file_id}/csv`)
+                .then(data => { if (data.ok) { return data.json() } else { return null } })
+                .then(json => {
+                    setCSV(json);
+                })
         }
 
     }, [userLogin])
@@ -57,10 +61,11 @@ export const FileTabs = () => {
     //Get IMAGE files
     useEffect(() => {
         if (userLogin.id && userLogin.file_id) {
-            fetch(`http://localhost:3001/${fileIO}/${userLogin.id}/${userLogin.file_id}/image`).then(data => { if (data.ok) { return data.json() } else { return null } }).then(json => {
-
-                setIMAGE(json);
-            })
+            fetch(`http://localhost:3001/${fileIO}/${userLogin.id}/${userLogin.file_id}/image`)
+                .then(data => { if (data.ok) { return data.json() } else { return null } })
+                .then(json => {
+                    setIMAGE(json);
+                })
         }
 
     }, [userLogin])
@@ -73,7 +78,7 @@ export const FileTabs = () => {
 
                     (<Container className='tabs'>
                         <h5>File Management</h5>
-                        <hr class="solid"></hr>
+                        <hr className="solid"></hr>
                         <Tabs
                             id="controlled-tab-example"
                             activeKey={key}

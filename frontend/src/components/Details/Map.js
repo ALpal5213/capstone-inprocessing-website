@@ -1,6 +1,7 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useContext } from 'react';
 import mapboxgl from 'mapbox-gl';
 import { Container, Row, Col, Button } from 'react-bootstrap';
+import { GlobalContext } from '../../App';
 import './Map.css'
 
 // public access token
@@ -8,6 +9,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiYWxwYWw1MjEzIiwiYSI6ImNsZ2U3aDNzZzJoeDUzZWxpM
 
 // Change input argument to selectedLocation for final
 const Map = ({ selectedLocation }) => {
+  const { theme } = useContext(GlobalContext);
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [style, setStyle] = useState(false);
@@ -31,14 +33,14 @@ const Map = ({ selectedLocation }) => {
 
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: style ? 'mapbox://styles/mapbox/navigation-night-v1' : 'mapbox://styles/mapbox/outdoors-v12',
+      style: theme === 'dark' ? 'mapbox://styles/mapbox/navigation-night-v1' : 'mapbox://styles/mapbox/outdoors-v12',
       center: [-84.0537, 39.8137],
       zoom: 11
     })
     .addControl(new mapboxgl.FullscreenControl(), 'top-right')
     .addControl(new mapboxgl.NavigationControl(), 'top-right')
 
-  }, [style]);
+  }, [theme]);
 
   // map fly to location
   useEffect(() => {
@@ -60,12 +62,7 @@ const Map = ({ selectedLocation }) => {
       .setLngLat([selectedLocation.longitude, selectedLocation.latitude])
       .setPopup(new mapboxgl.Popup().setText(`${selectedLocation.building}`))
       .addTo(map.current))
-  }, [selectedLocation, style])
-
-  const changeStyle = (e) => {
-    e.preventDefault();
-    setStyle(!style);
-  }
+  }, [selectedLocation, theme])
 
   return (
     <Container className='map-wrapper'>
@@ -74,11 +71,6 @@ const Map = ({ selectedLocation }) => {
       </Row>
       <Row className='justify-content-center'>
         <div ref={mapContainer} className="map-container" />
-      </Row>
-      <Row>
-        <Col>
-          <Button onClick={changeStyle} variant='outline-success' className='style-btn'>Change Theme</Button>
-        </Col>
       </Row>
     </Container>
   );
