@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../../App';
 import './AppNavBar.css'
 import Cookies from 'js-cookie'
+import { ThemeHandler } from '../ThemeHandler';
 
 const AppNavBar = () => {
   const navigate = useNavigate();
