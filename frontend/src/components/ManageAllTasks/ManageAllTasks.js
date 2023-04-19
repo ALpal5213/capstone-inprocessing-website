@@ -90,18 +90,6 @@ export const ManageAllTasks = () => {
 
   useEffect(() => {
     if (filteredTasks) {
-<<<<<<< HEAD
-=======
-      setTableData(
-        <div className='allTaskTableDiv'>
-          <BootstrapTable
-            keyField='rowNumber'
-            data={filteredTasks}
-            columns={columns}
-            pagination={paginationFactory(options)} />
-        </div>
-      )
->>>>>>> 7098f4c0a9ee2af41f85148c928f0ea56e936bec
       setPageIndex(0)
     }
   }, [filteredTasks])
@@ -112,7 +100,6 @@ export const ManageAllTasks = () => {
         filteredTasks.map((task, i) => {
           return (
             i > pageIndex - 1 ?
-<<<<<<< HEAD
               i < pageIndex + 30 ? 
               <tr className="task tableCol" key={i} id={task.id}>
                 <td>
@@ -135,30 +122,6 @@ export const ManageAllTasks = () => {
                 </td>
               </tr> :
               '' :
-=======
-              i < pageIndex + 30 ?
-                <tr className="task tableCol" key={i} id={task.id}>
-                  <td>
-                    {task.id}
-                  </td>
-                  <td>
-                    {task.task_name}
-                  </td>
-                  <td>
-                    {task.task_type}
-                  </td>
-                  <td>
-                    {task.fullname}
-                  </td>
-                  <td>
-                    {task.due_date}
-                  </td>
-                  <td>
-                    {task.status}
-                  </td>
-                </tr> :
-                '' :
->>>>>>> 7098f4c0a9ee2af41f85148c928f0ea56e936bec
               ''
           )
         })
@@ -219,12 +182,15 @@ export const ManageAllTasks = () => {
     if (pageIndex > 0) {
       setPageIndex(0)
     } else {
-      setPageIndex(pageIndex - 1)
+      if (pageIndex === -.1) {
+        setPageIndex(0)
+      } else {
+        setPageIndex(-.1)
+      }
     }
     setTablePage(1)
   }
 
-<<<<<<< HEAD
   return(
     <div className='allTaskTableDiv'>
       {pageButtons}
@@ -258,7 +224,7 @@ export const ManageAllTasks = () => {
       </Table>
       {pageButtons}
     </div>
-=======
+  )
 
   //Navigate to details Table helper Functions
   const rowEvents = {
@@ -303,6 +269,5 @@ export const ManageAllTasks = () => {
       </div>
       <TaskModify />
     </>
->>>>>>> 7098f4c0a9ee2af41f85148c928f0ea56e936bec
   )
 }
