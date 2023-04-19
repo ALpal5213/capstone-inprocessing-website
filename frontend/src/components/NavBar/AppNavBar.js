@@ -40,6 +40,7 @@ const AppNavBar = () => {
     setUserLogin(false)
     Cookies.remove('session_id')
     Cookies.remove('user_id')
+    Cookies.remove('is_admin')
     navigate('/login')
   }
 

@@ -10,6 +10,7 @@ import Map from '../Details/Map'
 import { NotAuthorized } from './NotAuthorized'
 import { DetailsPage } from '../Details/DetailsPage'
 import {Footer} from '../Footer/Footer'
+import { AdminProtectedRoutes } from './AdminProtectedRoutes'
 
 
 export const AllRoutes = () => {
@@ -27,9 +28,11 @@ export const AllRoutes = () => {
                   <Route path='/home' element={<HomePage/>}></Route>
                   <Route path='/details' element={<DetailsPage/>}></Route>
                   <Route path='/profile' element={<Profile/>}></Route>
-                  <Route path='/manage-all' element={<ManageAllTasks/>}></Route>
+                  <Route element={<AdminProtectedRoutes />}>
+                        <Route path='/manage-all' element={<ManageAllTasks />}></Route>
+                    </Route>
                 </Route>
-                <Route path='*' element={<NotAuthorized/>}></Route>
+                <Route path='*' element={<Login/>}></Route>
             </Routes>
             <Footer/>
         </Router>
