@@ -55,3 +55,8 @@
 .tableCol {
   text-align: center;
 }
+
+.sortButton {
+  border: none;
+  background-color: rgba(153, 157, 161, 0);
+}

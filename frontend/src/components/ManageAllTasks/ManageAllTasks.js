@@ -18,6 +18,12 @@ export const ManageAllTasks = () => {
   const [newTableData, setNewTableData] = useState();
   const [tablePage, setTablePage] = useState(1);
   const [pageIndex, setPageIndex] = useState();
+  const [idSort, setIdSort] = useState('a');
+  const [idSortIcon, setIdSortIcon] = useState(
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" classNmae="bi bi-chevron-down" viewBox="0 0 16 16">
+      <path fillRule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+    </svg>
+)
   const pageButtons = (
     <div className='pageCtrlDiv'>
       <button className='pageCtrlBtn pageCtrlBtnLeft' onClick={() => firstPageControl()}>
@@ -84,6 +90,8 @@ export const ManageAllTasks = () => {
 
   useEffect(() => {
     if (filteredTasks) {
+<<<<<<< HEAD
+=======
       setTableData(
         <div className='allTaskTableDiv'>
           <BootstrapTable
@@ -93,6 +101,7 @@ export const ManageAllTasks = () => {
             pagination={paginationFactory(options)} />
         </div>
       )
+>>>>>>> 7098f4c0a9ee2af41f85148c928f0ea56e936bec
       setPageIndex(0)
     }
   }, [filteredTasks])
@@ -103,6 +112,30 @@ export const ManageAllTasks = () => {
         filteredTasks.map((task, i) => {
           return (
             i > pageIndex - 1 ?
+<<<<<<< HEAD
+              i < pageIndex + 30 ? 
+              <tr className="task tableCol" key={i} id={task.id}>
+                <td>
+                  {task.task_id}
+                </td>
+                <td>
+                  {task.task_name}
+                </td>
+                <td>
+                  {task.task_type}
+                </td>
+                <td>
+                  {task.fullname}
+                </td>
+                <td>
+                  {task.due_date}
+                </td>
+                <td>
+                  {task.status}
+                </td>
+              </tr> :
+              '' :
+=======
               i < pageIndex + 30 ?
                 <tr className="task tableCol" key={i} id={task.id}>
                   <td>
@@ -125,6 +158,7 @@ export const ManageAllTasks = () => {
                   </td>
                 </tr> :
                 '' :
+>>>>>>> 7098f4c0a9ee2af41f85148c928f0ea56e936bec
               ''
           )
         })
@@ -136,8 +170,12 @@ export const ManageAllTasks = () => {
     console.log(tablePage + 1)
 
     if (pageIndex < filteredTasks.length - 30) {
+      if (pageIndex < 0) {
+        setPageIndex(0 + 30)
+      } else {
+        setPageIndex(pageIndex + 30)
+      }
       setTablePage(tablePage + 1)
-      setPageIndex(pageIndex + 30)
     }
   }
 
@@ -159,15 +197,68 @@ export const ManageAllTasks = () => {
     setPageIndex(filteredTasks.length - lastPageSize)
   }
 
-  const sortById = () => {
-    console.log(filteredTasks)
-    var idSortedTasks = filteredTasks
-    idSortedTasks.sort((a, b) => b.id - a.id);
-    console.log(idSortedTasks)
-    lastPageControl()
-
+  const sortById = (event) => {
+    var idSortedTasks;
+    if (idSort === 'a') {
+      setIdSortIcon(
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-up" viewBox="0 0 16 16">
+          <path fillRule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+        </svg>
+      )
+      idSortedTasks = filteredTasks.sort((a, b) => {return b.task_id - a.task_id});
+      setIdSort('d')
+    } else {
+      setIdSortIcon(
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" classNmae="bi bi-chevron-down" viewBox="0 0 16 16">
+          <path fillRule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+        </svg>
+      )
+      idSortedTasks = filteredTasks.sort((a, b) => {return a.task_id - b.task_id});
+      setIdSort('a')
+    }
+    if (pageIndex > 0) {
+      setPageIndex(0)
+    } else {
+      setPageIndex(pageIndex - 1)
+    }
+    setTablePage(1)
   }
 
+<<<<<<< HEAD
+  return(
+    <div className='allTaskTableDiv'>
+      {pageButtons}
+      <Table hover className="taskTable">
+        <thead>
+          <tr className='tableCol'>
+            <th>
+              Task Id
+              <button id='sortIdButton' className='sortButton' onClick={(event) => sortById(event)}>{idSortIcon}</button>
+            </th>
+            <th>
+              Task
+            </th>
+            <th>
+              Type
+            </th>
+            <th>
+              User
+            </th>
+            <th>
+              Due
+            </th>
+            <th>
+              Status
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {newTableData}
+        </tbody>
+      </Table>
+      {pageButtons}
+    </div>
+=======
 
   //Navigate to details Table helper Functions
   const rowEvents = {
@@ -212,5 +303,6 @@ export const ManageAllTasks = () => {
       </div>
       <TaskModify />
     </>
+>>>>>>> 7098f4c0a9ee2af41f85148c928f0ea56e936bec
   )
 }
