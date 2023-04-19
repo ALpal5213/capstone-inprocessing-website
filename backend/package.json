@@ -22,7 +22,10 @@
     "knex": "^2.4.2",
     "knex-to-csv": "^1.0.1",
     "nodemon": "^2.0.22",
-    "pg": "^8.10.0"
+    "pg": "^8.10.0",
+    "pg-copy-streams": "^6.0.5",
+    "pg-query-stream": "^4.4.0",
+    "stream": "^0.0.2"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0"
