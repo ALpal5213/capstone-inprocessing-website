@@ -58,6 +58,7 @@ const Details = () => {
         navigate('/home')
         setReFetch(true)
     }
+    
     const deleteTask = () => {
         fetch(`http://localhost:3001/tasks/${task.id}`, {
             method: "DELETE",
