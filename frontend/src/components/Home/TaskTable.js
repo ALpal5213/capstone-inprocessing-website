@@ -173,7 +173,7 @@ export const TaskTabs = () => {
                 <TabPanel>
                     <div className="panel-content">
                         <div>
-                            <div className="p-bar-center">Task Progress</div>
+                            <div className="p-bar-center">Tasks Completed</div>
                             <div className="p-bar-center">
                                 <ProgressBar 
                                     className="p-bar" 
@@ -192,7 +192,7 @@ export const TaskTabs = () => {
                 <TabPanel >
                     <div className="panel-content">
                         <div>
-                            <div className="p-bar-center">Task Progress</div>
+                            <div className="p-bar-center">Tasks Completed</div>
                             <div className="p-bar-center">
                                 <ProgressBar 
                                     className="p-bar" 
@@ -211,7 +211,7 @@ export const TaskTabs = () => {
                 <TabPanel>
                     <div className="panel-content">
                         <div>
-                            <div className="p-bar-center">Task Progress</div>
+                            <div className="p-bar-center">Tasks Completed</div>
                             <div className="p-bar-center">
                                 <ProgressBar 
                                     className="p-bar" 
@@ -230,7 +230,7 @@ export const TaskTabs = () => {
                 <TabPanel>
                     <div className="panel-content">
                         <div>
-                            <div className="p-bar-center">Task Progress</div>
+                            <div className="p-bar-center">Tasks Completed</div>
                             <div className="p-bar-center">
                                 <ProgressBar 
                                     className="p-bar" 

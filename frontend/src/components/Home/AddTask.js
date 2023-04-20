@@ -247,7 +247,7 @@ const AddTask = () => {
 
     return (
         <>
-            <Button className="btn btn-primary" onClick={handleShow}>Add task</Button>
+            <Button className="btn btn-dark" onClick={handleShow}>Add task</Button>
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header>
