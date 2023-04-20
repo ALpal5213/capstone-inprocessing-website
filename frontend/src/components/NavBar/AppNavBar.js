@@ -64,6 +64,7 @@ const AppNavBar = () => {
       return ''
     } else {
       return (
+        <>
         <Navbar bg="dark" variant='dark' export="lg" textcolor="white">
           <Container>
             <div className='brand'>
@@ -161,6 +162,9 @@ const AppNavBar = () => {
             </Nav>
           </Container>
         </Navbar>
+        <div className='borderSpan2'></div>
+        <div className='borderSpan1'></div>
+        </>
       )
     }
   }
@@ -168,8 +172,6 @@ const AppNavBar = () => {
   return (
     <>
       {navBarContent()}
-      <div className='borderSpan2'></div>
-      <div className='borderSpan1'></div>
     </>
   );
 }
