@@ -30,7 +30,7 @@ export const ThemeHandler =()=> {
 
   return (
       <>
-        <MDBSwitch defaultChecked id='flexSwitchCheckChecked' label='Switch Theme' onClick={toggleTheme} />
+        {userLogin && <MDBSwitch defaultChecked id='flexSwitchCheckChecked' label='Switch Theme' onClick={toggleTheme} />}
       </>
   )
 }
