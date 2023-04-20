@@ -26,10 +26,7 @@ div.manage-task.row {
 
 
 
-div.task-manage-title.col {
-    
-    
-}
+div.task-manage-title.col {}
 
 div.task-manage-checkboxes.row {
     margin-top: 0%;
@@ -46,6 +43,24 @@ div.modal-content {
     border-width: 1.5px;
     color: black;
 }
+
+button.create-table-show.btn.btn-dark{
+
+
+    position: fixed;
+    top: 13vh;
+    display: block;
+    margin-left: 89%;
+    transition: transform 0.3s;
+  
+    
+}
+
+button.create-table-show.btn.btn-dark{
+    transform: translateY(-15px);
+    box-shadow: 0px 3px 4px #aaa inset, 0px 2px 3px #fff;
+}
+
 
 #dropdownScrollBar{
     height: auto;

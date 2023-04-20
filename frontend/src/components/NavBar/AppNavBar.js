@@ -8,7 +8,7 @@ import { ThemeHandler } from '../ThemeHandler';
 
 const AppNavBar = () => {
   const navigate = useNavigate();
-  const { userLogin, setUserLogin, reFetch } = useContext(GlobalContext);
+  const { userLogin, setUserLogin, reFetch, manageRoute, setManageRoute } = useContext(GlobalContext);
   const [taskList, setTaskList] = useState([]);
   const [notification, setNotification] = useState(false);
   const DATE_RANGE = 15;
@@ -42,6 +42,21 @@ const AppNavBar = () => {
     Cookies.remove('user_id')
     Cookies.remove('is_admin')
     navigate('/login')
+  }
+
+  const manageAll = () => {
+    navigate('/manage-all')
+    setManageRoute('all')
+  }
+
+  const manageSub = () => {
+    navigate('/manage/subordinates')
+    setManageRoute('sub')
+  }
+
+  const manageUnit = () => {
+    navigate('/manage/unit')
+    setManageRoute('unit')
   }
 
   const navBarContent = () => {
@@ -98,9 +113,9 @@ const AppNavBar = () => {
                               </Dropdown.Toggle>
                               <Dropdown.Menu variant="dark" className="manage-list">
                                 {userLogin.is_admin ? <Dropdown.Item>Create Task</Dropdown.Item> : ''}
-                                {userLogin.is_admin ? <Dropdown.Item onClick={() => navigate('/manage/users')}>Manage All Tasks</Dropdown.Item> : ''}
-                                {userLogin.is_supervisor ? <Dropdown.Item onClick={() => navigate('manage/subordinates')}>Manage Subordinates</Dropdown.Item> : ''}
-                                {userLogin.is_leadership ? <Dropdown.Item>Manage Unit</Dropdown.Item> : ''}
+                                {userLogin.is_admin ? <Dropdown.Item onClick={() => manageAll()}>Manage All Tasks</Dropdown.Item> : ''}
+                                {userLogin.is_supervisor ? <Dropdown.Item onClick={() => manageSub()}>Manage Subordinates</Dropdown.Item> : ''}
+                                {userLogin.is_leadership ? <Dropdown.Item onClick={() => manageUnit()}>Manage Unit</Dropdown.Item> : ''}
                               </Dropdown.Menu>
                             </Dropdown> 
                           </Nav.Link>
