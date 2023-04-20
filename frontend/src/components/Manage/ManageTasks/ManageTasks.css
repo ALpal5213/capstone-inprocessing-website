@@ -33,9 +33,9 @@
   width: 100px;
   border: none;
   background-color: #ced4da;
-  border: solid;
-  border-width: 1px;
-  border-color: rgb(94, 167, 180);
+  border: solid !important;
+  border-width: 1px !important;
+  border-color: rgb(94, 167, 180) !important;
 }
 
 .pageCtrlBtn:hover {
