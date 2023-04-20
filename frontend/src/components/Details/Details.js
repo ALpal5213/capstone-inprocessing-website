@@ -101,7 +101,7 @@ const Details = () => {
                         <Row>  
                         <Col>
                         <h3>{task.building && <div className='status-div'>{task.building}</div>}</h3>
-                                {task.room && <p>Room: /{task.room}</p>}
+                                {task.room && <p>Room: {task.room}</p>}
                                 {task.address && <p>{task.address}</p>}
                                 {task.hours && <p> {task.hours}</p>}
                                 {task.phone_number && <p>{task.phone_number}</p>}

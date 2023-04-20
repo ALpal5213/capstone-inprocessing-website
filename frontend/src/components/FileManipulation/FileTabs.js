@@ -55,9 +55,8 @@ export const FileTabs = () => {
     useEffect(() => {
         if (userLogin.id && userLogin.file_id) {
             fetch(`http://localhost:3001/${fileIO}/${userLogin.id}/${userLogin.file_id}/pdf`)
-                .then(data => { console.log(data); if (data.ok) { return data.json() } else { return null } })
+                .then(data => { if (data.ok) { return data.json() } else { return null } })
                 .then(json => {
-                    console.log(json)
                     setPDF(json);
                 })
         }

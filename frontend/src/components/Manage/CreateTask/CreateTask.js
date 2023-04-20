@@ -191,7 +191,6 @@ export const CreateTask = () => {
         fetch('http://localhost:3001/allids/Users')
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 setAllIds(data)
 
             })
