@@ -409,6 +409,7 @@ export const ManageTasks = () => {
 
   return (
     <>
+     <CreateTask />
       <div className='allTaskTableDiv'>
         {pageButtons}
         <Table className="taskTable table-fixed text-nowrap">
@@ -447,7 +448,7 @@ export const ManageTasks = () => {
         {pageButtons}
       </div>
       <TaskModify />
-      <CreateTask />
+     
     </>
 
   )
