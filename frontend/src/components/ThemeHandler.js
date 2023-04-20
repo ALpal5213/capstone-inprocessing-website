@@ -6,11 +6,13 @@ export const ThemeHandler =()=> {
   const { theme, setTheme, userLogin, reFetch, setReFetch} = useContext(GlobalContext);
 
   useEffect(() => {
-    fetch(`http://localhost:3001/table/Users/${userLogin.id}`)
+    if (userLogin) {
+      fetch(`http://localhost:3001/table/Users/${userLogin.id}`)
       .then(res => res.json())
       .then(data => {
         setTheme(data[0].preferredTheme)
       })
+    }
   }, [userLogin, reFetch])
 
 

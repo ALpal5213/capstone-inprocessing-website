@@ -23,7 +23,8 @@ const AppNavBar = () => {
   }, [])
 
   useEffect(() => {
-    fetch(`http://localhost:3001/tasks-locations/${userLogin.id}`)
+    if (userLogin) {
+      fetch(`http://localhost:3001/tasks-locations/${userLogin.id}`)
       .then(res => res.json())
       .then(data => {
         let tasks = data.filter((task) => {
@@ -34,6 +35,7 @@ const AppNavBar = () => {
         setTaskList(tasks)
         tasks.length > 0 ? setNotification(true) : setNotification(false);
       })
+    }
   }, [userLogin, reFetch])
 
   const userLogout = () => {
@@ -64,6 +66,7 @@ const AppNavBar = () => {
       return ''
     } else {
       return (
+        <>
         <Navbar bg="dark" variant='dark' export="lg" textcolor="white">
           <Container>
             <div className='brand'>
@@ -161,6 +164,9 @@ const AppNavBar = () => {
             </Nav>
           </Container>
         </Navbar>
+        <div className='borderSpan2'></div>
+        <div className='borderSpan1'></div>
+        </>
       )
     }
   }
