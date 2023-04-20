@@ -276,6 +276,7 @@ export const ManageTasks = () => {
       } 
       if (sortType === 'string') {
         filteredTasks.sort((a, b) => {
+          console.log('date')
           let fa = a[col].toLowerCase(), fb = b[col].toLowerCase();
           if (fa > fb) return -1;
           if (fa < fb) return 1;
