@@ -15,7 +15,7 @@
 }
 
 .task:hover {
-  background-color: rgba(109, 109, 109, 0.5);
+  background-color: rgb(66, 165, 211, .3);
 }
 
 .pageNumArea {
