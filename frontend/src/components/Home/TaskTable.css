@@ -66,7 +66,7 @@
 .react-tabs__tab--selected {
   background: #1c1d1f;
   border-color: #1c1d1f;
-  border-left: 4px solid green;
+  border-left: 4px solid rgb(66, 165, 211);
   border-radius: 5px 0 0 5px;
   color: white;
   padding-left: 21px;
@@ -85,7 +85,7 @@
 }
 
 .react-tabs__tab-panel::-webkit-scrollbar-thumb {
-  background: green;
+  background: rgb(66, 165, 211);
   border-radius: 1vh;
 }
 
@@ -116,7 +116,7 @@ tr {
 }
 
 tbody tr:hover {
-  background-color: rgba(77, 77, 77, 0.5);
+  background-color: rgb(66, 165, 211, .3);
 }
 
 td {

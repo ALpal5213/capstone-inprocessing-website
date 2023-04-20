@@ -25,8 +25,8 @@ const Details = () => {
 
 
     if (task.task_type === 'personal') {
-        editButton = <Button variant="outline-warning" onClick={() => startEdit()} className='detailH1Button'>Edit Task</Button>
-        delButton = <Button variant="outline-danger" className='detailH1Button' onClick={() => { handleDelete(task) }}>Delete Task</Button>
+        editButton = <Button variant="dark" onClick={() => startEdit()} className='detailH1Button'>Edit Task</Button>
+        delButton = <Button variant="dark" className='detailH1Button' onClick={() => { handleDelete(task) }}>Delete Task</Button>
     }
 
     const handlePatch = () => {
@@ -58,6 +58,7 @@ const Details = () => {
         navigate('/home')
         setReFetch(!reFetch)
     }
+    
     const deleteTask = () => {
         fetch(`http://localhost:3001/tasks/${task.id}`, {
             method: "DELETE",
@@ -88,7 +89,7 @@ const Details = () => {
                                 <div className='status-div'><h5> Priority</h5><p>{task.priority}</p></div>
                                 <div className='status-div'><h5> Due Date</h5><p>{formattedDate}</p></div>
                                 <div className='status-div'><h5> Task Description</h5><p>{task.task_description}</p></div>
-                                {editButton}
+                                {editButton}{' '}
                                 {delButton}
                                 <br></br>
                                 <FileTabs />

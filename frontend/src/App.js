@@ -58,7 +58,6 @@ function App() {
       createTableShow, setCreateTableShow
     }}>
       <div className={(theme === 'dark' ) ? 'dark-theme' : 'light-theme'}>
-        <ThemeHandler/>
         <AllRoutes />
       </div>
     </GlobalContext.Provider>

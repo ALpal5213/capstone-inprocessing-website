@@ -8,6 +8,7 @@ import Profile from '../NavBar/Profile'
 import AppNavBar from '../NavBar/AppNavBar'
 import Map from '../Details/Map'
 import { NotAuthorized } from './NotAuthorized'
+import { ThemeHandler } from '../ThemeHandler'
 import { DetailsPage } from '../Details/DetailsPage'
 import {Footer} from '../Footer/Footer'
 import { AdminProtectedRoutes } from './AdminProtectedRoutes'
@@ -16,9 +17,13 @@ import {ManageSubordinates} from '../Manage/ManageSubordinates/ManageSubordinate
 export const AllRoutes = () => {
 
     return (
-
+        
+        
         <Router>
             <AppNavBar />
+           
+            <ThemeHandler/>
+           
             <Routes>
                 <Route path="/" element={<Navigate to="/login" replace={true} />} />
                 <Route path='/login' element={< Login />}></Route>
@@ -37,6 +42,7 @@ export const AllRoutes = () => {
             </Routes>
             <Footer/>
         </Router>
+        
 
     )
 }
