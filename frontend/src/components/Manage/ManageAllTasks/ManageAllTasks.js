@@ -9,6 +9,7 @@ import { TaskModify } from '../TaskModify/TaskModify'
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { GlobalContext } from '../../../App';
+import { CreateTask } from '../CreateTask/CreateTask';
 import Form from 'react-bootstrap/Form';
 
 export const ManageAllTasks = () => {
@@ -321,6 +322,7 @@ export const ManageAllTasks = () => {
         {pageButtons}
       </div>
       <TaskModify />
+      <CreateTask />
     </>
 
   )
