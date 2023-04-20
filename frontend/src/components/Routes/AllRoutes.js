@@ -3,7 +3,7 @@ import { ProtectedRoutes } from './ProtectedRoutes'
 import { Login } from '../Login/Login'
 import { CreateAccount } from '../Login/CreateAccount'
 import { HomePage } from '../Home/HomePage'
-import { ManageAllTasks } from '../ManageAllTasks/ManageAllTasks' 
+import { ManageTasks } from '../ManageTasks/ManageTasks' 
 import Profile from '../NavBar/Profile'
 import AppNavBar from '../NavBar/AppNavBar'
 import Map from '../Details/Map'
@@ -29,8 +29,9 @@ export const AllRoutes = () => {
                     <Route path='/details' element={<DetailsPage/>}></Route>
                     <Route path='/profile' element={<Profile/>}></Route>
                     <Route element={<AdminProtectedRoutes />}>
-                        <Route path='/manage-all' element={<ManageAllTasks />}></Route>
-                        <Route path='/manage/subordinates' element={<ManageSubordinates />}></Route>
+                        <Route path='/manage-all' element={<ManageTasks />}></Route>
+                        <Route path='/manage/subordinates' element={<ManageTasks />}></Route>
+                        <Route path='/manage/unit' element={<ManageTasks />}></Route>
                     </Route>
                 </Route>
                 <Route path='*' element={<Login/>}></Route>
