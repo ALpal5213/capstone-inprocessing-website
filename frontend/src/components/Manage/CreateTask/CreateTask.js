@@ -458,7 +458,7 @@ export const CreateTask = () => {
 
 
 
-    const taskType = ["Installation", "Unit", "Job"]
+    const taskType = ["installation", "unit", "job"]
 
 
 
@@ -477,9 +477,11 @@ export const CreateTask = () => {
                         <Dropdown>
 
                             <DropdownButton  variant="dark" id="newTaskUserID" title={userIDTitle} onSelect={handleCloseNewUserID}>
-                                {
-                                    allIds.map((object) => <div className="dropdownScrollBar"><Dropdown.Item className="userDrop" eventKey={object.id}>{object.id}</Dropdown.Item></div>)
-                                }
+                                <div className="dropdownScrollBar">
+                                    {
+                                        allIds.map((object) => <div><Dropdown.Item className="userDrop" eventKey={object.id}>{object.id}</Dropdown.Item></div>)
+                                    }
+                                </div>  
                             </DropdownButton>
                         </Dropdown>
                     </Col>
