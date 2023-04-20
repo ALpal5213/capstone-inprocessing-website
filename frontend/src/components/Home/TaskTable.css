@@ -14,6 +14,9 @@
   margin-bottom: 5%;
   margin-top:5%;
   contain:strict;
+  border: solid;
+  border-color: #9599a5;
+  border-width: 2px;
 }
 
 .p-bar-center {
@@ -113,6 +116,10 @@ th {
 tr {
   text-align: right;
   border: none !important;
+}
+
+tbody {
+  background: rgba(255, 255, 255, 0.5)
 }
 
 tbody tr:hover {
