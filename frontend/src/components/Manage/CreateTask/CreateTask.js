@@ -478,7 +478,7 @@ export const CreateTask = () => {
 
                             <DropdownButton  variant="dark" id="newTaskUserID" title={userIDTitle} onSelect={handleCloseNewUserID}>
                                 {
-                                    allIds.map((object) => <Dropdown.Item className="userDrop" eventKey={object.id}>{object.id}</Dropdown.Item>)
+                                    allIds.map((object) => <div className="dropdownScrollBar"><Dropdown.Item className="userDrop" eventKey={object.id}>{object.id}</Dropdown.Item></div>)
                                 }
                             </DropdownButton>
                         </Dropdown>

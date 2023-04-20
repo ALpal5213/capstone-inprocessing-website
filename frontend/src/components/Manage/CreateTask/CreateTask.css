@@ -46,3 +46,9 @@ div.modal-content {
     border-width: 1.5px;
     color: black;
 }
+
+#dropdownScrollBar{
+    height: auto;
+    max-height: 100px;
+    overflow-y: auto;
+}
