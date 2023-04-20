@@ -13,8 +13,9 @@ export const Footer = () => {
           <section className='d-flex justify-content-center justify-content-lg-between p-4 '>
             <div className='me-5 d-none d-lg-block'>
             <a href='' className='me-4 text-reset'>
-            <MDBIcon icon="sitemap" className="me-3" />
-                   In-Processing 
+              {/* <img src="./inpro-logo.png" className="me-3" width="70px"/> */}
+              <img src="./inpro.png" className="me-3" width="70px"/>
+                   {/* In.Pro */}
               </a>
             </div>
     
@@ -83,9 +84,9 @@ export const Footer = () => {
           </section>
     
           <div className='text-center p-4' style={{ }}>
-            © 2023 Copyright:
+            © 2023 Copyright: 
             <a className='text-reset fw-bold' href='https://mdbootstrap.com/'>
-              In-pro
+              In.Pro
             </a>
           </div>
       </MDBFooter>}
