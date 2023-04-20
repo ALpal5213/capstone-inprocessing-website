@@ -284,6 +284,7 @@ export const ManageAllTasks = () => {
 
   return (
     <>
+     <CreateTask />
       <div className='allTaskTableDiv'>
         {pageButtons}
         <Table hover className="taskTable table-fixed text-nowrap">
@@ -322,7 +323,7 @@ export const ManageAllTasks = () => {
         {pageButtons}
       </div>
       <TaskModify />
-      <CreateTask />
+     
     </>
 
   )

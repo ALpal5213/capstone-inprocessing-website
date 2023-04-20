@@ -5,6 +5,7 @@ import { GlobalContext } from '../../../App';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import './CreateTask.css'
+import AddIcon from '@mui/icons-material/Add';
 
 export const CreateTask = () => {
 
@@ -465,10 +466,10 @@ export const CreateTask = () => {
 
     return (
         <>
-            <Button className="btn btn-primary" onClick={handleCreateTableShow}>+</Button>
+            <Button className="create-table-show" variant="dark" onClick={handleCreateTableShow}>Create Task<AddIcon/></Button>
             <Modal show={createTableShow} onHide={handleClose}>
                 <Modal.Header>
-                    <Modal.Title><h3>Create Task </h3></Modal.Title>
+                    <Modal.Title><h3>Create New Task</h3></Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form.Label>User Id</Form.Label>
