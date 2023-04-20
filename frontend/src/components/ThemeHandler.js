@@ -33,11 +33,11 @@ export const ThemeHandler =()=> {
 
   return (
       <>
-      {theme === 'dark' && userLogin ? 
-         <Button className = 'theme-button' variant ='light' onClick={toggleTheme} >Light Theme</Button>
-         :
-         <Button className = 'theme-button' variant ='dark' onClick={toggleTheme} >Dark Theme</Button>
-  }
+        {userLogin && (theme === 'dark' && userLogin ? 
+          <Button className = 'theme-button' variant ='light' onClick={toggleTheme} >Light Theme</Button>
+          :
+          <Button className = 'theme-button' variant ='dark' onClick={toggleTheme} >Dark Theme</Button>
+        )}
       </>
   )
 }
