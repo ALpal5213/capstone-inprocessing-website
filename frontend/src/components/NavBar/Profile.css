@@ -1,3 +1,7 @@
+.profile-container {
+    
+}
+
 .table-responsive {
     border-radius: 10px;
     width: 400px;
@@ -31,6 +35,7 @@
   }
 
 .inf-content{
+    margin: 5%;
     border:1px solid #DDDDDD;
     padding-left: 20px;
     padding-top: 20px;

@@ -52,7 +52,7 @@ const AppNavBar = () => {
         <Navbar bg="dark" variant='dark' export="lg" textcolor="white">
           <Container>
             <div className='brand'>
-              <Navbar.Brand className='linkTextDiv brandLink' onClick={() => window.open("https://www.wpafb.af.mil")}>Welcome to Wright-Patterson AFB</Navbar.Brand>
+              <Navbar.Brand className='linkTextDiv brandLink' onClick={() => navigate('/home')}>Welcome to Wright-Patterson AFB</Navbar.Brand>
             </div>
             <Nav>
               <Nav.Item >
@@ -99,7 +99,7 @@ const AppNavBar = () => {
                               <Dropdown.Menu variant="dark" className="manage-list">
                                 {userLogin.is_admin ? <Dropdown.Item>Create Task</Dropdown.Item> : ''}
                                 {userLogin.is_admin ? <Dropdown.Item onClick={() => navigate('/manage-all')}>Manage All Tasks</Dropdown.Item> : ''}
-                                {userLogin.is_supervisor ? <Dropdown.Item>Manage Subordinates</Dropdown.Item> : ''}
+                                {userLogin.is_supervisor ? <Dropdown.Item onClick={() => navigate('manage/subordinates')}>Manage Subordinates</Dropdown.Item> : ''}
                                 {userLogin.is_leadership ? <Dropdown.Item>Manage Unit</Dropdown.Item> : ''}
                               </Dropdown.Menu>
                             </Dropdown> 

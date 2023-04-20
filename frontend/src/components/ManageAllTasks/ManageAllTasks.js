@@ -13,7 +13,8 @@ import Form from 'react-bootstrap/Form';
 
 export const ManageAllTasks = () => {
 
-  const { setModifyTableShow, setmodifyTableQuery } = useContext(GlobalContext)
+  const { modifyTableShow, setModifyTableShow, modifyTableQuery, setmodifyTableQuery, reFetch, setReFetch, } = useContext(GlobalContext)
+  const navigate = useNavigate();
   const [allTasks, setAllTasks] = useState();
   const [filteredTasks, setFilteredTasks] = useState();
   const [newTableData, setNewTableData] = useState();
@@ -27,7 +28,7 @@ export const ManageAllTasks = () => {
   )
   const downIcon = (
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" classNmae="bi bi-chevron-down" viewBox="0 0 16 16">
-      <path fillRule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+      <path fillRule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
     </svg>
   )
   const dashIcon = (
@@ -84,29 +85,32 @@ export const ManageAllTasks = () => {
     fetch(`http://localhost:3001/tasks-users`)
     .then(res => res.json())
     .then(tasks => {
-      setAllTasks(tasks)
+      setAllTasks(tasks.filter(task => task.status !== 'complete'))
       setFilteredTasks(tasks.filter(task => task.status !== 'complete'))
     })
   }, [])
-  
+
   useEffect(() => {
     if (filteredTasks) {
       setPageIndex(0)
     }
   }, [filteredTasks])
-  
+
   const handleModifyShow = (e) => {
+    console.log(e)
     setmodifyTableQuery(e.target.parentElement.id)
+    setReFetch()
     setModifyTableShow(true)
   }
   useEffect(() => {
     if (pageIndex !== undefined) {
       setNewTableData(
         filteredTasks.map((task, i) => {
+          console.log(task)
           return (
             i > pageIndex - 1 ?
               i < pageIndex + 30 ?
-                <tr className="task tableCol" key={i} id={task.id} onClick={handleModifyShow}>
+                <tr className="task tableCol" key={i} id={task.task_id} onClick={handleModifyShow}>
                   <td>
                     {task.task_id}
                   </td>
@@ -132,7 +136,7 @@ export const ManageAllTasks = () => {
         })
       )
     }
-  }, [pageIndex])
+  }, [pageIndex, reFetch])
 
   const nextPageControl = () => {
     console.log(tablePage + 1)
@@ -277,7 +281,7 @@ export const ManageAllTasks = () => {
     )
   }
 
-  return(
+  return (
     <>
       <div className='allTaskTableDiv'>
         {pageButtons}
@@ -318,6 +322,6 @@ export const ManageAllTasks = () => {
       </div>
       <TaskModify />
     </>
-    
+
   )
 }

@@ -84,13 +84,13 @@ routePath.get("/tasks-locations/:userID", (request, response) => {
 
 //Get join table and allow order by and limit (optional)
 routePath.get("/tasks-users", (request, response) => {
-  let id = request.params.userID;
+    let id = request.params.userID;
 
-  return knex('Tasks')
-      .join('Users', 'Tasks.user_id', '=', 'Users.id')
-      .select('Tasks.id as task_id', 'Tasks.user_id', 'Users.fullname', 'Tasks.task_name', 'Tasks.task_description', 'Tasks.priority', 'Tasks.task_type', 'Tasks.mil_or_civ', 'Tasks.due_date', 'Tasks.status', 'Tasks.task_url', 'Tasks.has_upload', 'Tasks.has_download')
-      .then(data => response.status(200).json(data))
-      .catch(error => response.status(405).send("Could not get"))
+    return knex('Tasks')
+        .join('Users', 'Tasks.user_id', '=', 'Users.id')
+        .select('Tasks.id as task_id', 'Tasks.user_id', 'Users.fullname', 'Tasks.task_name', 'Tasks.task_description', 'Tasks.priority', 'Tasks.task_type', 'Tasks.mil_or_civ', 'Tasks.due_date', 'Tasks.status', 'Tasks.task_url', 'Tasks.has_upload', 'Tasks.has_download')
+        .then(data => response.status(200).json(data))
+        .catch(error => response.status(405).send("Could not get"))
 });
 
 //Get join table that returns a list of subordinate based on a passed in supervisor user id
@@ -260,7 +260,7 @@ routePath.get("/force-import/:session_id", async (request, response) => {
                 return data[0]
             }
         })
-   
+
     if (data.is_admin === true) {
 
 
@@ -314,7 +314,7 @@ routePath.get("/force-import/:session_id", async (request, response) => {
 
 
 
-        }).then(()=> response.status(202).json({"message":'CSV Addition Successful'}).catch(response.status(404).json({"message":'There was an issue with CSV file you tried to merge'})));
+        }).then(() => response.status(202).json({ "message": 'CSV Addition Successful' }).catch(response.status(404).json({ "message": 'There was an issue with CSV file you tried to merge' })));
 
 
     }
@@ -563,7 +563,7 @@ routePath.patch("/tasks/:id", (request, response) => {
     return knex('Tasks')
         .where({ id: id })
         .update(changes)
-        .then(data => response.status(200).send("Patched"))
+        .then(data => { console.log(data); response.status(200).send("Patched") })
         .catch(error => response.status(405).send(error))
 });
 
