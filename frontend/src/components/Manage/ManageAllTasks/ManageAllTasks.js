@@ -8,7 +8,7 @@ import './ManageAllTasks.css'
 import { TaskModify } from '../TaskModify/TaskModify'
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
-import { GlobalContext } from '../../App';
+import { GlobalContext } from '../../../App';
 import Form from 'react-bootstrap/Form';
 
 export const ManageAllTasks = () => {
