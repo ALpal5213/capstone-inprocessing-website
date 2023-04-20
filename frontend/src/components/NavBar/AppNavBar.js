@@ -168,6 +168,8 @@ const AppNavBar = () => {
   return (
     <>
       {navBarContent()}
+      <div className='borderSpan2'></div>
+      <div className='borderSpan1'></div>
     </>
   );
 }
