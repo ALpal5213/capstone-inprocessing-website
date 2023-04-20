@@ -23,6 +23,7 @@ function App() {
   const [userAuth, setUserAuth] = useState(false);
   const [theme, setTheme] = useState('dark');
   const [reFetch, setReFetch] = useState(false);
+  const [manageRoute, setManageRoute] = useState();
  //File Manipulation Global States
  const [PDF, setPDF] = useState({"files":[]})
  const [CSV, setCSV] = useState({"files":[]})
@@ -55,6 +56,7 @@ function App() {
       checkAgain, setCheckAgain,
       modifyTableShow, setModifyTableShow,
       modifyTableQuery, setmodifyTableQuery,
+      manageRoute, setManageRoute,
       createTableShow, setCreateTableShow
     }}>
       <div className={(theme === 'dark' ) ? 'dark-theme' : 'light-theme'}>
