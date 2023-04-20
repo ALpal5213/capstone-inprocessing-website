@@ -76,9 +76,9 @@ const Details = () => {
 
         <>
             <Container>
-                <hr className="solid"></hr>
+                <br></br>
                 <div><h2>{task.task_name}</h2>
-                    <hr className="solid"></hr>
+                <hr className="solid"></hr>
                 </div>
                 {(!editable) ?
                     <Container className='taskDescriptions'>
@@ -91,23 +91,24 @@ const Details = () => {
                                 <div className='status-div'><h5> Task Description</h5><p>{task.task_description}</p></div>
                                 {editButton}{' '}
                                 {delButton}
-                                <br></br>
-                                <FileTabs />
-
                             </Col>
                             <Col>
-                                {task.building && <div className='status-div'><h5>{task.building}</h5></div>}
-                                {task.room && <p>Room: {task.room}</p>}
+                                <FileTabs />
+                            </Col>
+                        </Row>
+                        <hr className="solid"></hr>
+                        <br></br>
+                        <Row>  
+                        <Col>
+                        <h3>{task.building && <div className='status-div'>{task.building}</div>}</h3>
+                                {task.room && <p>Room: /{task.room}</p>}
                                 {task.address && <p>{task.address}</p>}
                                 {task.hours && <p> {task.hours}</p>}
                                 {task.phone_number && <p>{task.phone_number}</p>}
                                 {task.notes && <p>Notes: {task.notes}</p>}
                                 {task.url && <p>{task.url}</p>}
-                            </Col>
+                        </Col>
                         </Row>
-                        <br></br>
-                        <h2>Task Location</h2>
-                        <hr className="solid"></hr>
                         {task.latitude && task.longitude && <Map selectedLocation={task} />}
                         <br></br>
                     </Container>
