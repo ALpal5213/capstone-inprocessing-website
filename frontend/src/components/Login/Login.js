@@ -137,6 +137,7 @@ export const Login = () => {
       <div className='backDiv' />
       <div className='menuDiv loginDiv'>
         <h1 className='divItem' >Login</h1>
+        <img src="./inpro.png" className="login-logo"/>
         {<Form>
           <Form.Group className="mb-3 divItem" controlId="userBox">
             <Form.Label>Username</Form.Label>
