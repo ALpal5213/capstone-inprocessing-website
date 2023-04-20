@@ -458,7 +458,7 @@ export const CreateTask = () => {
 
 
 
-    const taskType = ["Installation", "Unit", "Job"]
+    const taskType = ["installation", "unit", "job"]
 
 
 
