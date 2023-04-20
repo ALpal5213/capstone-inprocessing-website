@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Col, Row, Modal, Button, Form, Dropdown, DropdownButton } from "react-bootstrap";
 
-import { GlobalContext } from '../../App';
+import { GlobalContext } from '../../../App';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 

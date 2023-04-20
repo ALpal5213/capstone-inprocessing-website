@@ -1,9 +1,9 @@
 .backDiv {
-  background: url('../../images/darkbg.png');
+  /* background: url('../../images/darkbg.png'); */
   height: 100vh;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-color: #343a40;
+  /* background-repeat: no-repeat; */
+  /* background-position: center center; */
+  /* background-color: #343a40; */
 }
 
 .menuDiv {
