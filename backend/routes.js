@@ -78,7 +78,15 @@ routePath.get("/tasks-locations/:userID", (request, response) => {
         .join('Tasks', 'Locations.id', '=', 'Tasks.location_id')
         .select('*')
         .where({ user_id: id })
-        .then(data => response.status(200).json(data))
+        .then(data => {
+          data.sort((a, b) => {
+            let fa = a['due_date'], fb = b['due_date'];
+            if (fa < fb) return -1;
+            if (fa > fb) return 1;
+            return 0;
+          });
+          response.status(200).json(data)
+        })
         .catch(error => response.status(405).send("Could not get"))
 });
 
