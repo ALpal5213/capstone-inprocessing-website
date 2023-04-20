@@ -58,7 +58,7 @@ export const TaskModify = () => {
         "location_id"
             :
             4,
-        mil_or_civ
+        "mil_or_civ"
             :
             "both",
         "priority"
@@ -163,8 +163,28 @@ export const TaskModify = () => {
         fetch(`http://localhost:3001/table/Tasks/${modifyTableQuery}`)
             .then(res => res.json())
             .then(data => {
-                console.log(data[0]);
-                setOldTasks(data[0])
+                // "user_id": oldTasks.id,
+                // "location_id": location_id,
+                // "task_name": taskName,
+                // "task_description": taskDesc,
+                // "priority": taskPriority,
+                // "task_type": newTaskType,
+                // "mil_or_civ": mil_or_civ,
+                // "due_date": taskDueDate,
+                // "status": "incomplete",
+                // "has_upload": taskUpload,
+                // "has_download": taskDownload
+                let response = data[0]
+                console.log(object)
+                setLoc(response.location_id)
+                setTaskName(response.task_name)
+                setTaskDesc(response.task_description)
+                setTaskPriority(response.priority)
+                setNewTaskType(response.priority)
+                setMilOrCiv(response.mil_or_civ)
+                setTaskDueDate(response.due_date)
+                setOldTasks(object)
+               
             })
     }, [modifyTableQuery])
 

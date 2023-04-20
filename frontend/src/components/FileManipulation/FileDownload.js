@@ -177,7 +177,7 @@ export const FileDownload = () => {
                                                 <Card.Img variant="top" src={TablePic} alt='' />
                                                 :
                                                 fileType === 'image' ?
-                                                    <Card.Img variant="top" src={`${fileURL}/${file}`} alt='' />
+                                                    <Card.Img variant="top" src={`${fileURL}/${file}`} alt=''  />
                                                     :
                                                     null
                                         }
