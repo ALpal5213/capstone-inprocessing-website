@@ -19,3 +19,8 @@
   background-color: #eeeeee !important;
   color: black;
 }
+
+.theme-button{
+  margin-top: 3px;
+  margin-left: 5px
+}
