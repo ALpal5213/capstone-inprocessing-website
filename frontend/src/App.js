@@ -56,7 +56,6 @@ function App() {
       modifyTableQuery, setmodifyTableQuery
     }}>
       <div className={(theme === 'dark' ) ? 'dark-theme' : 'light-theme'}>
-        <ThemeHandler/>
         <AllRoutes />
       </div>
     </GlobalContext.Provider>
