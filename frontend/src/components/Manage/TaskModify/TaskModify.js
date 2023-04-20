@@ -9,7 +9,7 @@ export const TaskModify = () => {
 
     const navigate = useNavigate();
 
-    const { reFetch, setReFetch, userLogin, modifyTableShow, setModifyTableShow, modifyTableQuery, setmodifyTableQuery } = useContext(GlobalContext);
+    const { reFetch, setReFetch, userLogin, modifyTableShow, setModifyTableShow, modifyTableQuery, setmodifyTableQuery, manageRoute, setManageRoute } = useContext(GlobalContext);
     const [locations, setLocations] = useState([{
         "id": "",
         "building": "",
@@ -37,6 +37,8 @@ export const TaskModify = () => {
     const [locNotes, setLocNotes] = useState("");
     const [taskUpload, setTaskUpload] = useState(false);
     const [taskDownload, setTaskDownload] = useState(false);
+    const [statusTitle, setStatusTitle] = useState("Change Status");
+    const [status, setStatus] = useState("complete");
 
 
     const [taskTypeTitle, setTaskTypeTitle] = useState("Add New Task Type");
@@ -175,16 +177,17 @@ export const TaskModify = () => {
                 // "has_upload": taskUpload,
                 // "has_download": taskDownload
                 let response = data[0]
-                console.log(object)
-                setLoc(response.location_id)
-                setTaskName(response.task_name)
-                setTaskDesc(response.task_description)
-                setTaskPriority(response.priority)
-                setNewTaskType(response.priority)
-                setMilOrCiv(response.mil_or_civ)
+                console.log(response)
                 setTaskDueDate(response.due_date)
-                setOldTasks(object)
-               
+                setLoc(response.location_id)
+                setMilOrCiv(response.mil_or_civ)
+                setTaskPriority(response.priority)
+                setStatus(response.status)
+                setTaskDesc(response.task_description)
+                setTaskName(response.task_name)
+                setNewTaskType(response.priority)
+                setOldTasks(response)
+
             })
     }, [modifyTableQuery])
 
@@ -267,7 +270,7 @@ export const TaskModify = () => {
             "task_type": newTaskType,
             "mil_or_civ": mil_or_civ,
             "due_date": taskDueDate,
-            "status": "incomplete",
+            "status": status,
             "has_upload": taskUpload,
             "has_download": taskDownload
         }
@@ -293,8 +296,11 @@ export const TaskModify = () => {
 
     //states for the Modal
     const handleClose = () => {
+
+        typeof (manageRoute) === 'string' ? (setManageRoute(3)):(setManageRoute('a'))
+
         setModifyTableShow(false)
-        setReFetch(!reFetch);
+        setStatusTitle("Change Status")
         setDefaultCheck(true);
         setShowNewLocation(false);
         setLoc(1);
@@ -311,8 +317,10 @@ export const TaskModify = () => {
         setLocNotes("");
         setTaskUpload(false);
         setTaskDownload(false);
-        console.log("Before: " + reFetch)
+        console.log(typeof(manageRoute))
+
         setShow(false);
+
     };
 
 
@@ -339,13 +347,39 @@ export const TaskModify = () => {
         setNewTaskType(e)
     }
 
+
+    const handleStatusChange = (e) => {
+        console.log(e)
+        setStatusTitle(e)
+        setStatus(e)
+
+    }
+
     const taskType = ["installation", "unit", "job"]
 
     return (
         <>
             <Modal show={modifyTableShow} onHide={handleClose}>
                 <Modal.Header>
-                    <Modal.Title><h3 id="modal-title">Modifying Task of ID {oldTasks.id}</h3></Modal.Title>
+                    <Modal.Title>
+                        <Row>
+                            <Col>
+                                <h3 id="modal-title">Modifying Task of ID {oldTasks.id}</h3>
+                            </Col>
+
+                            <Col style={{ textAlign: 'end' }}>
+                                <Dropdown>
+                                    <DropdownButton variant="info" id="newTaskPriority" onSelect={handleStatusChange} title={statusTitle}>
+                                        <Dropdown.Item eventKey="complete">Complete</Dropdown.Item>
+                                        <Dropdown.Item eventKey="pending">Pending</Dropdown.Item>
+                                        <Dropdown.Item eventKey="incomplete">Incomplete</Dropdown.Item>
+                                    </DropdownButton>
+                                </Dropdown>
+                            </Col>
+                        </Row>
+
+
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Row className="form-group">
@@ -525,7 +559,7 @@ export const TaskModify = () => {
                     </Row>
                     <Row>
                         <Col>
-                            <Button variant="dark" onClick={submitRequest}>Submit</Button>
+                            <Button variant="info" onClick={submitRequest}>Submit</Button>
                         </Col>
                         <Col>
                             <Button variant="dark" onClick={handleClose}>Cancel</Button>
