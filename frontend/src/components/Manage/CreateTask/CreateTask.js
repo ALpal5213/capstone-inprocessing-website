@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Col, Row, Modal, Button, Form, Dropdown, DropdownButton } from "react-bootstrap";
 
-import { GlobalContext } from '../../App';
+import { GlobalContext } from '../../../App';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
+import './CreateTask.css'
 
-export const TaskModify = () => {
+export const CreateTask = () => {
 
     const navigate = useNavigate();
 
-    const { reFetch, setReFetch, userLogin, modifyTableShow, setModifyTableShow,  modifyTableQuery, setmodifyTableQuery } = useContext(GlobalContext);
+    const { reFetch, setReFetch, userLogin, modifyTableShow, setModifyTableShow, modifyTableQuery, setmodifyTableQuery, createTableShow, setCreateTableShow } = useContext(GlobalContext);
     const [locations, setLocations] = useState([{
         "id": "",
         "building": "",
@@ -37,7 +38,11 @@ export const TaskModify = () => {
     const [locNotes, setLocNotes] = useState("");
     const [taskUpload, setTaskUpload] = useState(false);
     const [taskDownload, setTaskDownload] = useState(false);
-
+    const [taskTypeTitle, setTaskTypeTitle] = useState("Add New Task Type");
+    const [newTaskType, setNewTaskType] = useState("");
+    const [allIds, setAllIds] = useState([{ "id": '' }, { "id": '' }]);
+    const [userIDTitle, setuserIDTitle] = useState('Add an existing User ID');
+    const [user_id, setuser_id] = useState('');
     const [oldTasks, setOldTasks] = useState({
         "due_date"
             :
@@ -147,7 +152,32 @@ export const TaskModify = () => {
         setLocNotes(e.target.value);
     }
 
-    var user_id = Cookies.get('user_id')
+
+    const handleCreateTableShow = (e) => {
+
+        setCreateTableShow(true)
+
+    }
+
+
+
+
+
+
+
+
+
+    //var user_id = Cookies.get('user_id')
+
+
+
+
+
+
+
+
+
+
 
     useEffect(() => {
         fetch('http://localhost:3001/table/Locations')
@@ -155,14 +185,125 @@ export const TaskModify = () => {
             .then(data => setLocations(data))
     }, [])
 
+
     useEffect(() => {
-        fetch(`http://localhost:3001/table/Tasks/${modifyTableQuery}`)
+        fetch('http://localhost:3001/allids/Users')
             .then(res => res.json())
             .then(data => {
-                console.log(data[0]);
-                setOldTasks(data[0])
+                console.log(data);
+                setAllIds(data)
+
             })
-    }, [modifyTableQuery])
+    }, [])
+
+    // useEffect(() => {
+    //     fetch(`http://localhost:3001/table/Tasks/${modifyTableQuery}`)
+    //         .then(res => res.json())
+    //         .then(data => {
+    //             console.log(data[0]);
+    //             setOldTasks(data[0])
+    //         })
+    // }, [modifyTableQuery])
+
+
+    // //add new location first
+    // const submitRequest = () => {
+    //     if (showNewLocation) { //user adding a new location to a task
+    //         //create a new location first
+    //         addLocation();
+    //     } else { //user adding an existing location to a task
+    //         addTask(loc);
+    //     }
+    //     handleClose();
+    // }
+
+    // const addLocation = () => {
+    //     let hours = locAMHours + " A.M. to " + locPMHours + " P.M.";
+    //     let daysOfWeek = "";
+    //     if (days.includes("M") && days.includes("T") && days.includes("W") && days.includes("T") && days.includes("F")) {
+    //         hours = hours + " M-F";
+    //     } else if (days.length === 0) {
+    //         hours = "";
+    //     } else {
+    //         for (let i = 0; i < days.length; i++) {
+    //             const element = days[i];
+    //             daysOfWeek += element + ", ";
+    //         }
+    //         daysOfWeek = daysOfWeek.slice(0, daysOfWeek.length - 2);
+    //         hours = hours + " " + daysOfWeek;
+    //     }
+
+    //     const newLocation = {
+    //         "building": locBuilding,
+    //         "room": locRoom,
+    //         "address": locAddress,
+    //         "phone_number": locPhone,
+    //         "hours": hours,
+    //         "url": locURL,
+    //         "notes": locNotes
+    //     }
+
+    //     if (newLocation.building === "" || newLocation.address === "") {
+    //         //prompt user to enter details
+    //     } else {
+    //         fetch("http://localhost:3001/locations",
+    //             {
+    //                 method: "POST",
+    //                 headers: {
+    //                     'Content-Type': "application/json",
+    //                 },
+    //                 body: JSON.stringify(newLocation)
+    //             })
+    //             .then((data) => console.log(data))
+    //             .then(() => {
+    //                 return fetch('http://localhost:3001/table/Locations')
+    //                     .then(res => res.json())
+    //                     .then(data => {
+    //                         setLocations(data);
+    //                         return data;
+    //                     })
+    //             })
+    //             .then((data) => {
+    //                 console.log(data.length);
+    //                 addTask(data.length);
+    //             })
+
+    //     }
+
+    // }
+
+    // const addTask = (location_id) => {
+    //     //console.log("Location ID: ")
+    //     //console.log(location_id)
+    //     let newTask = {
+    //         "user_id": parseInt(user_id),
+    //         "location_id": location_id,
+    //         "task_name": taskName,
+    //         "task_description": taskDesc,
+    //         "priority": taskPriority,
+    //         "task_type": "personal",
+    //         "mil_or_civ": mil_or_civ,
+    //         "due_date": taskDueDate,
+    //         "status": "incomplete",
+    //         "has_upload": taskUpload,
+    //         "has_download": taskDownload
+    //     }
+
+    //     if (newTask.task_name === "" || newTask.task_description === "" || newTask.priority === "" || newTask.location_id === "") {
+    //         //prompt user to enter details
+    //     } else {
+    //         fetch(`http://localhost:3001/tasks/${oldTasks.id}`,
+    //             {
+    //                 method: "PATCH",
+    //                 headers: {
+    //                     "Content-Type": "application/json",
+    //                 },
+    //                 body: JSON.stringify(newTask)
+    //             })
+    //             //.then((res) => res.json())
+    //             .then((data) => console.log(data))
+    //     }
+    // }
 
 
     //add new location first
@@ -223,24 +364,19 @@ export const TaskModify = () => {
                         })
                 })
                 .then((data) => {
-                    console.log(data.length);
                     addTask(data.length);
                 })
-
         }
-
     }
 
     const addTask = (location_id) => {
-        //console.log("Location ID: ")
-        //console.log(location_id)
         let newTask = {
             "user_id": parseInt(user_id),
             "location_id": location_id,
             "task_name": taskName,
             "task_description": taskDesc,
             "priority": taskPriority,
-            "task_type": "personal",
+            "task_type": newTaskType,
             "mil_or_civ": mil_or_civ,
             "due_date": taskDueDate,
             "status": "incomplete",
@@ -251,15 +387,14 @@ export const TaskModify = () => {
         if (newTask.task_name === "" || newTask.task_description === "" || newTask.priority === "" || newTask.location_id === "") {
             //prompt user to enter details
         } else {
-            fetch(`http://localhost:3001/tasks/${oldTasks.id}`,
+            fetch("http://localhost:3001/tasks",
                 {
-                    method: "PATCH",
+                    method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify(newTask)
                 })
-                //.then((res) => res.json())
                 .then((data) => console.log(data))
         }
     }
@@ -269,7 +404,8 @@ export const TaskModify = () => {
 
     //states for the Modal
     const handleClose = () => {
-        setModifyTableShow(false)
+        setTaskTypeTitle('Add New Task')
+        setCreateTableShow(false)
         setReFetch(!reFetch);
         setDefaultCheck(true);
         setShowNewLocation(false);
@@ -308,44 +444,82 @@ export const TaskModify = () => {
             setShowNewLocation(true);
         }
     }
+    const handleCloseNewTaskType = (e) => {
+        setTaskTypeTitle(e)
+        setNewTaskType(e)
+    }
+
+
+    const handleCloseNewUserID = (e) => {
+
+        setuserIDTitle(e)
+        setuser_id(e)
+    }
+
+
+
+    const taskType = ["Installation", "Unit", "Job"]
+
+
+
 
     return (
         <>
-            <Modal show={modifyTableShow} onHide={handleClose}>
+            <Button className="btn btn-primary" onClick={handleCreateTableShow}>+</Button>
+            <Modal show={createTableShow} onHide={handleClose}>
                 <Modal.Header>
-                    <Modal.Title><h3 id="modal-title">Modifying Task of ID {oldTasks.id}</h3></Modal.Title>
+                    <Modal.Title><h3>Create Task </h3></Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    <Form.Label>User Id</Form.Label>
+                    <br></br>
+                    <Col>
+                        <Dropdown>
+
+                            <DropdownButton  variant="dark" id="newTaskUserID" title={userIDTitle} onSelect={handleCloseNewUserID}>
+                                {
+                                    allIds.map((object) => <Dropdown.Item className="userDrop" eventKey={object.id}>{object.id}</Dropdown.Item>)
+                                }
+                            </DropdownButton>
+                        </Dropdown>
+                    </Col>
+                    <br></br>
                     <Row className="form-group">
-                        <hr className="solid"></hr>
-                        <Form.Label for="newTaskName">Task Name*: {oldTasks.task_name}</Form.Label>
+                        <Form.Label for="newTaskName">Task Name*:</Form.Label>
                         <input type="text" id="newTaskName" placeholder="New Task Name" onBlur={handleTaskNameChange}></input>
-                        <hr className="solid"></hr>
                     </Row>
                     <br></br>
                     <Row className="form-group">
-                        <hr className="solid"></hr>
-                        <Form.Label for="newTaskDesc">Task Description*:  {oldTasks.task_description.slice(0, 50)}...</Form.Label>
+                        <Form.Label for="newTaskDesc">Task Description*: </Form.Label>
                         <textarea id="newTaskDesc" rows="4" cols="50" placeholder="New Task Description" onBlur={handleTaskDescChange}></textarea>
-                        <hr className="solid"></hr>
                     </Row>
                     <br></br>
+                    <Form.Label>Task Type</Form.Label>
+                    <br></br>
+                    <Col>
+                        <Dropdown>
+                            <DropdownButton variant="dark" id="newTaskType" title={taskTypeTitle} onSelect={handleCloseNewTaskType}>
+                                {
+                                    //FIX on select
+                                    taskType.map((type) => <Dropdown.Item eventKey={type}>{type}</Dropdown.Item>)
+                                }
+                            </DropdownButton>
+                        </Dropdown>
+                    </Col>
+                    <br></br>
                     <Row className="form-group">
-                        <hr className="solid"></hr>
-                        <Form.Label for="newTaskDueDate">Due Date*:  {oldTasks.due_date}</Form.Label>
+                        <Form.Label for="newTaskDueDate">Due Date*: </Form.Label>
                         <Form.Control type="date" className="form-control" id="newTaskDueDate" onChange={handleTaskDueDateChange}></Form.Control>
-                        <hr className="solid"></hr>
                     </Row>
                     <br></br>
                     <Row className="form-group">
                         <Row>
-                            <hr className="solid"></hr>
-                            <Form.Label for="newTaskPriority">Priority*: {oldTasks.priority} </Form.Label>
+                            <Form.Label for="newTaskPriority">Priority*: </Form.Label>
                         </Row>
                         <Row>
                             <Col>
                                 <Dropdown>
-                                    <DropdownButton id="newTaskPriority" onSelect={handleTaskPriorityChange} title={taskPriority}>
+                                    <DropdownButton variant="dark" id="newTaskPriority" onSelect={handleTaskPriorityChange} title={taskPriority}>
                                         <Dropdown.Item eventKey="low">Low</Dropdown.Item>
                                         <Dropdown.Item eventKey="medium">Medium</Dropdown.Item>
                                         <Dropdown.Item eventKey="high">High</Dropdown.Item>
@@ -353,11 +527,8 @@ export const TaskModify = () => {
                                 </Dropdown>
                                 <br></br>
                             </Col>
-                            <hr className="solid"></hr>
                         </Row>
                         <Row>
-                            <hr className="solid"></hr>
-                            <Form.Label for="newTaskPriority">Military Status*: {oldTasks.mil_or_civ}</Form.Label>
                             <span>
                                 <Form.Label for="mil">Military</Form.Label>
                                 <Form.Check type="radio" name="mil_or_civ" id="mil" value="military" inline defaultChecked={defaultCheck} onChange={handleTaskMilOrCivChange}></Form.Check>
@@ -366,22 +537,19 @@ export const TaskModify = () => {
                                 <Form.Label for="mil">Both</Form.Label>
                                 <Form.Check type="radio" name="mil_or_civ" id="both" value="both" inline onChange={handleTaskMilOrCivChange}></Form.Check>
                             </span>
-                            <hr className="solid"></hr>
                         </Row>
                     </Row>
                     <br></br>
                     <Row className="form-group">
-                        <hr className="solid"></hr>
                         <Form.Label>Location</Form.Label>
                         <br></br>
                         <Col>
                             <Dropdown>
-                                <DropdownButton id="newTaskLocation" title={loc !== "Add a new location" ? locations[loc - 1].building : "Add a new location"} onSelect={handleCloseNewLocation}>
+                                <DropdownButton variant="dark" id="newTaskLocation" title={loc !== "Add a new location" ? locations[loc - 1].building : "Add a new location"} onSelect={handleCloseNewLocation}>
                                     {
                                         //FIX on select
                                         locations.map((location) => <Dropdown.Item eventKey={location.id}>{location.building}</Dropdown.Item>)
                                     }
-                                    <Dropdown.Divider />
                                     <Dropdown.Item id="newLocation" eventKey="Add a new location">Add Location</Dropdown.Item>
                                 </DropdownButton>
                             </Dropdown>
@@ -393,8 +561,6 @@ export const TaskModify = () => {
                             showNewLocation ?
                                 <>
                                     <Row>
-                                        <hr className="solid"></hr>
-
                                         <input type="text" className="form-control" id="newLocAddress" placeholder="Address" onBlur={handleLocAddressChange}></input>
                                         <Col>
                                             <input type="text" className="form-control" id="newLocBuilding" placeholder="Building" onBlur={handleLocBuildingChange}></input>
@@ -465,9 +631,9 @@ export const TaskModify = () => {
                                 : <></>
                         }
                     </div>
+                    <br></br>
                     <Row className="form-group">
                         <br></br>
-                        <hr className="solid"></hr>
                         <Col>
                             <Form.Label style={{ marginLeft: '10px' }} for="newTaskUpload">File Upload?</Form.Label>
                             <input type="checkbox" id="newTaskUpload" onChange={handleTaskUploadChange}></input>
@@ -479,10 +645,10 @@ export const TaskModify = () => {
                     </Row>
                     <Row>
                         <Col>
-                            <Button onClick={submitRequest}>Submit</Button>
+                            <Button variant="dark" onClick={submitRequest}>Submit</Button>
                         </Col>
                         <Col>
-                            <Button onClick={handleClose}>Cancel</Button>
+                            <Button variant="dark" onClick={handleClose}>Cancel</Button>
                         </Col>
                     </Row>
 

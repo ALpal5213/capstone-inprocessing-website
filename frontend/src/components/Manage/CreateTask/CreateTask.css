@@ -1,0 +1,48 @@
+div.create-task-cont.container {
+
+    height: 100vh;
+    text-align: center;
+}
+
+
+
+div.manage-task.row {
+    background: rgba(206, 212, 218, .5);
+    max-width: 70%;
+    width: 69%;
+    max-height: 50%;
+    height: 25%;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: #212529;
+    border-width: 1.5px;
+    margin-left: 15%;
+    margin-top: 5%;
+    margin-bottom: 0%;
+
+
+
+}
+
+
+
+div.task-manage-title.col {
+    
+    
+}
+
+div.task-manage-checkboxes.row {
+    margin-top: 0%;
+    margin-bottom: 15%;
+
+}
+
+
+div.modal-content {
+    background: rgba(206, 212, 218, .9);
+    border-radius: 5px;
+    border-style: solid;
+    border-color: #212529;
+    border-width: 1.5px;
+    color: black;
+}

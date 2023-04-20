@@ -19,7 +19,7 @@
 }
 
 .announcement-row::-webkit-scrollbar-thumb {
-  background: green;
+  background: rgb(66, 165, 211);
   border-radius: 1vh;
   cursor: grab;
   /* cursor: grabbing; */
@@ -61,7 +61,7 @@
 }
 
 .announcement-text:hover::-webkit-scrollbar-thumb {
-  background: green;
+  background: rgb(66, 165, 211);
   border-radius: 15px;
 }
 

@@ -4,16 +4,17 @@ import Button from 'react-bootstrap/Button'
 import BootstrapTable from 'react-bootstrap-table-next'
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import Table from 'react-bootstrap/Table';
-import './ManageSubordinates.css'
+import './ManageTasks.css'
 import { TaskModify } from '../TaskModify/TaskModify'
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { GlobalContext } from '../../../App';
+import { CreateTask } from '../CreateTask/CreateTask';
 import Form from 'react-bootstrap/Form';
 
-export const ManageSubordinates = () => {
+export const ManageTasks = () => {
 
-  const { modifyTableShow, setModifyTableShow, modifyTableQuery, setmodifyTableQuery, reFetch, setReFetch, } = useContext(GlobalContext)
+  const { userLogin, modifyTableShow, setModifyTableShow, modifyTableQuery, setmodifyTableQuery, reFetch, setReFetch, manageRoute, setManageRoute} = useContext(GlobalContext)
   const navigate = useNavigate();
   const [allTasks, setAllTasks] = useState();
   const [filteredTasks, setFilteredTasks] = useState();
@@ -36,6 +37,39 @@ export const ManageSubordinates = () => {
       <path fillRule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"/>
     </svg>
   )
+
+  const unfiltered = (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-filter-square filterIcon" viewBox="0 0 16 16">
+      <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+      <path d="M6 11.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+    </svg>
+  )
+
+  const filtered = (
+    <div className='filterIconDiv' onClick={() => clearFilter()}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-filter-square-fill filterIcon" viewBox="0 0 16 16">
+        <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm.5 5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1 0-1zM4 8.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm2 3a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5z"/>
+      </svg>
+    </div>
+  )
+
+  const xBox = (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-square-fill textIcon" viewBox="0 0 16 16">
+      <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708z"/>
+    </svg>
+  )
+
+  const hourglass = (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-hourglass-split textIcon" viewBox="0 0 16 16">
+      <path d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1h-11zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2h-7zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48V8.35zm1 0v3.17c2.134.181 3 1.48 3 1.48a3.5 3.5 0 0 0-1.989-3.158C8.978 9.586 8.5 9.052 8.5 8.351z"/>
+    </svg>
+  )
+
+  const ckBox = (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-square-fill textIcon" viewBox="0 0 16 16">
+      <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm10.03 4.97a.75.75 0 0 1 .011 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.75.75 0 0 1 1.08-.022z"/>
+    </svg>
+  )
   
   const [idSort, setIdSort] = useState('a');
   const [idSortIcon, setIdSortIcon] = useState(downIcon)
@@ -48,7 +82,10 @@ export const ManageSubordinates = () => {
   const [dueDateSort, setDueDateSort] = useState('a');
   const [dueDateSortIcon, setDueDateSortIcon] = useState(dashIcon)
   const [statusSort, setStatusSort] = useState('a');
-  const [statusSortIcon, setStatusSortIcon] = useState(dashIcon)
+  const [statusSortIcon, setStatusSortIcon] = useState(dashIcon);
+  const [subordinates, setSubordinates] = useState();
+  const [filterIcon, setFilterIcon] = useState(unfiltered);
+  const [unitMembers, setUnitMembers] = useState();
 
 
   const pageButtons = (
@@ -65,7 +102,12 @@ export const ManageSubordinates = () => {
         </svg>
       </button>
       <div className='pageNumArea'>
-        {tablePage}
+        {
+          <>
+            {`${tablePage} of ${filteredTasks ? Math.floor(filteredTasks.length / 30) + 1 : ''}`}
+            {filterIcon}
+          </>
+        }
       </div>
       <button className='pageCtrlBtn' onClick={() => nextPageControl()}>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-right" viewBox="0 0 16 16">
@@ -82,22 +124,73 @@ export const ManageSubordinates = () => {
   )
   
   useEffect(() => {
-    fetch(`http://localhost:3001/tasks-users`)
-    .then(res => res.json())
-    .then(tasks => {
-      setAllTasks(tasks.filter(task => task.status !== 'complete'))
-      setFilteredTasks(tasks.filter(task => task.status !== 'complete'))
-    })
-  }, [])
+
+    let urlArr = window.location.href.split('/')
+    let page = urlArr[urlArr.length - 1]
+
+    if (page === 'subordinates') {
+      fetch(`http://localhost:3001/supervisor/${userLogin.id}`)
+        .then(res => res.json())
+        .then(subs => {
+          setSubordinates(subs)
+        })
+    }
+
+    if (page === 'unit') {
+      fetch(`http://localhost:3001/commander/${userLogin.id}`)
+        .then(res => res.json())
+        .then(mbrs => {
+          setUnitMembers(mbrs)
+        })
+    }
+    
+    if (page === 'manage-all') {
+      fetch(`http://localhost:3001/tasks-users`)
+        .then(res => res.json())
+        .then(tasks => {
+          setAllTasks(tasks.filter(task => task.status !== 'complete'))
+          setFilteredTasks(tasks.filter(task => task.status !== 'complete'))
+        })
+    }
+
+  }, [manageRoute])
+
+
+  useEffect(() => {
+    if (subordinates) {
+      const subIds = subordinates.map(sub => sub.subordinate_id)
+      fetch(`http://localhost:3001/tasks-users`)
+        .then(res => res.json())
+        .then(tasks => {
+          setAllTasks(tasks.filter(task => task.status !== 'complete' && subIds.includes(task.user_id)))
+          setFilteredTasks(tasks.filter(task => task.status !== 'complete' && subIds.includes(task.user_id)))
+        })
+    }
+  },[subordinates])
+
+  useEffect(() => {
+    if (unitMembers) {
+      const mbrIds = unitMembers.map(mbr => mbr.unitMemberId)
+      fetch(`http://localhost:3001/tasks-users`)
+        .then(res => res.json())
+        .then(tasks => {
+          setAllTasks(tasks.filter(task => task.status !== 'complete' && mbrIds.includes(task.user_id)))
+          setFilteredTasks(tasks.filter(task => task.status !== 'complete' && mbrIds.includes(task.user_id)))
+        })
+    }
+  },[unitMembers])
 
   useEffect(() => {
     if (filteredTasks) {
-      setPageIndex(0)
+      if (pageIndex === 0) {
+        setPageIndex(-.1)
+      } else {
+        setPageIndex(0)
+      }
     }
   }, [filteredTasks])
 
   const handleModifyShow = (e) => {
-    console.log(e)
     setmodifyTableQuery(e.target.parentElement.id)
     setReFetch()
     setModifyTableShow(true)
@@ -106,7 +199,6 @@ export const ManageSubordinates = () => {
     if (pageIndex !== undefined) {
       setNewTableData(
         filteredTasks.map((task, i) => {
-          console.log(task)
           return (
             i > pageIndex - 1 ?
               i < pageIndex + 30 ?
@@ -127,7 +219,7 @@ export const ManageSubordinates = () => {
                     {task.due_date}
                   </td>
                   <td>
-                    {task.status}
+                    {task.status === 'pending' ? <span className='taskText pendingTask'>{task.status}{hourglass}</span> : task.status === 'incomplete' ? <span className='taskText incompleteTask'>{task.status}{xBox}</span> : <span className='taskText completeTask'>{task.status}{ckBox}</span>}
                   </td>
                 </tr> :
                 '' :
@@ -139,7 +231,6 @@ export const ManageSubordinates = () => {
   }, [pageIndex, reFetch])
 
   const nextPageControl = () => {
-    console.log(tablePage + 1)
 
     if (pageIndex < filteredTasks.length - 30) {
       if (pageIndex < 0) {
@@ -170,6 +261,7 @@ export const ManageSubordinates = () => {
   }
 
   const sortByCol = (setIconFunction, setSortFunction, sortDir, col, sortType) => {
+    setFilterIcon(filtered)
     if (col === 'task_id') {
       setTaskNameSortIcon(dashIcon)
       setTaskNameSort('d')
@@ -227,6 +319,7 @@ export const ManageSubordinates = () => {
   }
 
   const filterBy = () => {
+    setFilterIcon(filtered)
     var items = allTasks;
     if (document.getElementById('task_id').value) {
       items = items.filter(task => `${task['task_id']}`.match(document.getElementById('task_id').value))
@@ -246,7 +339,6 @@ export const ManageSubordinates = () => {
     if (document.getElementById('status').value) {
       items = items.filter(task => task['status'].toLowerCase().match(document.getElementById('status').value.toLowerCase()))
     }
-    
     
     setFilteredTasks(items)
     setNewTableData(
@@ -279,13 +371,47 @@ export const ManageSubordinates = () => {
         )
       })
     )
+
+    if (pageIndex > 0) {
+      setPageIndex(0)
+    } else {
+      if (pageIndex === -.1) {
+        setPageIndex(0)
+      } else {
+        setPageIndex(-.1)
+      }
+    }
+    setTablePage(1)
+  }
+
+  const clearFilter = () => {
+    setFilterIcon(unfiltered)
+    document.getElementById('task_id').value = ''
+    document.getElementById('task_name').value = ''
+    document.getElementById('task_type').value = ''
+    document.getElementById('fullname').value = ''
+    document.getElementById('due_date').value = ''
+    document.getElementById('status').value = ''
+    setTaskNameSortIcon(dashIcon)
+    setTaskNameSort('d')
+    setTaskTypeSortIcon(dashIcon)
+    setTaskTypeSort('d')
+    setFullnameSortIcon(dashIcon)
+    setFullnameSort('d')
+    setDueDateSortIcon(dashIcon)
+    setDueDateSort('a')
+    setStatusSortIcon(dashIcon)
+    setStatusSort('a')
+    setIdSortIcon(downIcon)
+    setIdSort('a')
+    setManageRoute(Date.now())
   }
 
   return (
     <>
       <div className='allTaskTableDiv'>
         {pageButtons}
-        <Table hover className="taskTable table-fixed text-nowrap">
+        <Table className="taskTable table-fixed text-nowrap">
           <thead>
             <tr className='tableCol'>
               <th className='idCol'>
@@ -321,77 +447,8 @@ export const ManageSubordinates = () => {
         {pageButtons}
       </div>
       <TaskModify />
+      <CreateTask />
     </>
 
   )
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import { useEffect, useState, useContext } from 'react'
-// import Button from 'react-bootstrap/Button'
-// import BootstrapTable from 'react-bootstrap-table-next'
-// import paginationFactory from 'react-bootstrap-table2-paginator';
-// import Table from 'react-bootstrap/Table';
-// // import { TaskModify } from '../TaskModify/TaskModify'
-// import { useNavigate } from 'react-router-dom';
-// import { GlobalContext } from '../../../App';
-
-// const ManageSubordinates = () => {
-//   const { reFetch, setReFetch, userLogin } = useContext(GlobalContext);
-//   const [members, setMembers] = useState([]);
-//   // const [tableData, setTableData] = useState();
-
-//     console.log(userLogin);
-//   useEffect(() => {
-//     fetch(`http://localhost:3001/members/${userLogin.id}`)
-//       .then(res => res.json())
-//       .then(data => setMembers(data))
-//   }, [])
-
-//   const tableData = members.map((member) => {
-//     return (
-//       <tr>
-//         <td>{member.fullname}</td>
-//       </tr>
-//     )
-//   })
-
-//   return ( 
-//     <div className='user-table-wrapper'>
-//       <Table>
-//         <thead>
-//           <tr>
-//             <th>Name</th>
-//             <th>Unit</th>
-//             <th>Military/Civilian</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {tableData}
-//         </tbody>
-//       </Table>
-//     </div>
-//    );
-// }
- 
-// export default ManageSubordinates;

@@ -1,0 +1,122 @@
+.allTaskTableDiv {
+    position: relative;
+    left: 50%;
+    margin-left: -650px;
+    background: rgba(206, 212, 218, .5);
+    width: 1300px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    padding: 10px;
+  }
+  
+  .taskTable {
+    background: rgba(153, 157, 161, 0.5);
+  }
+  
+  .pageNumArea {
+    position: relative;
+    padding: 7px;
+    background-color: white;
+    color: black;
+    display: inline-block;
+    text-align: center;
+    width: 100px;
+    height: 40px;
+  
+  }
+  
+  .pageCtrlBtn {
+    height: 40px;
+    width: 100px;
+    border: none;
+    background-color: #ced4da;
+  }
+  
+  .pageCtrlBtn:hover {
+    background-color: #adb5bd;
+  }
+  
+  .pageCtrlBtnLeft {
+    border-radius: 7px 0px 0px 7px; 
+  }
+  
+  .pageCtrlBtnRight {
+    border-radius: 0px 7px 7px 0px;
+  }
+  
+  .pageCtrlDiv {
+    position: relative;
+    left: 50%;
+    margin-bottom: 10px;
+    margin-left: -250px;
+  }
+  
+  .tableCol {
+    text-align: center;
+  }
+  
+  .sortButton {
+    border: none;
+    margin-left: 10px;
+    background-color: rgba(0, 0, 0, 0);
+  }
+  
+  .filterBox {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: solid;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-color: rgb(80, 80, 80);
+  }
+  
+  .idBox {
+    width: 60px;
+  }
+  
+  .taskBox {
+    width: 100px;
+  }
+  
+  .typeBox {
+    width: 100px;
+  }
+  
+  .userBox {
+    width: 200px;
+  }
+  
+  .dueByBox {
+    width: 200px;
+  }
+  
+  .statusBox {
+    width: 100px;
+  }
+  
+  
+  .idCol {
+    width: 50px;
+  }
+  
+  .taskCol {
+    width: 75px;
+  }
+  
+  .typeCol {
+    width: 75px;
+  }
+  
+  .userCol {
+    width: 125px;
+  }
+  
+  .dueByCol {
+    width: 150px;
+  }
+  
+  .statusCol {
+    width: 75px;
+  }
