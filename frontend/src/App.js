@@ -23,6 +23,7 @@ function App() {
   const [userAuth, setUserAuth] = useState(false);
   const [theme, setTheme] = useState('dark');
   const [reFetch, setReFetch] = useState(false);
+  const [manageRoute, setManageRoute] = useState();
  //File Manipulation Global States
  const [PDF, setPDF] = useState({"files":[]})
  const [CSV, setCSV] = useState({"files":[]})
@@ -32,6 +33,7 @@ function App() {
  const [fileType, setFileType] = useState('pdf');
  const [checkAgain, setCheckAgain] = useState(false);
  const [modifyTableShow, setModifyTableShow] = useState(false);
+ const [createTableShow, setCreateTableShow] = useState(false);
  const [modifyTableQuery, setmodifyTableQuery] = useState(2);
 
 
@@ -53,10 +55,11 @@ function App() {
       fileType, setFileType, 
       checkAgain, setCheckAgain,
       modifyTableShow, setModifyTableShow,
-      modifyTableQuery, setmodifyTableQuery
+      modifyTableQuery, setmodifyTableQuery,
+      manageRoute, setManageRoute,
+      createTableShow, setCreateTableShow
     }}>
       <div className={(theme === 'dark' ) ? 'dark-theme' : 'light-theme'}>
-        <ThemeHandler/>
         <AllRoutes />
       </div>
     </GlobalContext.Provider>

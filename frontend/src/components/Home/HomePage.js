@@ -1,6 +1,7 @@
 import {TaskTabs} from "./TaskTable"
 import Announcements from "./Announcements"
 import {useEffect, useState} from "react"
+import { ThemeHandler } from "../ThemeHandler"
 
 export const HomePage = () => {
     const [announcements, setAnnouncements] = useState([]);
@@ -13,9 +14,11 @@ export const HomePage = () => {
 
     return (
         <>
+            
             <Announcements annArray={announcements}/>
 
             <TaskTabs />
+            
         </>
     )
 }
