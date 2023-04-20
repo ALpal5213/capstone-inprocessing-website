@@ -197,6 +197,22 @@ routePath.get("/export/csv/:table/:user_id/:file_id", async (request, response) 
 })
 
 
+//Get Table ids and fullname
+routePath.get("/allids/:table", (request, response) => {
+    let table = request.params.table;
+    
+
+    let fields
+
+
+    return knex
+        .select("id", "fullname")
+        .from(table)
+        .then(data => response.status(200).json(data))
+        .catch(error => response.status(405).send("Not a table or Id does not exist.\n Select from 'Users', 'Locations', 'Jobs', 'Units', or 'Tasks'"))
+});
+
+
 
 
 

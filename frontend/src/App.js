@@ -32,6 +32,7 @@ function App() {
  const [fileType, setFileType] = useState('pdf');
  const [checkAgain, setCheckAgain] = useState(false);
  const [modifyTableShow, setModifyTableShow] = useState(false);
+ const [createTableShow, setCreateTableShow] = useState(false);
  const [modifyTableQuery, setmodifyTableQuery] = useState(2);
 
 
@@ -53,7 +54,8 @@ function App() {
       fileType, setFileType, 
       checkAgain, setCheckAgain,
       modifyTableShow, setModifyTableShow,
-      modifyTableQuery, setmodifyTableQuery
+      modifyTableQuery, setmodifyTableQuery,
+      createTableShow, setCreateTableShow
     }}>
       <div className={(theme === 'dark' ) ? 'dark-theme' : 'light-theme'}>
         <ThemeHandler/>
