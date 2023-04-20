@@ -58,5 +58,65 @@
 
 .sortButton {
   border: none;
-  background-color: rgba(153, 157, 161, 0);
+  margin-left: 10px;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.filterBox {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: solid;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-color: rgb(80, 80, 80);
+}
+
+.idBox {
+  width: 60px;
+}
+
+.taskBox {
+  width: 100px;
+}
+
+.typeBox {
+  width: 100px;
+}
+
+.userBox {
+  width: 200px;
+}
+
+.dueByBox {
+  width: 200px;
+}
+
+.statusBox {
+  width: 100px;
+}
+
+
+.idCol {
+  width: 50px;
+}
+
+.taskCol {
+  width: 75px;
+}
+
+.typeCol {
+  width: 75px;
+}
+
+.userCol {
+  width: 125px;
+}
+
+.dueByCol {
+  width: 150px;
+}
+
+.statusCol {
+  width: 75px;
 }
