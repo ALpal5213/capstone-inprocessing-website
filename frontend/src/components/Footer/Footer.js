@@ -47,7 +47,7 @@ export const Footer = () => {
                   </p>
                   <p>
                     <a href='https://www.resilience.af.mil/' target='_blank' className='text-reset'>
-                      Suicide Preventoin
+                      Suicide Prevention
                     </a>
                   </p>
                   <p>
