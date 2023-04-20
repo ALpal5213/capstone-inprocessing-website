@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { MDBSwitch } from 'mdb-react-ui-kit';
 import { GlobalContext } from '../App';
+import Button from 'react-bootstrap/Button';
 
 export const ThemeHandler =()=> {
   const { theme, setTheme, userLogin, reFetch, setReFetch} = useContext(GlobalContext);
@@ -30,7 +31,11 @@ export const ThemeHandler =()=> {
 
   return (
       <>
-        {userLogin && <MDBSwitch defaultChecked id='flexSwitchCheckChecked' label='Switch Theme' onClick={toggleTheme} />}
+      {theme === 'dark' && userLogin ? 
+         <Button className = 'theme-button' variant ='light' onClick={toggleTheme} >Light Theme</Button>
+         :
+         <Button className = 'theme-button' variant ='dark' onClick={toggleTheme} >Dark Theme</Button>
+  }
       </>
   )
 }
