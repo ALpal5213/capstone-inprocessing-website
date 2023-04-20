@@ -23,12 +23,34 @@ let fakeUsersList = [];
 bcrypt.genSalt(saltRounds, (err, salt) => {
   bcrypt.hash(sedPasswordForHardCodedAdmin, salt, (err, hash) => {
     fakeUsersList.push({
-      fullname:faker.name.fullName(), 
+      fullname: 'Admin Name', 
       username:'admin', 
       password:hash, 
       role_id:randomizeRole(), 
       is_admin: true, 
       is_supervisor: true, 
+      is_leadership: true, 
+      is_military: faker.datatype.boolean(), 
+      job_id:randomizeJobs(), 
+      unit_id: randomizeUnit(),
+      session_id:faker.datatype.uuid(),
+      preferredTheme: faker.helpers.arrayElement(['light', 'dark']),
+      file_id:faker.datatype.uuid()
+    })
+  })
+})
+
+//Hard-coded Test Account
+bcrypt.genSalt(saltRounds, (err, salt) => {
+  bcrypt.hash(seedPassword, salt, (err, hash) => {
+    fakeUsersList.push({
+      fullname: 'Test Name', 
+      username:'test', 
+      password:hash, 
+      role_id:randomizeRole(), 
+      is_admin: false, 
+      is_supervisor: false, 
+      is_leadership: false, 
       is_military:faker.datatype.boolean(), 
       job_id:randomizeJobs(), 
       unit_id: randomizeUnit(),
