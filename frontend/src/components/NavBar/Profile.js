@@ -40,7 +40,7 @@ const Profile = () => {
                             <div className="table-responsive">
                                 <table className="table table-user-information">
                                     <tbody className="Profile-List">
-                                        <tr className="Profile-Lists-row noHover">
+                                        <tr className="Profile-Lists-row id noHover">
                                             <td className="Profile-data ">
                                                 <strong>ID </strong>
                                             </td>
