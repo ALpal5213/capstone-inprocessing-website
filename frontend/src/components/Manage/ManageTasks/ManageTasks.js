@@ -1,8 +1,5 @@
 
 import { useEffect, useState } from 'react'
-import Button from 'react-bootstrap/Button'
-import BootstrapTable from 'react-bootstrap-table-next'
-import paginationFactory from 'react-bootstrap-table2-paginator';
 import Table from 'react-bootstrap/Table';
 import './ManageTasks.css'
 import { TaskModify } from '../TaskModify/TaskModify'
@@ -10,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { GlobalContext } from '../../../App';
 import { CreateTask } from '../CreateTask/CreateTask';
-import Form from 'react-bootstrap/Form';
 
 export const ManageTasks = () => {
 
