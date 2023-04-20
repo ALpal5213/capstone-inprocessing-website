@@ -18,6 +18,9 @@ div.upload-box.container {
 .taskDescriptions {
     margin-top: 25px;
     margin-bottom: 25px;
+    background-color: rgba(206, 212, 218, .5);
+    border-radius: 10px;
+    padding-top: 10px;
 }
 
 .status-div {
