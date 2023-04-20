@@ -125,7 +125,7 @@ export const FileDownload = () => {
                         <Row>
                             <Col>
                                 <form>
-                                    <Button onClick={handleShowCanvas} variant="outline-success">
+                                    <Button onClick={handleShowCanvas} variant="dark">
                                         <div className='file-up'>
                                             <label >
                                                 {uploadedFile ? 'View All' : `Chosen File: ${uploadedFile.filename.slice(0, 20)}...`}

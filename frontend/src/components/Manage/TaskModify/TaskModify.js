@@ -339,7 +339,7 @@ export const TaskModify = () => {
         setNewTaskType(e)
     }
 
-    const taskType = ["Installation", "Unit", "Job"]
+    const taskType = ["installation", "unit", "job"]
 
     return (
         <>
