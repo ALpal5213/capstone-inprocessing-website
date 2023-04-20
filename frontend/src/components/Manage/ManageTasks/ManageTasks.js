@@ -24,7 +24,7 @@ export const ManageTasks = () => {
     </svg>
   )
   const downIcon = (
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" classNmae="bi bi-chevron-down" viewBox="0 0 16 16">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-down" viewBox="0 0 16 16">
       <path fillRule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
     </svg>
   )
@@ -118,17 +118,31 @@ export const ManageTasks = () => {
       </button>
     </div>
   )
-  
-  useEffect(() => {
 
+  useEffect(() => {
+    if (typeof manageRoute === 'string') {
+      setManageRoute(0)
+    } else {
+      setManageRoute('ck')
+    }
+  },[])
+
+  useEffect(() => {
     let urlArr = window.location.href.split('/')
     let page = urlArr[urlArr.length - 1]
 
-    if (page === 'subordinates') {
+    if (page === 'subordinates' && userLogin) {
+      console.log('test')
       fetch(`http://localhost:3001/supervisor/${userLogin.id}`)
         .then(res => res.json())
         .then(subs => {
-          setSubordinates(subs)
+          const subIds = subs.map(sub => sub.subordinate_id)
+          fetch(`http://localhost:3001/tasks-users`)
+            .then(res => res.json())
+            .then(tasks => {
+              setAllTasks(tasks.filter(task => task.status !== 'complete' && subIds.includes(task.user_id)))
+              setFilteredTasks(tasks.filter(task => task.status !== 'complete' && subIds.includes(task.user_id)))
+            })
         })
     }
 
@@ -137,6 +151,13 @@ export const ManageTasks = () => {
         .then(res => res.json())
         .then(mbrs => {
           setUnitMembers(mbrs)
+          const mbrIds = mbrs.map(mbr => mbr.unitMemberId)
+          fetch(`http://localhost:3001/tasks-users`)
+            .then(res => res.json())
+            .then(tasks => {
+              setAllTasks(tasks.filter(task => task.status !== 'complete' && mbrIds.includes(task.user_id)))
+              setFilteredTasks(tasks.filter(task => task.status !== 'complete' && mbrIds.includes(task.user_id)))
+            })
         })
     }
     
@@ -150,31 +171,6 @@ export const ManageTasks = () => {
     }
 
   }, [manageRoute])
-
-
-  useEffect(() => {
-    if (subordinates) {
-      const subIds = subordinates.map(sub => sub.subordinate_id)
-      fetch(`http://localhost:3001/tasks-users`)
-        .then(res => res.json())
-        .then(tasks => {
-          setAllTasks(tasks.filter(task => task.status !== 'complete' && subIds.includes(task.user_id)))
-          setFilteredTasks(tasks.filter(task => task.status !== 'complete' && subIds.includes(task.user_id)))
-        })
-    }
-  },[subordinates])
-
-  useEffect(() => {
-    if (unitMembers) {
-      const mbrIds = unitMembers.map(mbr => mbr.unitMemberId)
-      fetch(`http://localhost:3001/tasks-users`)
-        .then(res => res.json())
-        .then(tasks => {
-          setAllTasks(tasks.filter(task => task.status !== 'complete' && mbrIds.includes(task.user_id)))
-          setFilteredTasks(tasks.filter(task => task.status !== 'complete' && mbrIds.includes(task.user_id)))
-        })
-    }
-  },[unitMembers])
 
   useEffect(() => {
     if (filteredTasks) {

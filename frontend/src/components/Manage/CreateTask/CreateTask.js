@@ -191,7 +191,7 @@ export const CreateTask = () => {
         fetch('http://localhost:3001/allids/Users')
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                //console.log(data);
                 setAllIds(data)
 
             })
@@ -479,7 +479,7 @@ export const CreateTask = () => {
 
                             <DropdownButton  variant="dark" id="newTaskUserID" title={userIDTitle} onSelect={handleCloseNewUserID}>
                                 {
-                                    allIds.map((object) => <Dropdown.Item className="userDrop" eventKey={object.id}>{object.id}</Dropdown.Item>)
+                                    allIds.map((object, i) => <Dropdown.Item key={i} className="userDrop" eventKey={object.id}>{object.id}</Dropdown.Item>)
                                 }
                             </DropdownButton>
                         </Dropdown>
@@ -502,7 +502,7 @@ export const CreateTask = () => {
                             <DropdownButton variant="dark" id="newTaskType" title={taskTypeTitle} onSelect={handleCloseNewTaskType}>
                                 {
                                     //FIX on select
-                                    taskType.map((type) => <Dropdown.Item eventKey={type}>{type}</Dropdown.Item>)
+                                    taskType.map((type, i) => <Dropdown.Item key={i} eventKey={type}>{type}</Dropdown.Item>)
                                 }
                             </DropdownButton>
                         </Dropdown>
@@ -549,7 +549,7 @@ export const CreateTask = () => {
                                 <DropdownButton variant="dark" id="newTaskLocation" title={loc !== "Add a new location" ? locations[loc - 1].building : "Add a new location"} onSelect={handleCloseNewLocation}>
                                     {
                                         //FIX on select
-                                        locations.map((location) => <Dropdown.Item eventKey={location.id}>{location.building}</Dropdown.Item>)
+                                        locations.map((location, i) => <Dropdown.Item key={i} eventKey={location.id}>{location.building}</Dropdown.Item>)
                                     }
                                     <Dropdown.Item id="newLocation" eventKey="Add a new location">Add Location</Dropdown.Item>
                                 </DropdownButton>
