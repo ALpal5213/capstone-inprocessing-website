@@ -1,14 +1,19 @@
-.profile-container {
+.container {
+    border-color:#4f4f4f;
     
-}
 
+}
+.panel-body {
+    background-color: rgba(206, 212, 218, .5);
+
+}
 .table-responsive {
     border-radius: 10px;
     width: 400px;
     height: 550px;
-    background-color: rgba(206, 212, 218, .5);
-    display: flex; 
     
+    display: flex; 
+   
     padding: 0px;
     margin-bottom: 20%;
     margin-top:5%;
@@ -17,12 +22,16 @@
 .noHover {
     pointer-events: none;
 }
+.id {
+    border-top: solid rgba(206, 212, 218, .5) 0px !important;
+}
 .email {
     border-bottom: solid rgba(206, 212, 218, .5) 0px !important;
     height: 10px;
 }
 .Profile-Lists-row  {
     color: #4f4f4f;
+   
     
 }
 
@@ -36,7 +45,7 @@
 
 .inf-content{
     margin: 5%;
-    border:1px solid #DDDDDD;
+    border:1px solid black;
     padding-left: 20px;
     padding-top: 20px;
     -webkit-border-radius:10px;

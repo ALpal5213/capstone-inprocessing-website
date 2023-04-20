@@ -35,9 +35,8 @@ const randomizeLocation = () => {
   return Math.floor(Math.random() * 6) + 1
 }
 
-
 //Add installation Tasks
-for (let i = 0; i <= 90; i++){
+for (let i = 0; i <= 100; i++){
 
   fakeTasksList.push({
     user_id: randomizeUsers(), 
@@ -56,7 +55,7 @@ for (let i = 0; i <= 90; i++){
 }
 
 //Add Unit Tasks
-for (let i = 0; i <= 80; i++){
+for (let i = 0; i <= 90; i++){
 
   fakeTasksList.push({
     user_id: randomizeUsers(), 
@@ -75,7 +74,7 @@ for (let i = 0; i <= 80; i++){
 }
 
 //Add Job Tasks
-for (let i = 0; i <= 50; i++){
+for (let i = 0; i <= 60; i++){
 
   fakeTasksList.push({
     user_id: randomizeUsers(), 

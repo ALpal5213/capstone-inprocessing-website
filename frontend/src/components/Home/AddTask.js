@@ -269,7 +269,7 @@ const AddTask = () => {
                         <Row>
                             <Col>
                                 <Dropdown>
-                                    <DropdownButton id="newTaskPriority" onSelect={handleTaskPriorityChange} title={taskPriority}>
+                                    <DropdownButton id="newTaskPriority" variant='dark' onSelect={handleTaskPriorityChange} title={taskPriority}>
                                         <Dropdown.Item eventKey="low">Low</Dropdown.Item>
                                         <Dropdown.Item eventKey="medium">Medium</Dropdown.Item>
                                         <Dropdown.Item eventKey="high">High</Dropdown.Item>
@@ -292,7 +292,7 @@ const AddTask = () => {
                         <Form.Label>Location</Form.Label>
                         <Col>
                             <Dropdown >
-                                <DropdownButton id="newTaskLocation" title={loc !== "Add a new location" ? locations[loc - 1].building : "Add a new location"} onSelect={handleCloseNewLocation}>
+                                <DropdownButton id="newTaskLocation" variant='dark' title={loc !== "Add a new location" ? locations[loc - 1].building : "Add a new location"} onSelect={handleCloseNewLocation}>
                                     {
                                         locations.map((location) => <Dropdown.Item eventKey={location.id}>{location.building}</Dropdown.Item>)
                                     }
@@ -388,10 +388,10 @@ const AddTask = () => {
                     </Row>
                     <Row>
                         <Col>
-                            <Button onClick={submitRequest}>Submit</Button>
+                            <Button variant='dark' onClick={submitRequest}>Submit</Button>
                         </Col>
                         <Col>
-                            <Button onClick={handleClose}>Cancel</Button>
+                            <Button variant='dark' onClick={handleClose}>Cancel</Button>
                         </Col>
                     </Row>
 

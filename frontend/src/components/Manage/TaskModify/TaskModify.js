@@ -404,7 +404,7 @@ export const TaskModify = () => {
                             <DropdownButton variant="dark" id="newTaskType" title={taskTypeTitle} onSelect={handleCloseNewTaskType}>
                                 {
                                     //FIX on select
-                                    taskType.map((type) => <Dropdown.Item eventKey={type}>{type}</Dropdown.Item>)
+                                    taskType.map((type, i) => <Dropdown.Item key={i} eventKey={type}>{type}</Dropdown.Item>)
                                 }
                             </DropdownButton>
                         </Dropdown>
@@ -460,7 +460,7 @@ export const TaskModify = () => {
                                 <DropdownButton variant="dark" id="newTaskLocation" title={loc !== "Add a new location" ? locations[loc - 1].building : "Add a new location"} onSelect={handleCloseNewLocation}>
                                     {
                                         //FIX on select
-                                        locations.map((location) => <Dropdown.Item eventKey={location.id}>{location.building}</Dropdown.Item>)
+                                        locations.map((location, i) => <Dropdown.Item key={i} eventKey={location.id}>{location.building}</Dropdown.Item>)
                                     }
                                     <Dropdown.Divider />
                                     <Dropdown.Item id="newLocation" eventKey="Add a new location">Add Location</Dropdown.Item>

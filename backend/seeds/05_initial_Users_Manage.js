@@ -13,30 +13,89 @@ const randomizeRole = () => {
   return Math.floor(Math.random() * 3) + 1
 }
 
+const randomUser = () => {
+  return Math.floor(Math.random() * 101) + 1
+}
+
+const randomSupervisor = (user) => {
+  let supIndex = user
+  while (supIndex === user) {
+    supIndex = Math.floor(Math.random() * supervisors.length)
+  }
+  return supervisors[supIndex + 1]
+}
+
+const randomCommander = (user) => {
+  let ccIndex = user
+  while (ccIndex === user) {
+    ccIndex = Math.floor(Math.random() * commanders.length)
+  }
+  return commanders[ccIndex + 1]
+}
+
 const saltRounds = 10;
 const sedPasswordForHardCodedAdmin = '123';
 const seedPassword = 'password';
 
 let fakeUsersList = [];
+let fakeManageList = [];
 
 //Hard-coded Admin Account
 bcrypt.genSalt(saltRounds, (err, salt) => {
   bcrypt.hash(sedPasswordForHardCodedAdmin, salt, (err, hash) => {
     fakeUsersList.push({
-      fullname:faker.name.fullName(), 
+      fullname: 'Admin Name', 
       username:'admin', 
       password:hash, 
       role_id:randomizeRole(), 
       is_admin: true, 
       is_supervisor: true, 
-      is_military:faker.datatype.boolean(), 
-      job_id:randomizeJobs(), 
-      unit_id: randomizeUnit(),
+      is_leadership: true, 
+      is_military: faker.datatype.boolean(), 
+      job_id:1, 
+      unit_id: 1,
       session_id:faker.datatype.uuid(),
       preferredTheme: faker.helpers.arrayElement(['light', 'dark']),
       file_id:faker.datatype.uuid()
     })
   })
+})
+
+
+
+//Hard-coded Test Account
+bcrypt.genSalt(saltRounds, (err, salt) => {
+  bcrypt.hash(seedPassword, salt, (err, hash) => {
+    fakeUsersList.push({
+      fullname: 'Test Name', 
+      username:'test', 
+      password:hash, 
+      role_id:randomizeRole(), 
+      is_admin: false, 
+      is_supervisor: false, 
+      is_leadership: false, 
+      is_military:faker.datatype.boolean(), 
+      job_id:2, 
+      unit_id: 1,
+      session_id:faker.datatype.uuid(),
+      preferredTheme: faker.helpers.arrayElement(['light', 'dark']),
+      file_id:faker.datatype.uuid()
+    })
+  })
+})
+
+// make admin the subordinate of test
+fakeManageList.push({
+  user_id: 1, 
+  supervisor_id: 2, 
+  commander_id: 2,
+})
+
+// make test the subordinate of admin
+fakeManageList.push({
+  user_id: 2, 
+  supervisor_id: 1, 
+  commander_id: 1
 })
 
 //Adds fake users with hashed passwords
@@ -66,28 +125,6 @@ for (let i = 0; i <= 100; i++){
       })
     })
   })
-}
-
-let fakeManageList = [];
-
-const randomUser = () => {
-  return Math.floor(Math.random() * 101) + 1
-}
-
-const randomSupervisor = (user) => {
-  let supIndex = user
-  while (supIndex === user) {
-    supIndex = Math.floor(Math.random() * supervisors.length)
-  }
-  return supervisors[supIndex + 1]
-}
-
-const randomCommander = (user) => {
-  let ccIndex = user
-  while (ccIndex === user) {
-    ccIndex = Math.floor(Math.random() * commanders.length)
-  }
-  return commanders[ccIndex + 1]
 }
 
 for (let i = 0; i <= 60; i++){
