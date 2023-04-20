@@ -160,7 +160,7 @@ const AddTask = () => {
                     },
                     body: JSON.stringify(newLocation)
                 })
-                .then((data) => console.log(data))
+                .then((data) => (data))
                 .then(() => {
                     return fetch('http://localhost:3001/table/Locations')
                         .then(res => res.json())
@@ -170,7 +170,6 @@ const AddTask = () => {
                         })
                 })
                 .then((data) => {
-                    console.log(data.length);
                     addTask(data.length);})
 
         }
@@ -178,8 +177,6 @@ const AddTask = () => {
     }
 
     const addTask = (location_id) => {
-        //console.log("Location ID: ")
-        //console.log(location_id)
         let newTask = {
             "user_id": parseInt(user_id),
             "location_id": location_id,
@@ -206,7 +203,7 @@ const AddTask = () => {
                     body: JSON.stringify(newTask)
                 })
                 //.then((res) => res.json())
-                .then((data) => console.log(data))
+                .then((data) => (data))
         }
     }
     
@@ -230,7 +227,6 @@ const AddTask = () => {
         setLocNotes("");
         setTaskUpload(false);
         setTaskDownload(false);
-        console.log("Before: " + reFetch)
         setShow(false);
     };
     
@@ -295,10 +291,9 @@ const AddTask = () => {
                     <Row className="form-group">
                         <Form.Label>Location</Form.Label>
                         <Col>
-                            <Dropdown>
+                            <Dropdown >
                                 <DropdownButton id="newTaskLocation" title={loc !== "Add a new location" ? locations[loc - 1].building : "Add a new location"} onSelect={handleCloseNewLocation}>
                                     {
-                                        //FIX on select
                                         locations.map((location) => <Dropdown.Item eventKey={location.id}>{location.building}</Dropdown.Item>)
                                     }
                                     <Dropdown.Divider />

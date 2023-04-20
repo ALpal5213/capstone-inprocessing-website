@@ -107,7 +107,7 @@ th {
 
 .sortable {
   cursor: url('../../images/sort.png'), pointer !important;
-  width: 120px;
+  /* width: 120px; */
 }
 
 tr {
