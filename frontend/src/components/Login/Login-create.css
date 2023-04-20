@@ -6,6 +6,13 @@
   /* background-color: #343a40; */
 }
 
+.login-logo {
+  position: absolute;
+  width: 50px;
+  margin-left: 430px;
+  margin-top: -60px;
+}
+
 .menuDiv {
   position: absolute;
   background: rgba(206, 212, 218, .5);

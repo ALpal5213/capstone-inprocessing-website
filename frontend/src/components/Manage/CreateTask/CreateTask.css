@@ -61,3 +61,9 @@ button.create-table-show.btn.btn-dark{
     box-shadow: 0px 3px 4px #aaa inset, 0px 2px 3px #fff;
 }
 
+
+.dropdownScrollBar {
+    height: auto;
+    max-height: 300px;
+    overflow-y: auto;
+}

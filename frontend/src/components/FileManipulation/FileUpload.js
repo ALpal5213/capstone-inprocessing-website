@@ -139,7 +139,7 @@ export const FileUpload = () => {
                         <Row>
                             <Col>
                                 <form>
-                                    <Button variant="outline-success">
+                                    <Button variant="dark">
                                         <div className='file-up'>
                                             <input
                                                 type='file'

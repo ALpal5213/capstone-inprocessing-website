@@ -66,6 +66,7 @@ const AppNavBar = () => {
       return ''
     } else {
       return (
+        <>
         <Navbar bg="dark" variant='dark' export="lg" textcolor="white">
           <Container>
             <div className='brand'>
@@ -114,8 +115,7 @@ const AppNavBar = () => {
                                 <span>Manage</span>
                               </Dropdown.Toggle>
                               <Dropdown.Menu variant="dark" className="manage-list">
-                                {userLogin.is_admin ? <Dropdown.Item>Create Task</Dropdown.Item> : ''}
-                                {userLogin.is_admin ? <Dropdown.Item onClick={() => manageAll()}>Manage All Tasks</Dropdown.Item> : ''}
+                                {userLogin.is_admin ? <Dropdown.Item onClick={() => manageAll()}>Manage Tasks</Dropdown.Item> : ''}
                                 {userLogin.is_supervisor ? <Dropdown.Item onClick={() => manageSub()}>Manage Subordinates</Dropdown.Item> : ''}
                                 {userLogin.is_leadership ? <Dropdown.Item onClick={() => manageUnit()}>Manage Unit</Dropdown.Item> : ''}
                               </Dropdown.Menu>
@@ -164,6 +164,9 @@ const AppNavBar = () => {
             </Nav>
           </Container>
         </Navbar>
+        <div className='borderSpan2'></div>
+        <div className='borderSpan1'></div>
+        </>
       )
     }
   }

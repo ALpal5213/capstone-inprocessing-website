@@ -208,7 +208,7 @@ export const ManageTasks = () => {
                     {task.fullname}
                   </td>
                   <td>
-                    {task.due_date}
+                    {task.due_date.split('T')[0]}
                   </td>
                   <td>
                     {task.status === 'pending' ? <span className='taskText pendingTask'>{task.status}{hourglass}</span> : task.status === 'incomplete' ? <span className='taskText incompleteTask'>{task.status}{xBox}</span> : <span className='taskText completeTask'>{task.status}{ckBox}</span>}

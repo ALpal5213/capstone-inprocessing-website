@@ -191,7 +191,6 @@ export const CreateTask = () => {
         fetch('http://localhost:3001/allids/Users')
             .then(res => res.json())
             .then(data => {
-                //console.log(data);
                 setAllIds(data)
 
             })
@@ -459,7 +458,7 @@ export const CreateTask = () => {
 
 
 
-    const taskType = ["Installation", "Unit", "Job"]
+    const taskType = ["installation", "unit", "job"]
 
 
 
@@ -478,9 +477,11 @@ export const CreateTask = () => {
                         <Dropdown>
 
                             <DropdownButton  variant="dark" id="newTaskUserID" title={userIDTitle} onSelect={handleCloseNewUserID}>
-                                {
-                                    allIds.map((object, i) => <Dropdown.Item key={i} className="userDrop" eventKey={object.id}>{object.id}</Dropdown.Item>)
-                                }
+                                <div className="dropdownScrollBar">
+                                    {
+                                        allIds.map((object) => <div><Dropdown.Item className="userDrop" eventKey={object.id}>{object.id}</Dropdown.Item></div>)
+                                    }
+                                </div>  
                             </DropdownButton>
                         </Dropdown>
                     </Col>

@@ -163,7 +163,6 @@ export const TaskModify = () => {
         fetch(`http://localhost:3001/table/Tasks/${modifyTableQuery}`)
             .then(res => res.json())
             .then(data => {
-                //console.log(data[0]);
                 setOldTasks(data[0])
             })
     }, [modifyTableQuery])
@@ -319,7 +318,7 @@ export const TaskModify = () => {
         setNewTaskType(e)
     }
 
-    const taskType = ["Installation", "Unit", "Job"]
+    const taskType = ["installation", "unit", "job"]
 
     return (
         <>

@@ -67,7 +67,7 @@ const Map = ({ selectedLocation }) => {
   return (
     <Container className='map-wrapper'>
       <Row>
-        <button onClick={() => handleHome()} className='reset-btn'>Return to Location</button>
+        <Button variant='dark' onClick={() => handleHome()} className='reset-btn'>Return to Location</Button>
       </Row>
       <Row className='justify-content-center'>
         <div ref={mapContainer} className="map-container" />

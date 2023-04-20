@@ -63,3 +63,17 @@
   top: 11px;
   margin-right: -4px;
 }
+
+.borderSpan {
+  background-color: rgb(66, 165, 211);
+  height: 5px;
+}
+
+.borderSpan1 {
+  background-color: rgb(66, 165, 211);
+  height: 3px;
+}
+.borderSpan2 {
+  background-color: whitesmoke;
+  height: 3px;
+}

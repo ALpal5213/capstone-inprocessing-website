@@ -76,9 +76,9 @@ const Details = () => {
 
         <>
             <Container>
-                <hr className="solid"></hr>
+                <br></br>
                 <div><h2>{task.task_name}</h2>
-                    <hr className="solid"></hr>
+                <hr className="solid"></hr>
                 </div>
                 {(!editable) ?
                     <Container className='taskDescriptions'>
@@ -91,23 +91,24 @@ const Details = () => {
                                 <div className='status-div'><h5> Task Description</h5><p>{task.task_description}</p></div>
                                 {editButton}{' '}
                                 {delButton}
-                                <br></br>
-                                <FileTabs />
-
                             </Col>
                             <Col>
-                                {task.building && <div className='status-div'><h5>{task.building}</h5></div>}
+                                <FileTabs />
+                            </Col>
+                        </Row>
+                        <hr className="solid"></hr>
+                        <br></br>
+                        <Row>  
+                        <Col>
+                        <h3>{task.building && <div className='status-div'>{task.building}</div>}</h3>
                                 {task.room && <p>Room: {task.room}</p>}
                                 {task.address && <p>{task.address}</p>}
                                 {task.hours && <p> {task.hours}</p>}
                                 {task.phone_number && <p>{task.phone_number}</p>}
                                 {task.notes && <p>Notes: {task.notes}</p>}
                                 {task.url && <p>{task.url}</p>}
-                            </Col>
+                        </Col>
                         </Row>
-                        <br></br>
-                        <h2>Task Location</h2>
-                        <hr className="solid"></hr>
                         {task.latitude && task.longitude && <Map selectedLocation={task} />}
                         <br></br>
                     </Container>
@@ -117,11 +118,11 @@ const Details = () => {
                             <div className='status-div'><h3>Edit Task</h3></div>
                             <Form>
                                 <Form.Group className="mb-3" controlId="formTaskName">
-                                    <Form.Label>Task Name</Form.Label>
+                                    <Form.Label class="text-white">Task Name</Form.Label>
                                     <Form.Control type="text" defaultValue={task.task_name} onChange={(e) => editObj["task_name"] = e.target.value} />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="formDueDate">
-                                    <Form.Label>Status</Form.Label>
+                                    <Form.Label class="text-white">Status</Form.Label>
                                     <Form.Select type="text" defaultValue={task.status} onChange={(e) => editObj["status"] = e.target.value}>
                                         <option>Status</option>
                                         <option value="incomplete" >Incomplete</option>
@@ -130,20 +131,21 @@ const Details = () => {
                                     </Form.Select>
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="formPriority">
-                                    <Form.Label>Priority</Form.Label>
+                                    <Form.Label class="text-white">Priority</Form.Label>
                                     <Form.Control type="text" defaultValue={task.priority} onChange={(e) => editObj["priority"] = e.target.value} />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="formDueDate">
-                                    <Form.Label>Due Date</Form.Label>
+                                    <Form.Label class="text-white">Due Date</Form.Label>
                                     <Form.Control type="date" defaultValue={task.due_date} onChange={(e) => editObj["due_date"] = e.target.value} />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="formBasicDescription">
-                                    <Form.Label>Task Description</Form.Label>
+                                    <Form.Label class="text-white">Task Description</Form.Label>
                                     <Form.Control type="text" defaultValue={task.task_description} onChange={(e) => editObj["task_description"] = e.target.value} />
                                 </Form.Group>
-                                <Button variant="outline-primary" onClick={() => handlePatch()}>Save</Button>
-                                <Button variant="outline-warning" onClick={() => setEditable(false)} className='detailH1Button'>Cancel</Button>
+                                <Button variant="dark" onClick={() => handlePatch()}>Save</Button>
+                                <Button variant="dark" onClick={() => setEditable(false)} className='detailH1Button'>Cancel</Button>
                             </Form>
+                            <br></br>
                         </Container>
                     </div>
                 }
