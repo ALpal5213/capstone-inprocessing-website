@@ -14,7 +14,7 @@ export const Footer = () => {
             <div className='me-5 d-none d-lg-block'>
             <a href='' className='me-4 text-reset'>
               {/* <img src="./inpro-logo.png" className="me-3" width="70px"/> */}
-              <img src="./inpro.png" className="me-3" width="70px"/>
+              <img src="./inpro-h.png" className="me-3" width="100px"/>
                    {/* In.Pro */}
               </a>
             </div>
