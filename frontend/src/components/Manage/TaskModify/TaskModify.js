@@ -177,7 +177,7 @@ export const TaskModify = () => {
                 // "has_upload": taskUpload,
                 // "has_download": taskDownload
                 let response = data[0]
-                console.log(response)
+              
                 setTaskDueDate(response.due_date)
                 setLoc(response.location_id)
                 setMilOrCiv(response.mil_or_civ)
@@ -185,11 +185,11 @@ export const TaskModify = () => {
                 setStatus(response.status)
                 setTaskDesc(response.task_description)
                 setTaskName(response.task_name)
-                setNewTaskType(response.priority)
+                setNewTaskType(response.task_type)
                 setOldTasks(response)
 
             })
-    }, [modifyTableQuery])
+    }, [modifyTableQuery, manageRoute])
 
 
     //add new location first
@@ -240,7 +240,6 @@ export const TaskModify = () => {
                     },
                     body: JSON.stringify(newLocation)
                 })
-                .then((data) => console.log(data))
                 .then(() => {
                     return fetch('http://localhost:3001/table/Locations')
                         .then(res => res.json())
@@ -250,7 +249,7 @@ export const TaskModify = () => {
                         })
                 })
                 .then((data) => {
-                    console.log(data.length);
+                    
                     addTask(data.length);
                 })
 
@@ -259,10 +258,9 @@ export const TaskModify = () => {
     }
 
     const addTask = (location_id) => {
-        //console.log("Location ID: ")
-        //console.log(location_id)
+       
         let newTask = {
-            "user_id": oldTasks.id,
+            "user_id": oldTasks.user_id,
             "location_id": location_id,
             "task_name": taskName,
             "task_description": taskDesc,
@@ -287,7 +285,7 @@ export const TaskModify = () => {
                     body: JSON.stringify(newTask)
                 })
                 //.then((res) => res.json())
-                .then((data) => console.log(data))
+               
         }
     }
 
@@ -317,18 +315,11 @@ export const TaskModify = () => {
         setLocNotes("");
         setTaskUpload(false);
         setTaskDownload(false);
-        console.log(typeof(manageRoute))
+      
 
         setShow(false);
 
     };
-
-
-
-
-
-
-
 
     const handleShow = () => setShow(true);
 
@@ -349,7 +340,7 @@ export const TaskModify = () => {
 
 
     const handleStatusChange = (e) => {
-        console.log(e)
+    
         setStatusTitle(e)
         setStatus(e)
 
@@ -397,7 +388,7 @@ export const TaskModify = () => {
                     </Row>
 
                     <br></br>
-                    <Form.Label>Task Type</Form.Label>
+                    <Form.Label>Task Type: {oldTasks.task_type} </Form.Label>
                     <br></br>
                     <Col>
                         <Dropdown>
