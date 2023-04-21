@@ -1,5 +1,3 @@
-
-
 div.download-box.container {
     width: 75%;
     border-style: solid;
@@ -15,9 +13,9 @@ input#customFile.custom-file-input {
     display: none;
 }
 
-div.offcanvas.offcanvas-end.show{
+div.offcanvas.offcanvas-end.show {
 
-    
+
     background: rgba(206, 212, 218, .9);
     box-shadow: 0 0 6px 5px rgba(0, 0, 0, .1);
     border-radius: 5px;
@@ -25,17 +23,17 @@ div.offcanvas.offcanvas-end.show{
     border-color: #212529;
     border-width: 1.5px;
     transition: all .2s ease;
-    
-    
+
+
 }
 
-div.offcanvas-title.h5{
+div.offcanvas-title.h5 {
     text-align: center;
 }
 
-div.offcanvas.body{
+div.offcanvas.body {
     display: flex;
-    flex-direction:column;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     overflow-y: scroll;
@@ -44,10 +42,10 @@ div.offcanvas.body{
 div.card {
     width: 7vw;
     height: 15vh;
-    margin-top: 25px;
-    margin-bottom: 25px;
+    margin-top: 50px;
+    margin-bottom: 50px;
     margin-left: 100px;
-    padding:0px;
+    padding: 0px;
     box-shadow: 0 0 6px 5px rgba(0, 0, 0, .1);
     align-items: center;
     justify-content: center;
@@ -61,13 +59,16 @@ div.card:hover {
 
 }
 
-div.card-title.h5{
+div.card-title.h5 {
 
     font-size: x-small;
 
 
 }
 
+.card-img-top {
 
-
-
+    width:50px;
+    height:75px;
+    object-fit: cover;
+}

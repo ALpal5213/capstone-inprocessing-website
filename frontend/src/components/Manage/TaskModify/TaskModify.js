@@ -5,6 +5,14 @@ import { GlobalContext } from '../../../App';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 
+import AddIcon from '@mui/icons-material/Add';
+import Snackbar from '@mui/material/Snackbar';
+import { SnackbarContent } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import NotificationImportantIcon from '@mui/icons-material/NotificationImportant';
+import DoneIcon from '@mui/icons-material/Done';
+
 export const TaskModify = () => {
 
     const navigate = useNavigate();
@@ -20,6 +28,7 @@ export const TaskModify = () => {
         "url": "",
         "notes": ""
     }]);
+    const [snack2open, setSnack2Open] = useState(false);
     const [taskName, setTaskName] = useState("");
     const [taskDesc, setTaskDesc] = useState("");
     const [taskDueDate, setTaskDueDate] = useState("");
@@ -189,7 +198,7 @@ export const TaskModify = () => {
                 setOldTasks(response)
 
             })
-    }, [modifyTableQuery, manageRoute])
+    }, [modifyTableQuery])
 
 
     //add new location first
@@ -284,7 +293,7 @@ export const TaskModify = () => {
                     },
                     body: JSON.stringify(newTask)
                 })
-                //.then((res) => res.json())
+                .then((res) =>{ handleSnack2Open();  typeof (manageRoute) === 'string' ? (setManageRoute(3)):(setManageRoute('a'))})
                
         }
     }
@@ -295,7 +304,7 @@ export const TaskModify = () => {
     //states for the Modal
     const handleClose = () => {
 
-        typeof (manageRoute) === 'string' ? (setManageRoute(3)):(setManageRoute('a'))
+       
 
         setModifyTableShow(false)
         setStatusTitle("Change Status")
@@ -346,6 +355,40 @@ export const TaskModify = () => {
 
     }
 
+
+    const handleSnack2Close = (e) => {
+
+        setSnack2Open(false);
+    };
+
+
+
+
+    const handleSnack2Open = (e) => {
+
+        setSnack2Open(true);
+    };
+
+
+
+
+    const action2 = (
+        <React.Fragment>
+
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleSnack2Close}
+            >
+                <CloseIcon fontSize="small" />
+            </IconButton>
+        </React.Fragment>
+    );
+
+
+
+
     const taskType = ["installation", "unit", "job"]
 
     return (
@@ -360,7 +403,7 @@ export const TaskModify = () => {
 
                             <Col style={{ textAlign: 'end' }}>
                                 <Dropdown>
-                                    <DropdownButton variant="info" id="newTaskPriority" onSelect={handleStatusChange} title={statusTitle}>
+                                    <DropdownButton variant="info" id="newTaskStatus" onSelect={handleStatusChange} title={statusTitle}>
                                         <Dropdown.Item eventKey="complete">Complete</Dropdown.Item>
                                         <Dropdown.Item eventKey="pending">Pending</Dropdown.Item>
                                         <Dropdown.Item eventKey="incomplete">Incomplete</Dropdown.Item>
@@ -561,6 +604,20 @@ export const TaskModify = () => {
                 <Modal.Footer>
                 </Modal.Footer>
             </Modal>
+            <Snackbar
+                open={snack2open}
+                autoHideDuration={3000}
+                onClose={handleSnack2Close}
+                message={`!`}
+                action={action2}
+                bodyStyle={{ backgroundColor: 'teal', color: 'coral' }}
+            >
+                <SnackbarContent style={{
+                    backgroundColor: 'teal',
+                }}
+                    message={<span id="client-snackbar"><DoneIcon/> {`Task Modified!`}</span>}
+                />
+            </Snackbar>
         </>
     )
 }

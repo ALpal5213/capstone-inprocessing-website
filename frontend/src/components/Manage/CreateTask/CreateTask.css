@@ -44,7 +44,7 @@ div.modal-content {
     color: black;
 }
 
-button.create-table-show.btn.btn-dark{
+button.create-table-show.btn.btn-dark {
 
 
     position: fixed;
@@ -52,14 +52,15 @@ button.create-table-show.btn.btn-dark{
     display: block;
     margin-left: 89%;
     transition: transform 0.3s;
-  
-    
+    box-shadow: 0px 3px 4px #aaa inset, 0px 2px 3px #fff;
+
+
 }
 
-button.create-table-show.btn.btn-dark{
-    transform: translateY(-15px);
+button.btn.btn-info {
     box-shadow: 0px 3px 4px #aaa inset, 0px 2px 3px #fff;
 }
+
 
 
 .dropdownScrollBar {
@@ -67,3 +68,5 @@ button.create-table-show.btn.btn-dark{
     max-height: 300px;
     overflow-y: auto;
 }
+
+

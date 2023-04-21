@@ -5,7 +5,7 @@ const fileUpload = require('express-fileupload');
 // const routePath = express.Router();
 const routePath = express();
 const bcrypt = require('bcryptjs');
-
+const { faker } = require('@faker-js/faker');
 //CSV Downloading
 const { promisify } = require('util');
 const stream = require('stream');
@@ -79,13 +79,13 @@ routePath.get("/tasks-locations/:userID", (request, response) => {
         .select('*')
         .where({ user_id: id })
         .then(data => {
-          data.sort((a, b) => {
-            let fa = a['due_date'], fb = b['due_date'];
-            if (fa < fb) return -1;
-            if (fa > fb) return 1;
-            return 0;
-          });
-          response.status(200).json(data)
+            data.sort((a, b) => {
+                let fa = a['due_date'], fb = b['due_date'];
+                if (fa < fb) return -1;
+                if (fa > fb) return 1;
+                return 0;
+            });
+            response.status(200).json(data)
         })
         .catch(error => response.status(405).send("Could not get"))
 });
@@ -98,8 +98,8 @@ routePath.get("/tasks-users", (request, response) => {
         .join('Users', 'Tasks.user_id', '=', 'Users.id')
         .select('Tasks.id as task_id', 'Tasks.user_id', 'Users.fullname', 'Tasks.task_name', 'Tasks.task_description', 'Tasks.priority', 'Tasks.task_type', 'Tasks.mil_or_civ', 'Tasks.due_date', 'Tasks.status', 'Tasks.task_url', 'Tasks.has_upload', 'Tasks.has_download')
         .then(data => {
-          data.sort((a, b) => {return a.task_id - b.task_id});
-          response.status(200).json(data)
+            data.sort((a, b) => { return a.task_id - b.task_id });
+            response.status(200).json(data)
         })
         .catch(error => response.status(405).send("Could not get"))
 });
@@ -178,25 +178,38 @@ routePath.get("/members/:unit_id", (request, response) => {
 
 
 
-//Download CSV of a Table to backend directory
-routePath.get("/export/csv/:table/:user_id/:file_id", async (request, response) => {
 
+
+
+
+
+
+
+//Download CSV of a Table to backend directory
+routePath.get("/force-export/:user_id/:file_id/:session_id/:table", async (request, response) => {
+    console.log(request.params)
     if (request.params.table && request.params.file_id && request.params.user_id) {
 
-        let fid = request.params.file_id
-        let uid = request.params.user_id
+        let session_id = request.params.session_id
         let table = request.params.table
+        let user_id = request.params.user_id
+        let file_id = request.params.file_id
+        let filename = request.params.filename
+
+        let fakeString = faker.datatype.string()
+
+        const file = `./user_files/downloads/${user_id}_${file_id}/csv/${table}_export.csv`;
 
 
-        const path = `./user_files/downloads/${uid}_${fid}/csv/${table}_export.csv`;
 
-
-        csvWriter = fs.createWriteStream(path);
+        csvWriter = fs.createWriteStream(file);
         knex.select().from(table).toStreamCSV(csvWriter)
             .then(() => {
-                response.status(202).send('Table exported!')
+                console.log("Export Successful")
+                return response.status(202).download(file)
             })
             .catch(e => {
+                console.log(e)
                 response.status(404).send('Not Table')
             })
 
@@ -208,12 +221,19 @@ routePath.get("/export/csv/:table/:user_id/:file_id", async (request, response) 
 })
 
 
-//Get Table ids and fullname
+
+
+
+
+
+
+
+//Get Table ids and fullname (oriented for Users table)
 routePath.get("/allids/:table", (request, response) => {
     let table = request.params.table;
-    
 
-    let fields
+
+    console.log(request.params)
 
 
     return knex
@@ -222,6 +242,30 @@ routePath.get("/allids/:table", (request, response) => {
         .then(data => response.status(200).json(data))
         .catch(error => response.status(405).send("Not a table or Id does not exist.\n Select from 'Users', 'Locations', 'Jobs', 'Units', or 'Tasks'"))
 });
+
+
+//Get all Table ids and fullname
+routePath.get("/uberids/:table", (request, response) => {
+    let table = request.params.table;
+
+
+    console.log(request.params)
+
+
+    return knex
+        .select("id")
+        .from(table)
+        .then(data => response.status(200).json(data))
+        .catch(error => response.status(405).send("Not a table or Id does not exist.\n Select from 'Users', 'Locations', 'Jobs', 'Units', or 'Tasks'"))
+});
+
+
+
+
+
+
+
+
 
 
 
@@ -254,6 +298,15 @@ routePath.get("/downloads/:user_id/:file_id/:filetype", async (request, response
 })
 
 
+
+
+
+
+
+
+
+
+
 //Download a file.
 routePath.get("/force-download/:user_id/:file_id/:filetype/:filename", async (request, response) => {
     if (request.params.user_id !== undefined && request.params.file_id !== undefined && request.params.filetype !== undefined && request.params.filename !== undefined) {
@@ -271,13 +324,28 @@ routePath.get("/force-download/:user_id/:file_id/:filetype/:filename", async (re
 }
 )
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //Import a CSV table
-routePath.get("/force-import/:session_id", async (request, response) => {
+routePath.get("/force-import/:user_id/:file_id/:session_id/:table", async (request, response) => {
     let session_id = request.params.session_id
-    let filetype = request.params.filetype
+    let table = request.params.table
     let user_id = request.params.user_id
     let file_id = request.params.file_id
     let filename = request.params.filename
+    console.log(request.params)
     let data = await knex("Users")
         .where({ session_id: session_id, is_admin: true }).then(data => {
             if (data.length === 0) {
@@ -292,38 +360,6 @@ routePath.get("/force-import/:session_id", async (request, response) => {
 
 
 
-
-
-        // await knex
-        //     .client
-        //     .pool
-        //     .acquire()
-        //     .promise
-        //     .then(client => {
-        //         function done(err) {
-        //             if (err) {
-        //                 console.log(err)
-        //             }
-        //             else {
-        //                 console.log('success')
-        //             }
-        //             knex.client.pool.release(client)
-        //         }
-
-        //         const stream = client.query(copyFrom(`COPY "Users" FROM STDIN WITH (FORMAT csv)`))
-        //         const fileStream = fs.createReadStream("./user_files/downloads/1_240a1ee7-af0b-408f-bde3-65aaa1d2530e/csv/Users_export.csv")
-
-
-        //         fileStream.on('error', done)
-        //         stream.on('error', done)
-        //         stream.on('end', done)
-        //         fileStream.pipe(stream)
-        //     }).then(response.send('Table Injected'))
-
-
-
-
-
         async function copyToTable(txOrKnex, tableName, readableStream) {
             const client = await (txOrKnex.trxClient || txOrKnex.client).acquireConnection();
             await pipeline(
@@ -332,25 +368,22 @@ routePath.get("/force-import/:session_id", async (request, response) => {
             );
         }
 
+        let fakeString = faker.datatype.string()
         knex.transaction(async (tx) => {
-            const fileStream = fs.createReadStream("./user_files/downloads/1_240a1ee7-af0b-408f-bde3-65aaa1d2530e/csv/Users_export.csv");
-            await copyToTable(tx, 'Users', fileStream);
+            const fileStream = fs.createReadStream(`./user_files/downloads/${user_id}_${file_id}/csv/${table}_export.csv`);
+            const file = `./user_files/downloads/${user_id}_${file_id}/csv/${table}${fakeString}_export.csv`;
+            await copyToTable(tx, `${table}`, fileStream);
 
             // const stringStream = stream.Readable.from(stringContainingCsvData);
             // await copyToTable(tx, 'Users', stringStream);
 
 
 
-        }).then(() => response.status(202).json({ "message": 'CSV Addition Successful' }).catch(response.status(404).json({ "message": 'There was an issue with CSV file you tried to merge' })));
+
+        }).then(() => response.status(202).download(file)).catch(response.status(404).json({ "message": 'There was an issue with CSV file you tried to merge' }));
 
 
     }
-
-
-
-
-
-
 
 })
 
@@ -375,6 +408,20 @@ routePath.post("/tasks", (request, response) => {
         response.status(404).send('Make sure to send: Task Name, Due_date, priority and description')
     }
 });
+
+// routePath.post("/newtasks:id", (request, response) => {
+//     if (request.body.task_name && request.body.due_date && request.body.priority && request.body.task_description) {
+//         let newTask = request.body
+//         return knex('Tasks')
+//             .insert(newTask)
+//             .then(data => (response.status(200).send("Posted")))
+//             .catch(error => response.status(405).send("Not posted"))
+//     } else {
+//         response.status(404).send('Make sure to send: Task Name, Due_date, priority and description')
+//     }
+// });
+
+
 
 routePath.post("/Users", (request, response) => {
     var missingKeyCount = 0;
@@ -519,24 +566,24 @@ routePath.post("/session", async function (req, res) {
 
 
 
-// Upload Endpoint
-routePath.post('/upload', (req, res) => {
-    if (req.files === null) {
-        return res.status(400).json({ msg: 'No file uploaded' });
-    }
+// // Upload Endpoint
+// routePath.post('/upload', (req, res) => {
+//     if (req.files === null) {
+//         return res.status(400).json({ msg: 'No file uploaded' });
+//     }
 
-    const file = req.files.file;
+//     const file = req.files.file;
 
-    file.mv(`${__dirname}/uploads/${file.name}`, err => {
-        if (err) {
-            console.error(err);
-            return res.status(500).send(err);
-        }
+//     file.mv(`${__dirname}/uploads/${file.name}`, err => {
+//         if (err) {
+//             console.error(err);
+//             return res.status(500).send(err);
+//         }
 
-        res.json({ fileName: file.name, filePath: `http://localhost:3001/${file.name}` });
+//         res.json({ fileName: file.name, filePath: `http://localhost:3001/${file.name}` });
 
-    });
-});
+//     });
+// });
 
 //Session Id Authentication 
 routePath.get("/sessionId/:sid", async (request, response) => {
@@ -548,6 +595,69 @@ routePath.get("/sessionId/:sid", async (request, response) => {
         .then(data => response.status(200).json({ "message": "true" }))
         .catch(error => response.status(405).json({ "message": "false" }))
 });
+
+
+
+
+// Upload Endpoint
+routePath.post('/import-table/:user_id/:file_id/:fileName/:table', async (req, res) => {
+
+    if (req.files === null) {
+        return res.status(400).json({ msg: 'No file uploaded' });
+    }
+    console.log(req.files)
+    let user_id = req.params.user_id
+    let file_id = req.params.file_id
+
+    let fileName = req.params.fileName
+    let table = req.params.table
+
+    const file = req.files.file;
+
+    file.mv(`./user_files/downloads/${user_id}_${file_id}/csv/${fileName}`, err => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send(err);
+        } else {
+
+
+
+
+            async function copyToTable(txOrKnex, table, readableStream) {
+                const client = await (txOrKnex.trxClient || txOrKnex.client).acquireConnection();
+                await pipeline(
+                    readableStream,
+                    client.query(copyFrom(`COPY "${table}" FROM STDIN WITH (FORMAT csv)`)),
+                );
+            }
+
+
+            knex.transaction(async (tx) => {
+                const fileStream = fs.createReadStream(`./user_files/downloads/${user_id}_${file_id}/csv/${fileName}`);
+                const filem = `./user_files/downloads/${user_id}_${file_id}/csv/${fileName}`;
+                await copyToTable(tx, table, fileStream);
+
+
+                // const stringStream = stream.Readable.from(stringContainingCsvData);
+                // await copyToTable(tx, 'Users', stringStream);
+
+
+
+
+            }).catch((err) => { console.log(err); res.status(404).send(err) }).then(() => res.status(202).json({ "message": "Import Successful" }))
+
+
+        }
+    })
+
+
+    // res.json({ fileName: file.name, filePath: `http://localhost:3001/downloads/${user_id}_${file_id}/${filetype}/${fileName}` });
+
+})
+
+
+
+
 
 
 
@@ -576,6 +686,7 @@ routePath.post('/upload/:user_id/:file_id/:filetype/:fileName', (req, res) => {
 
     });
 });
+
 
 
 

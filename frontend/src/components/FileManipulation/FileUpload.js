@@ -18,6 +18,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 
 
+
 export const FileUpload = () => {
     const [file, setFile] = useState('');
     const [filename, setFilename] = useState();
@@ -26,7 +27,7 @@ export const FileUpload = () => {
     const [uploadPercentage, setUploadPercentage] = useState(0);
     const [show, setShow] = useState(false);
     const [imagesrc, setimagesrc] = useState('');
-    const { userLogin, PDF, setPDF, CSV, setCSV, IMAGE, setIMAGE, fileIO, setfileIO, workingFolder, setWorkingFolder, fileType, setFileType, checkAgain, setCheckAgain } = useContext(GlobalContext)
+    const { userLogin, PDF, setPDF, CSV, setCSV, IMAGE, setIMAGE, fileIO, setfileIO, workingFolder, setWorkingFolder, fileType, setFileType, checkAgain, setCheckAgain, reFetch, setReFetch } = useContext(GlobalContext)
     const [open, setOpen] = useState(false);
 
 
@@ -92,7 +93,8 @@ export const FileUpload = () => {
                     );
                 }
             });
-
+            //Update Downloads
+            setReFetch(!reFetch);
             // Clear percentage
             setTimeout(() => setUploadPercentage(0), 10000);
             console.log(res.data)
@@ -162,7 +164,7 @@ export const FileUpload = () => {
                     </Col>
 
                     <Col>{show ?
-                        <Button onClick={onSubmitFile} variant="success">
+                        <Button onClick={onSubmitFile} variant="info">
                             <label className='custom-file-label' htmlFor='customFile'>
                                 {filename ? (<><Upload /> {filename.slice(0, 15)}</>) : (`Upload File`)}
                             </label></Button> : null}
@@ -179,7 +181,7 @@ export const FileUpload = () => {
                         {imagesrc ? (
 
                             <div className='row mt-5'>
-                                <div className='col-md-6 m-auto'>
+                                <div className='col-md-6 m-auto' style={{textAlign:'center'}}>
                                     <img style={{ width: '100%' }} src={imagesrc.filePath} alt='' />
                                     <h9 className='text-center'>{imagesrc.fileName}</h9>
                                 </div>

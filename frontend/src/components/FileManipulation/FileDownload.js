@@ -18,18 +18,18 @@ import TablePic from './large-sample-csv.png'
 
 export const FileDownload = () => {
 
-    const { userLogin, PDF, setPDF, CSV, setCSV, IMAGE, setIMAGE, fileIO, setfileIO, workingFolder, setWorkingFolder, fileType, setFileType, checkAgain, setCheckAgain } = useContext(GlobalContext)
+    const { userLogin, PDF, setPDF, CSV, setCSV, IMAGE, setIMAGE, fileIO, setfileIO, workingFolder, setWorkingFolder, fileType, setFileType, checkAgain, setCheckAgain, reFetch, setReFetch } = useContext(GlobalContext)
 
 
-    const [file, setFile] = useState('');
+    const [file, setFile] = useState([]);
 
     const [uploadedFile, setUploadedFile] = useState({});
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState('Greetings');
     const [uploadPercentage, setUploadPercentage] = useState(0);
     const [show, setShow] = useState(false);
     const [imagesrc, setimagesrc] = useState('');
     const [fileURL, setFileURL] = useState();
-    
+
 
     // const [fileType, setFileType] = useState('pdf');
 
@@ -50,9 +50,7 @@ export const FileDownload = () => {
         let index = e.target.id
         let filename = workingFolder.files[index]
 
-        const res = await fetch(`http://localhost:3001/force-download/${userLogin.id}/${userLogin.file_id}/${fileType}/${filename}`);
-        const blob = await res.blob();
-        download(blob);
+        fetch(`http://localhost:3001/force-download/${userLogin.id}/${userLogin.file_id}/${fileType}/${filename}`).then(res => res.blob()).then(blob => download(blob))
 
     }
 
@@ -60,44 +58,44 @@ export const FileDownload = () => {
     //Get PDF Download files number
     useEffect(() => {
         if (userLogin.id && userLogin.file_id) {
-            fetch(`http://localhost:3001/${fileIO}/${userLogin.id}/${userLogin.file_id}/pdf`).then(data => { if (data.ok) { return data.json() } else { return null } }).then(json => {
+            fetch(`http://localhost:3001/downloads/${userLogin.id}/${userLogin.file_id}/pdf`).then(data => { if (data.ok) { return data.json() } else { return null } }).then(json => {
 
                 setPDF(json);
             })
         }
 
-    }, [userLogin])
+    }, [reFetch])
 
     //Get CSV Download files number
     useEffect(() => {
         if (userLogin.id && userLogin.file_id) {
-            fetch(`http://localhost:3001/${fileIO}/${userLogin.id}/${userLogin.file_id}/csv`).then(data => { if (data.ok) { return data.json() } else { return null } }).then(json => {
+            fetch(`http://localhost:3001/downloads/${userLogin.id}/${userLogin.file_id}/csv`).then(data => { if (data.ok) { return data.json() } else { return null } }).then(json => {
 
                 setCSV(json);
-                
+
             })
         }
 
-    }, [userLogin])
+    }, [reFetch])
 
     //Get IMAGE Download files number
     useEffect(() => {
         if (userLogin.id && userLogin.file_id) {
-            fetch(`http://localhost:3001/${fileIO}/${userLogin.id}/${userLogin.file_id}/image`).then(data => { if (data.ok) { return data.json() } else { return null } }).then(json => {
+            fetch(`http://localhost:3001/downloads/${userLogin.id}/${userLogin.file_id}/image`).then(data => { if (data.ok) { return data.json() } else { return null } }).then(json => {
 
                 setIMAGE(json);
             })
         }
 
-    }, [userLogin])
+    }, [reFetch])
 
     //Get FileURL
     useEffect(() => {
         if (userLogin.id && userLogin.file_id) {
-            setFileURL(`http://localhost:3001/${fileIO}/${userLogin.id}_${userLogin.file_id}/${fileType}`)
+            setFileURL(`http://localhost:3001/downloads/${userLogin.id}_${userLogin.file_id}/${fileType}`)
         }
 
-    }, [workingFolder])
+    }, [workingFolder, reFetch])
 
 
 
@@ -106,7 +104,7 @@ export const FileDownload = () => {
     return (
 
         <>
-      
+
             <br></br>
             <div style={{ textAlign: 'center' }}>
                 <h5> Download {fileType.toUpperCase()}</h5>
@@ -184,7 +182,7 @@ export const FileDownload = () => {
                                         <Card.Body>
                                             <Card.Title>{file.slice(0, 15)}...`</Card.Title>
 
-                                            <Button id={index} onClick={onDownloadFile} size="sm" variant="success">Download</Button>
+                                            <Button id={index} onClick={onDownloadFile} size="sm" variant="info">Download</Button>
                                         </Card.Body>
                                     </Card>)
                             }
@@ -194,7 +192,7 @@ export const FileDownload = () => {
 
                         </Offcanvas.Body>
                     </Offcanvas>
-                  
+
 
                 </Row>
             </Container >

@@ -1,5 +1,8 @@
 
 import { useEffect, useState } from 'react'
+import Button from 'react-bootstrap/Button'
+import BootstrapTable from 'react-bootstrap-table-next'
+import paginationFactory from 'react-bootstrap-table2-paginator';
 import Table from 'react-bootstrap/Table';
 import './ManageTasks.css'
 import { TaskModify } from '../TaskModify/TaskModify'
@@ -7,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { GlobalContext } from '../../../App';
 import { CreateTask } from '../CreateTask/CreateTask';
+import Form from 'react-bootstrap/Form';
 import { TableExport } from '../TableManipulation/TableExport';
 import { TableImport } from '../TableManipulation/TableImport';
 
@@ -26,7 +30,7 @@ export const ManageTasks = () => {
     </svg>
   )
   const downIcon = (
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-down" viewBox="0 0 16 16">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" classNmae="bi bi-chevron-down" viewBox="0 0 16 16">
       <path fillRule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
     </svg>
   )
@@ -122,28 +126,15 @@ export const ManageTasks = () => {
   )
 
   useEffect(() => {
-    if (typeof manageRoute === 'string') {
-      setManageRoute(0)
-    } else {
-      setManageRoute('ck')
-    }
-  }, [])
 
-  useEffect(() => {
     let urlArr = window.location.href.split('/')
     let page = urlArr[urlArr.length - 1]
 
-    if (page === 'subordinates' && userLogin) {
+    if (page === 'subordinates') {
       fetch(`http://localhost:3001/supervisor/${userLogin.id}`)
         .then(res => res.json())
         .then(subs => {
-          const subIds = subs.map(sub => sub.subordinate_id)
-          fetch(`http://localhost:3001/tasks-users`)
-            .then(res => res.json())
-            .then(tasks => {
-              setAllTasks(tasks.filter(task => task.status !== 'complete' && subIds.includes(task.user_id)))
-              setFilteredTasks(tasks.filter(task => task.status !== 'complete' && subIds.includes(task.user_id)))
-            })
+          setSubordinates(subs)
         })
     }
 
@@ -152,13 +143,6 @@ export const ManageTasks = () => {
         .then(res => res.json())
         .then(mbrs => {
           setUnitMembers(mbrs)
-          const mbrIds = mbrs.map(mbr => mbr.unitMemberId)
-          fetch(`http://localhost:3001/tasks-users`)
-            .then(res => res.json())
-            .then(tasks => {
-              setAllTasks(tasks.filter(task => task.status !== 'complete' && mbrIds.includes(task.user_id)))
-              setFilteredTasks(tasks.filter(task => task.status !== 'complete' && mbrIds.includes(task.user_id)))
-            })
         })
     }
 
@@ -171,7 +155,32 @@ export const ManageTasks = () => {
         })
     }
 
-  }, [manageRoute, userLogin])
+  }, [manageRoute])
+
+
+  useEffect(() => {
+    if (subordinates) {
+      const subIds = subordinates.map(sub => sub.subordinate_id)
+      fetch(`http://localhost:3001/tasks-users`)
+        .then(res => res.json())
+        .then(tasks => {
+          setAllTasks(tasks.filter(task => task.status !== 'complete' && subIds.includes(task.user_id)))
+          setFilteredTasks(tasks.filter(task => task.status !== 'complete' && subIds.includes(task.user_id)))
+        })
+    }
+  }, [subordinates])
+
+  useEffect(() => {
+    if (unitMembers) {
+      const mbrIds = unitMembers.map(mbr => mbr.unitMemberId)
+      fetch(`http://localhost:3001/tasks-users`)
+        .then(res => res.json())
+        .then(tasks => {
+          setAllTasks(tasks.filter(task => task.status !== 'complete' && mbrIds.includes(task.user_id)))
+          setFilteredTasks(tasks.filter(task => task.status !== 'complete' && mbrIds.includes(task.user_id)))
+        })
+    }
+  }, [unitMembers])
 
   useEffect(() => {
     if (filteredTasks) {
@@ -185,9 +194,9 @@ export const ManageTasks = () => {
 
   const handleModifyShow = (e) => {
     setmodifyTableQuery(e.target.parentElement.id)
+
     setModifyTableShow(true)
   }
-
   useEffect(() => {
     if (pageIndex !== undefined) {
       setNewTableData(
@@ -209,7 +218,7 @@ export const ManageTasks = () => {
                     {task.fullname}
                   </td>
                   <td>
-                    {task.due_date.split('T')[0]}
+                    {task.due_date}
                   </td>
                   <td>
                     {task.status === 'pending' ? <span className='taskText pendingTask'>{task.status}{hourglass}</span> : task.status === 'incomplete' ? <span className='taskText incompleteTask'>{task.status}{xBox}</span> : <span className='taskText completeTask'>{task.status}{ckBox}</span>}
@@ -221,7 +230,7 @@ export const ManageTasks = () => {
         })
       )
     }
-  }, [pageIndex])
+  }, [pageIndex, manageRoute])
 
   const nextPageControl = () => {
 
@@ -277,7 +286,6 @@ export const ManageTasks = () => {
       }
       if (sortType === 'string') {
         filteredTasks.sort((a, b) => {
-
           let fa = a[col].toLowerCase(), fb = b[col].toLowerCase();
           if (fa > fb) return -1;
           if (fa < fb) return 1;
@@ -403,7 +411,7 @@ export const ManageTasks = () => {
 
   return (
     <>
-      <TableImport />
+    <TableImport/>
       <TableExport />
       <CreateTask />
       <div className='allTaskTableDiv'>
