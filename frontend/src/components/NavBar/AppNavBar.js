@@ -70,7 +70,7 @@ const AppNavBar = () => {
         <Navbar bg="dark" variant='dark' export="lg" textcolor="white">
           <Container>
             <div className='brand'>
-              <img src="./inpro-h.png" className="me-3 logo-h" onClick={() => navigate('/home')}/>
+              <img src='inpro-h.png' className="me-3 logo-h" onClick={() => navigate('/home')}/>
               {/* <Navbar.Brand className='linkTextDiv brandLink' onClick={() => navigate('/home')}>Welcome {userLogin.fullName} to Wright-Patterson AFB</Navbar.Brand> */}
             </div>
             <Nav>

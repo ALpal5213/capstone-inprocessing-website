@@ -132,7 +132,6 @@ export const ManageTasks = () => {
     let page = urlArr[urlArr.length - 1]
 
     if (page === 'subordinates' && userLogin) {
-      console.log('test')
       fetch(`http://localhost:3001/supervisor/${userLogin.id}`)
         .then(res => res.json())
         .then(subs => {
@@ -170,7 +169,7 @@ export const ManageTasks = () => {
         })
     }
 
-  }, [manageRoute])
+  }, [manageRoute, userLogin])
 
   useEffect(() => {
     if (filteredTasks) {
@@ -184,9 +183,9 @@ export const ManageTasks = () => {
 
   const handleModifyShow = (e) => {
     setmodifyTableQuery(e.target.parentElement.id)
-    setReFetch()
     setModifyTableShow(true)
   }
+
   useEffect(() => {
     if (pageIndex !== undefined) {
       setNewTableData(
@@ -220,7 +219,7 @@ export const ManageTasks = () => {
         })
       )
     }
-  }, [pageIndex, reFetch])
+  }, [pageIndex])
 
   const nextPageControl = () => {
 
@@ -276,7 +275,7 @@ export const ManageTasks = () => {
       } 
       if (sortType === 'string') {
         filteredTasks.sort((a, b) => {
-          console.log('date')
+
           let fa = a[col].toLowerCase(), fb = b[col].toLowerCase();
           if (fa > fb) return -1;
           if (fa < fb) return 1;
