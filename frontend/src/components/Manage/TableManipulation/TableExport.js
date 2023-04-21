@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Button, DropdownButton, Dropdown } from 'react-bootstrap';
 import Cookies from 'js-cookie';
 import download from 'downloadjs';
+import TbDatabaseImport from 'react-icons'
 
 
 import ImageIcon from '@mui/icons-material/Image';
@@ -50,15 +51,13 @@ export const TableExport = () => {
     const [queryTrigger, setQueryTrigger] = useState(false);
 
     useEffect(() => {
-        if (userLogin.file_id && userLogin.session_id) {
+        if (userLogin.file_id && userLogin.session_id && tableQuery) {
             let session_id = Cookies.get("session_id")
-
             fetch(`http://localhost:3001/force-export/${userLogin.id}/${userLogin.file_id}/${userLogin.session_id}/${tableQuery}`)
-                .catch(() => console.log('Server Error')).then(data => data.blob()).then(blob => { handleSnack2Open(); download(blob) })
+                .catch(() => console.log('Server Error')).then(data => data.blob()).then(blob => { handleSnack2Open(); setTableQuery(); download(blob) })
 
         }
     }, [queryTrigger])
-
 
 
 

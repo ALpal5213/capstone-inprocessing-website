@@ -228,12 +228,12 @@ routePath.get("/force-export/:user_id/:file_id/:session_id/:table", async (reque
 
 
 
-//Get Table ids and fullname
+//Get Table ids and fullname (oriented for Users table)
 routePath.get("/allids/:table", (request, response) => {
     let table = request.params.table;
 
 
-    let fields
+    console.log(request.params)
 
 
     return knex
@@ -242,6 +242,23 @@ routePath.get("/allids/:table", (request, response) => {
         .then(data => response.status(200).json(data))
         .catch(error => response.status(405).send("Not a table or Id does not exist.\n Select from 'Users', 'Locations', 'Jobs', 'Units', or 'Tasks'"))
 });
+
+
+//Get all Table ids and fullname
+routePath.get("/uberids/:table", (request, response) => {
+    let table = request.params.table;
+
+
+    console.log(request.params)
+
+
+    return knex
+        .select("id")
+        .from(table)
+        .then(data => response.status(200).json(data))
+        .catch(error => response.status(405).send("Not a table or Id does not exist.\n Select from 'Users', 'Locations', 'Jobs', 'Units', or 'Tasks'"))
+});
+
 
 
 
@@ -367,12 +384,6 @@ routePath.get("/force-import/:user_id/:file_id/:session_id/:table", async (reque
 
 
     }
-
-
-
-
-
-
 
 })
 
@@ -589,6 +600,69 @@ routePath.get("/sessionId/:sid", async (request, response) => {
 
 
 // Upload Endpoint
+routePath.post('/import-table/:user_id/:file_id/:fileName/:table', async (req, res) => {
+
+    if (req.files === null) {
+        return res.status(400).json({ msg: 'No file uploaded' });
+    }
+    console.log(req.files)
+    let user_id = req.params.user_id
+    let file_id = req.params.file_id
+
+    let fileName = req.params.fileName
+    let table = req.params.table
+
+    const file = req.files.file;
+
+    file.mv(`./user_files/downloads/${user_id}_${file_id}/csv/${fileName}`, err => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send(err);
+        } else {
+
+
+
+
+            async function copyToTable(txOrKnex, table, readableStream) {
+                const client = await (txOrKnex.trxClient || txOrKnex.client).acquireConnection();
+                await pipeline(
+                    readableStream,
+                    client.query(copyFrom(`COPY "${table}" FROM STDIN WITH (FORMAT csv)`)),
+                );
+            }
+
+
+            knex.transaction(async (tx) => {
+                const fileStream = fs.createReadStream(`./user_files/downloads/${user_id}_${file_id}/csv/${fileName}`);
+                const filem = `./user_files/downloads/${user_id}_${file_id}/csv/${fileName}`;
+                await copyToTable(tx, table, fileStream);
+
+
+                // const stringStream = stream.Readable.from(stringContainingCsvData);
+                // await copyToTable(tx, 'Users', stringStream);
+
+
+
+
+            }).catch((err) => { console.log(err); res.status(404).send(err) }).then(() => res.status(202).json({ "message": "Import Successful" }))
+
+
+        }
+    })
+
+
+    // res.json({ fileName: file.name, filePath: `http://localhost:3001/downloads/${user_id}_${file_id}/${filetype}/${fileName}` });
+
+})
+
+
+
+
+
+
+
+
+// Upload Endpoint
 routePath.post('/upload/:user_id/:file_id/:filetype/:fileName', (req, res) => {
 
     if (req.files === null) {
@@ -612,6 +686,7 @@ routePath.post('/upload/:user_id/:file_id/:filetype/:fileName', (req, res) => {
 
     });
 });
+
 
 
 

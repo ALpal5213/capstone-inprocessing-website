@@ -1,0 +1,19 @@
+button#table-import.dropdown-toggle.btn.btn-dark {
+
+
+    position: fixed;
+    top: 30.5vh;
+    display: block;
+    margin-left: 89%;
+    transition: transform 0.3s;
+    box-shadow: 0px 3px 4px #aaa inset, 0px 2px 3px #fff;
+
+
+}
+
+div#import-table.modal-dialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) !important;
+}

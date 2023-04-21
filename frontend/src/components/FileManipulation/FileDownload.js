@@ -21,10 +21,10 @@ export const FileDownload = () => {
     const { userLogin, PDF, setPDF, CSV, setCSV, IMAGE, setIMAGE, fileIO, setfileIO, workingFolder, setWorkingFolder, fileType, setFileType, checkAgain, setCheckAgain, reFetch, setReFetch } = useContext(GlobalContext)
 
 
-    const [file, setFile] = useState('');
+    const [file, setFile] = useState([]);
 
     const [uploadedFile, setUploadedFile] = useState({});
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState('Greetings');
     const [uploadPercentage, setUploadPercentage] = useState(0);
     const [show, setShow] = useState(false);
     const [imagesrc, setimagesrc] = useState('');

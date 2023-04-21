@@ -12,6 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import NotificationImportantIcon from '@mui/icons-material/NotificationImportant';
 import DoneIcon from '@mui/icons-material/Done';
+import NoteAddIcon from '@mui/icons-material/NoteAdd';
 
 
 
@@ -444,7 +445,7 @@ setuserIDTitle("Select a user fullname")
 
     return (
         <>
-            <Button className="create-table-show" variant="dark" onClick={handleCreateTableShow}>Create Task<AddIcon /></Button>
+            <Button className="create-table-show" variant="dark" onClick={handleCreateTableShow}>Create Task<NoteAddIcon /></Button>
             <Modal show={createTableShow} onHide={handleClose}>
                 <Modal.Header>
                     <Row>

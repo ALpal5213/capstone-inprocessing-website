@@ -12,6 +12,7 @@ import { GlobalContext } from '../../../App';
 import { CreateTask } from '../CreateTask/CreateTask';
 import Form from 'react-bootstrap/Form';
 import { TableExport } from '../TableManipulation/TableExport';
+import { TableImport } from '../TableManipulation/TableImport';
 
 export const ManageTasks = () => {
 
@@ -410,6 +411,7 @@ export const ManageTasks = () => {
 
   return (
     <>
+    <TableImport/>
       <TableExport />
       <CreateTask />
       <div className='allTaskTableDiv'>
