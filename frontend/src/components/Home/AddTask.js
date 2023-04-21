@@ -435,7 +435,7 @@ const AddTask = () => {
                     </Row>
                     <Row>
                         <Col>
-                            <Button variant='dark' onClick={submitRequest}>Submit</Button>
+                            <Button variant='info' onClick={submitRequest}>Submit</Button>
                         </Col>
                         <Col>
                             <Button variant='dark' onClick={handleClose}>Cancel</Button>
