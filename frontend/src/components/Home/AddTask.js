@@ -5,10 +5,22 @@ import { GlobalContext } from '../../App';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 
+
+
+import AddIcon from '@mui/icons-material/Add';
+import Snackbar from '@mui/material/Snackbar';
+import { SnackbarContent } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import NotificationImportantIcon from '@mui/icons-material/NotificationImportant';
+import DoneIcon from '@mui/icons-material/Done';
+
+
+
 const AddTask = () => {
 
     const navigate = useNavigate();
-
+    const [snack2open, setSnack2Open] = useState(false);
     const { reFetch, setReFetch } = useContext(GlobalContext);
     const [locations, setLocations] = useState([{
         "id": "",
@@ -170,7 +182,8 @@ const AddTask = () => {
                         })
                 })
                 .then((data) => {
-                    addTask(data.length);})
+                    addTask(data.length);
+                })
 
         }
 
@@ -191,7 +204,7 @@ const AddTask = () => {
             "has_download": taskDownload
         }
 
-        if(newTask.task_name === "" || newTask.task_description === "" || newTask.priority === "" || newTask.location_id === ""){
+        if (newTask.task_name === "" || newTask.task_description === "" || newTask.priority === "" || newTask.location_id === "") {
             //prompt user to enter details
         } else {
             fetch("http://localhost:3001/tasks",
@@ -203,14 +216,13 @@ const AddTask = () => {
                     body: JSON.stringify(newTask)
                 })
                 //.then((res) => res.json())
-                .then((data) => (data))
+                .then((data) => { handleSnack2Open(); setReFetch(!reFetch); })
         }
     }
-    
+
+
     //states for the Modal
     const handleClose = () => {
-        navigate('/home');
-        setReFetch(!reFetch);
         setDefaultCheck(true);
         setShowNewLocation(false);
         setLoc(1);
@@ -229,7 +241,7 @@ const AddTask = () => {
         setTaskDownload(false);
         setShow(false);
     };
-    
+
     const handleShow = () => setShow(true);
 
     const handleCloseNewLocation = (e) => {
@@ -240,6 +252,41 @@ const AddTask = () => {
             setShowNewLocation(true);
         }
     }
+
+
+
+
+
+    const handleSnack2Close = (e) => {
+
+        setSnack2Open(false);
+    };
+
+
+
+
+    const handleSnack2Open = (e) => {
+
+        setSnack2Open(true);
+    };
+
+
+
+
+    const action2 = (
+        <React.Fragment>
+
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleSnack2Close}
+            >
+                <CloseIcon fontSize="small" />
+            </IconButton>
+        </React.Fragment>
+    );
+
 
     return (
         <>
@@ -399,6 +446,20 @@ const AddTask = () => {
                 <Modal.Footer>
                 </Modal.Footer>
             </Modal>
+            <Snackbar
+                open={snack2open}
+                autoHideDuration={3000}
+                onClose={handleSnack2Close}
+                message={`!`}
+                action={action2}
+                bodyStyle={{ backgroundColor: 'teal', color: 'coral' }}
+            >
+                <SnackbarContent style={{
+                    backgroundColor: 'teal',
+                }}
+                    message={<span id="client-snackbar"><DoneIcon /> {`Personal Task Created!`}</span>}
+                />
+            </Snackbar>
         </>
     )
 }

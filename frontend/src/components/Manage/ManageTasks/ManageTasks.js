@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { GlobalContext } from '../../../App';
 import { CreateTask } from '../CreateTask/CreateTask';
+import { TableExport } from '../TableManipulation/TableExport';
 
 export const ManageTasks = () => {
 
@@ -401,6 +402,8 @@ export const ManageTasks = () => {
 
   return (
     <>
+    <TableExport />
+      <CreateTask />
       <div className='allTaskTableDiv'>
         {pageButtons}
         <Table className="taskTable table-fixed text-nowrap">
@@ -439,7 +442,7 @@ export const ManageTasks = () => {
         {pageButtons}
       </div>
       <TaskModify />
-      <CreateTask />
+     
     </>
 
   )

@@ -6,12 +6,20 @@ import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import './CreateTask.css'
 import AddIcon from '@mui/icons-material/Add';
+import Snackbar from '@mui/material/Snackbar';
+import { SnackbarContent } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import NotificationImportantIcon from '@mui/icons-material/NotificationImportant';
+import DoneIcon from '@mui/icons-material/Done';
+
+
 
 export const CreateTask = () => {
 
     const navigate = useNavigate();
 
-    const { reFetch, setReFetch, userLogin, modifyTableShow, setModifyTableShow, modifyTableQuery, setmodifyTableQuery, createTableShow, setCreateTableShow } = useContext(GlobalContext);
+    const { reFetch, setReFetch, userLogin, modifyTableShow, setModifyTableShow, modifyTableQuery, setmodifyTableQuery, createTableShow, setCreateTableShow, manageRoute, setManageRoute } = useContext(GlobalContext);
     const [locations, setLocations] = useState([{
         "id": "",
         "building": "",
@@ -22,6 +30,8 @@ export const CreateTask = () => {
         "url": "",
         "notes": ""
     }]);
+    const [snackopen, setSnackOpen] = useState(false);
+    const [snack2open, setSnack2Open] = useState(false);
     const [taskName, setTaskName] = useState("");
     const [taskDesc, setTaskDesc] = useState("");
     const [taskDueDate, setTaskDueDate] = useState("");
@@ -39,11 +49,14 @@ export const CreateTask = () => {
     const [locNotes, setLocNotes] = useState("");
     const [taskUpload, setTaskUpload] = useState(false);
     const [taskDownload, setTaskDownload] = useState(false);
-    const [taskTypeTitle, setTaskTypeTitle] = useState("Add New Task Type");
+    const [taskTypeTitle, setTaskTypeTitle] = useState("Select  New Task Type");
     const [newTaskType, setNewTaskType] = useState("");
     const [allIds, setAllIds] = useState([{ "id": '' }, { "id": '' }]);
-    const [userIDTitle, setuserIDTitle] = useState('Add an existing User ID');
+    const [userIDTitle, setuserIDTitle] = useState('Select a User fullname');
     const [user_id, setuser_id] = useState('');
+    const [statusTitle, setStatusTitle] = useState("Add Status");
+    const [status, setStatus] = useState("incomplete");
+
     const [oldTasks, setOldTasks] = useState({
         "due_date"
             :
@@ -60,7 +73,7 @@ export const CreateTask = () => {
         "location_id"
             :
             4,
-        mil_or_civ
+        " mil_or_civ"
             :
             "both",
         "priority"
@@ -162,6 +175,68 @@ export const CreateTask = () => {
 
 
 
+    const handleSnackClose = (e) => {
+
+        setSnackOpen(false);
+    };
+
+
+
+
+    const handleSnackOpen = (e) => {
+
+        setSnackOpen(true);
+    };
+
+
+
+
+    const handleSnack2Close = (e) => {
+
+        setSnack2Open(false);
+    };
+
+
+
+
+    const handleSnack2Open = (e) => {
+
+        setSnack2Open(true);
+    };
+
+
+
+
+
+    const action = (
+        <React.Fragment>
+
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleSnackClose}
+            >
+                <CloseIcon fontSize="small" />
+            </IconButton>
+        </React.Fragment>
+    );
+
+    const action2 = (
+        <React.Fragment>
+
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleSnack2Close}
+            >
+                <CloseIcon fontSize="small" />
+            </IconButton>
+        </React.Fragment>
+    );
+
+
 
 
 
@@ -191,119 +266,11 @@ export const CreateTask = () => {
         fetch('http://localhost:3001/allids/Users')
             .then(res => res.json())
             .then(data => {
+
                 setAllIds(data)
 
             })
     }, [])
-
-    // useEffect(() => {
-    //     fetch(`http://localhost:3001/table/Tasks/${modifyTableQuery}`)
-    //         .then(res => res.json())
-    //         .then(data => {
-    //             console.log(data[0]);
-    //             setOldTasks(data[0])
-    //         })
-    // }, [modifyTableQuery])
-
-
-    // //add new location first
-    // const submitRequest = () => {
-    //     if (showNewLocation) { //user adding a new location to a task
-    //         //create a new location first
-    //         addLocation();
-    //     } else { //user adding an existing location to a task
-    //         addTask(loc);
-    //     }
-    //     handleClose();
-    // }
-
-    // const addLocation = () => {
-    //     let hours = locAMHours + " A.M. to " + locPMHours + " P.M.";
-    //     let daysOfWeek = "";
-    //     if (days.includes("M") && days.includes("T") && days.includes("W") && days.includes("T") && days.includes("F")) {
-    //         hours = hours + " M-F";
-    //     } else if (days.length === 0) {
-    //         hours = "";
-    //     } else {
-    //         for (let i = 0; i < days.length; i++) {
-    //             const element = days[i];
-    //             daysOfWeek += element + ", ";
-    //         }
-    //         daysOfWeek = daysOfWeek.slice(0, daysOfWeek.length - 2);
-    //         hours = hours + " " + daysOfWeek;
-    //     }
-
-    //     const newLocation = {
-    //         "building": locBuilding,
-    //         "room": locRoom,
-    //         "address": locAddress,
-    //         "phone_number": locPhone,
-    //         "hours": hours,
-    //         "url": locURL,
-    //         "notes": locNotes
-    //     }
-
-    //     if (newLocation.building === "" || newLocation.address === "") {
-    //         //prompt user to enter details
-    //     } else {
-    //         fetch("http://localhost:3001/locations",
-    //             {
-    //                 method: "POST",
-    //                 headers: {
-    //                     'Content-Type': "application/json",
-    //                 },
-    //                 body: JSON.stringify(newLocation)
-    //             })
-    //             .then((data) => console.log(data))
-    //             .then(() => {
-    //                 return fetch('http://localhost:3001/table/Locations')
-    //                     .then(res => res.json())
-    //                     .then(data => {
-    //                         setLocations(data);
-    //                         return data;
-    //                     })
-    //             })
-    //             .then((data) => {
-    //                 console.log(data.length);
-    //                 addTask(data.length);
-    //             })
-
-    //     }
-
-    // }
-
-    // const addTask = (location_id) => {
-    //     //console.log("Location ID: ")
-    //     //console.log(location_id)
-    //     let newTask = {
-    //         "user_id": parseInt(user_id),
-    //         "location_id": location_id,
-    //         "task_name": taskName,
-    //         "task_description": taskDesc,
-    //         "priority": taskPriority,
-    //         "task_type": "personal",
-    //         "mil_or_civ": mil_or_civ,
-    //         "due_date": taskDueDate,
-    //         "status": "incomplete",
-    //         "has_upload": taskUpload,
-    //         "has_download": taskDownload
-    //     }
-
-    //     if (newTask.task_name === "" || newTask.task_description === "" || newTask.priority === "" || newTask.location_id === "") {
-    //         //prompt user to enter details
-    //     } else {
-    //         fetch(`http://localhost:3001/tasks/${oldTasks.id}`,
-    //             {
-    //                 method: "PATCH",
-    //                 headers: {
-    //                     "Content-Type": "application/json",
-    //                 },
-    //                 body: JSON.stringify(newTask)
-    //             })
-    //             //.then((res) => res.json())
-    //             .then((data) => console.log(data))
-    //     }
-    // }
 
 
     //add new location first
@@ -344,7 +311,7 @@ export const CreateTask = () => {
         }
 
         if (newLocation.building === "" || newLocation.address === "") {
-            //prompt user to enter details
+
         } else {
             fetch("http://localhost:3001/locations",
                 {
@@ -379,14 +346,17 @@ export const CreateTask = () => {
             "task_type": newTaskType,
             "mil_or_civ": mil_or_civ,
             "due_date": taskDueDate,
-            "status": "incomplete",
+            "status": status,
             "has_upload": taskUpload,
             "has_download": taskDownload
+
         }
 
-        if (newTask.task_name === "" || newTask.task_description === "" || newTask.priority === "" || newTask.location_id === "") {
+        if (newTask.task_name === "" || newTask.task_description === "" || newTask.priority === "" || newTask.location_id === "" || newTask.user_id === "" || newTask.task_type === "" || newTask.status === "") {
             //prompt user to enter details
+            handleSnackOpen();
         } else {
+            
             fetch("http://localhost:3001/tasks",
                 {
                     method: "POST",
@@ -395,18 +365,22 @@ export const CreateTask = () => {
                     },
                     body: JSON.stringify(newTask)
                 })
-                .then((data) => console.log(data))
-        }
+                .then((data =>{ handleSnack2Open(); typeof(manageRoute) === 'string' ? (setManageRoute(3)) : (setManageRoute('a'))}))
+       }
     }
 
 
 
 
     //states for the Modal
-    const handleClose = () => {
-        setTaskTypeTitle('Add New Task')
+    const handleClose = async () => {
+setuserIDTitle("Select a user fullname")
+        setTaskPriority("")
+        setNewTaskType("")
+        setuser_id("")
+        setStatus("")
+        setTaskTypeTitle('Select a New Task')
         setCreateTableShow(false)
-        setReFetch(!reFetch);
         setDefaultCheck(true);
         setShowNewLocation(false);
         setLoc(1);
@@ -423,7 +397,6 @@ export const CreateTask = () => {
         setLocNotes("");
         setTaskUpload(false);
         setTaskDownload(false);
-        console.log("Before: " + reFetch)
         setShow(false);
     };
 
@@ -451,37 +424,56 @@ export const CreateTask = () => {
 
 
     const handleCloseNewUserID = (e) => {
-
+        let selectedUser = allIds.find(object => object.fullname === e)
         setuserIDTitle(e)
-        setuser_id(e)
+        console.log(selectedUser.id)
+        setuser_id(selectedUser.id)
     }
 
 
 
-    const taskType = ["installation", "unit", "job"]
+    const taskType = ["installation", "unit", "job", "personal"]
 
+    const handleStatusChange = (e) => {
 
+        setStatusTitle(e)
+        setStatus(e)
+
+    }
 
 
     return (
         <>
-            <Button className="create-table-show" variant="dark" onClick={handleCreateTableShow}>Create Task<AddIcon/></Button>
+            <Button className="create-table-show" variant="dark" onClick={handleCreateTableShow}>Create Task<AddIcon /></Button>
             <Modal show={createTableShow} onHide={handleClose}>
                 <Modal.Header>
-                    <Modal.Title><h3>Create New Task</h3></Modal.Title>
+                    <Row>
+                        <Col>
+                            <h3 id="modal-title">Create New Task</h3>
+                        </Col>
+
+                        <Col style={{ textAlign: 'end' }}>
+                            <Dropdown>
+                                <DropdownButton variant="info" id="newTaskStatus" onSelect={handleStatusChange} title={statusTitle}>
+                                    <Dropdown.Item eventKey="pending">Pending</Dropdown.Item>
+                                    <Dropdown.Item eventKey="incomplete">Incomplete</Dropdown.Item>
+                                </DropdownButton>
+                            </Dropdown>
+                        </Col>
+                    </Row>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form.Label>User Id</Form.Label>
+                    <Form.Label>User Full Name</Form.Label>
                     <br></br>
                     <Col>
                         <Dropdown>
 
-                            <DropdownButton  variant="dark" id="newTaskUserID" title={userIDTitle} onSelect={handleCloseNewUserID}>
+                            <DropdownButton variant="dark" id="newTaskUserID" title={userIDTitle} onSelect={handleCloseNewUserID}>
                                 <div className="dropdownScrollBar">
                                     {
-                                        allIds.map((object, i) => <div key={i} ><Dropdown.Item className="userDrop" eventKey={object.id}>{object.id}</Dropdown.Item></div>)
+                                        allIds.map((object, i) => <div key={i} ><Dropdown.Item className="userDrop" eventKey={object.fullname}>{object.fullname} | {object.id}</Dropdown.Item></div>)
                                     }
-                                </div>  
+                                </div>
                             </DropdownButton>
                         </Dropdown>
                     </Col>
@@ -647,7 +639,7 @@ export const CreateTask = () => {
                     </Row>
                     <Row>
                         <Col>
-                            <Button variant="dark" onClick={submitRequest}>Submit</Button>
+                            <Button variant="info" onClick={submitRequest}>Submit</Button>
                         </Col>
                         <Col>
                             <Button variant="dark" onClick={handleClose}>Cancel</Button>
@@ -658,6 +650,34 @@ export const CreateTask = () => {
                 <Modal.Footer>
                 </Modal.Footer>
             </Modal>
+            <Snackbar
+                open={snackopen}
+                autoHideDuration={3000}
+                onClose={handleSnackClose}
+                message={`!`}
+                action={action}
+                bodyStyle={{ backgroundColor: 'teal', color: 'coral' }}
+            >
+                <SnackbarContent style={{
+                    backgroundColor: 'teal',
+                }}
+                    message={<span id="client-snackbar"><NotificationImportantIcon /> {`Please ensure all fields are filled in before submitting!`}</span>}
+                />
+            </Snackbar>
+            <Snackbar
+                open={snack2open}
+                autoHideDuration={3000}
+                onClose={handleSnack2Close}
+                message={`!`}
+                action={action2}
+                bodyStyle={{ backgroundColor: 'teal', color: 'coral' }}
+            >
+                <SnackbarContent style={{
+                    backgroundColor: 'teal',
+                }}
+                    message={<span id="client-snackbar"><DoneIcon/> {`Task Created!`}</span>}
+                />
+            </Snackbar>
         </>
     )
 }
