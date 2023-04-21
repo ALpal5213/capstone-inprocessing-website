@@ -97,7 +97,10 @@ routePath.get("/tasks-users", (request, response) => {
     return knex('Tasks')
         .join('Users', 'Tasks.user_id', '=', 'Users.id')
         .select('Tasks.id as task_id', 'Tasks.user_id', 'Users.fullname', 'Tasks.task_name', 'Tasks.task_description', 'Tasks.priority', 'Tasks.task_type', 'Tasks.mil_or_civ', 'Tasks.due_date', 'Tasks.status', 'Tasks.task_url', 'Tasks.has_upload', 'Tasks.has_download')
-        .then(data => response.status(200).json(data))
+        .then(data => {
+          data.sort((a, b) => {return a.task_id - b.task_id});
+          response.status(200).json(data)
+        })
         .catch(error => response.status(405).send("Could not get"))
 });
 

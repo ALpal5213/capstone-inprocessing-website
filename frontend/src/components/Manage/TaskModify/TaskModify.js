@@ -9,7 +9,7 @@ export const TaskModify = () => {
 
     const navigate = useNavigate();
 
-    const { reFetch, setReFetch, userLogin, modifyTableShow, setModifyTableShow, modifyTableQuery, setmodifyTableQuery } = useContext(GlobalContext);
+    const { reFetch, setReFetch, userLogin, modifyTableShow, setModifyTableShow, modifyTableQuery, setmodifyTableQuery, manageRoute, setManageRoute } = useContext(GlobalContext);
     const [locations, setLocations] = useState([{
         "id": "",
         "building": "",
@@ -37,6 +37,8 @@ export const TaskModify = () => {
     const [locNotes, setLocNotes] = useState("");
     const [taskUpload, setTaskUpload] = useState(false);
     const [taskDownload, setTaskDownload] = useState(false);
+    const [statusTitle, setStatusTitle] = useState("Change Status");
+    const [status, setStatus] = useState("complete");
 
 
     const [taskTypeTitle, setTaskTypeTitle] = useState("Add New Task Type");
@@ -58,7 +60,7 @@ export const TaskModify = () => {
         "location_id"
             :
             4,
-        mil_or_civ
+        "mil_or_civ"
             :
             "both",
         "priority"
@@ -163,9 +165,31 @@ export const TaskModify = () => {
         fetch(`http://localhost:3001/table/Tasks/${modifyTableQuery}`)
             .then(res => res.json())
             .then(data => {
-                setOldTasks(data[0])
+                // "user_id": oldTasks.id,
+                // "location_id": location_id,
+                // "task_name": taskName,
+                // "task_description": taskDesc,
+                // "priority": taskPriority,
+                // "task_type": newTaskType,
+                // "mil_or_civ": mil_or_civ,
+                // "due_date": taskDueDate,
+                // "status": "incomplete",
+                // "has_upload": taskUpload,
+                // "has_download": taskDownload
+                let response = data[0]
+              
+                setTaskDueDate(response.due_date)
+                setLoc(response.location_id)
+                setMilOrCiv(response.mil_or_civ)
+                setTaskPriority(response.priority)
+                setStatus(response.status)
+                setTaskDesc(response.task_description)
+                setTaskName(response.task_name)
+                setNewTaskType(response.task_type)
+                setOldTasks(response)
+
             })
-    }, [modifyTableQuery])
+    }, [modifyTableQuery, manageRoute])
 
 
     //add new location first
@@ -216,7 +240,6 @@ export const TaskModify = () => {
                     },
                     body: JSON.stringify(newLocation)
                 })
-                .then((data) => console.log(data))
                 .then(() => {
                     return fetch('http://localhost:3001/table/Locations')
                         .then(res => res.json())
@@ -226,7 +249,7 @@ export const TaskModify = () => {
                         })
                 })
                 .then((data) => {
-                    console.log(data.length);
+                    
                     addTask(data.length);
                 })
 
@@ -235,10 +258,9 @@ export const TaskModify = () => {
     }
 
     const addTask = (location_id) => {
-        //console.log("Location ID: ")
-        //console.log(location_id)
+       
         let newTask = {
-            "user_id": oldTasks.id,
+            "user_id": oldTasks.user_id,
             "location_id": location_id,
             "task_name": taskName,
             "task_description": taskDesc,
@@ -246,7 +268,7 @@ export const TaskModify = () => {
             "task_type": newTaskType,
             "mil_or_civ": mil_or_civ,
             "due_date": taskDueDate,
-            "status": "incomplete",
+            "status": status,
             "has_upload": taskUpload,
             "has_download": taskDownload
         }
@@ -263,7 +285,7 @@ export const TaskModify = () => {
                     body: JSON.stringify(newTask)
                 })
                 //.then((res) => res.json())
-                .then((data) => console.log(data))
+               
         }
     }
 
@@ -272,8 +294,11 @@ export const TaskModify = () => {
 
     //states for the Modal
     const handleClose = () => {
+
+        typeof (manageRoute) === 'string' ? (setManageRoute(3)):(setManageRoute('a'))
+
         setModifyTableShow(false)
-        setReFetch(!reFetch);
+        setStatusTitle("Change Status")
         setDefaultCheck(true);
         setShowNewLocation(false);
         setLoc(1);
@@ -290,16 +315,11 @@ export const TaskModify = () => {
         setLocNotes("");
         setTaskUpload(false);
         setTaskDownload(false);
-        console.log("Before: " + reFetch)
+      
+
         setShow(false);
+
     };
-
-
-
-
-
-
-
 
     const handleShow = () => setShow(true);
 
@@ -318,13 +338,39 @@ export const TaskModify = () => {
         setNewTaskType(e)
     }
 
+
+    const handleStatusChange = (e) => {
+    
+        setStatusTitle(e)
+        setStatus(e)
+
+    }
+
     const taskType = ["installation", "unit", "job"]
 
     return (
         <>
             <Modal show={modifyTableShow} onHide={handleClose}>
                 <Modal.Header>
-                    <Modal.Title><h3 id="modal-title">Modifying Task of ID {oldTasks.id}</h3></Modal.Title>
+                    <Modal.Title>
+                        <Row>
+                            <Col>
+                                <h3 id="modal-title">Modifying Task of ID {oldTasks.id}</h3>
+                            </Col>
+
+                            <Col style={{ textAlign: 'end' }}>
+                                <Dropdown>
+                                    <DropdownButton variant="info" id="newTaskPriority" onSelect={handleStatusChange} title={statusTitle}>
+                                        <Dropdown.Item eventKey="complete">Complete</Dropdown.Item>
+                                        <Dropdown.Item eventKey="pending">Pending</Dropdown.Item>
+                                        <Dropdown.Item eventKey="incomplete">Incomplete</Dropdown.Item>
+                                    </DropdownButton>
+                                </Dropdown>
+                            </Col>
+                        </Row>
+
+
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Row className="form-group">
@@ -342,7 +388,7 @@ export const TaskModify = () => {
                     </Row>
 
                     <br></br>
-                    <Form.Label>Task Type</Form.Label>
+                    <Form.Label>Task Type: {oldTasks.task_type} </Form.Label>
                     <br></br>
                     <Col>
                         <Dropdown>
@@ -504,7 +550,7 @@ export const TaskModify = () => {
                     </Row>
                     <Row>
                         <Col>
-                            <Button variant="dark" onClick={submitRequest}>Submit</Button>
+                            <Button variant="info" onClick={submitRequest}>Submit</Button>
                         </Col>
                         <Col>
                             <Button variant="dark" onClick={handleClose}>Cancel</Button>

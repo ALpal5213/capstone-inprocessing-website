@@ -1,3 +1,11 @@
+.logo-h {
+  width: 95px;
+}
+
+.logo-h:hover {
+  cursor: pointer;
+}
+
 .icon {
   position: relative;
   top: -1.5px;
